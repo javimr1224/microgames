@@ -93,7 +93,7 @@ El proyecto será accesible desde:
 ## 📄 Documentación Adicional
 
 - **Descripción y justificación del proyecto:**  
-  [📘 Microgames_TFG_Descripcion_Justificacion.pdf](./Microgames_TFG_Descripcion_Justificacion.pdf)
+  [📘 Microgames_TFG_Descripcion_Justificacion.pdf](./Microgames_TFG_Documentacion.pdf)
 
 - **Esquema de base de datos (MongoDB):**  
   Incluido en la La documentación
