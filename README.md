@@ -96,7 +96,7 @@ El proyecto será accesible desde:
   [📘 Microgames_TFG_Descripcion_Justificacion.pdf](./Microgames_TFG_Descripcion_Justificacion.pdf)
 
 - **Esquema de base de datos (MongoDB):**  
-  Incluido en la carpeta `/docs/db/`
+  Incluido en la La documentación
 
 ---
 
