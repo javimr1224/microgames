@@ -46,8 +46,8 @@ DB_DATABASE=microgames
 DB_USERNAME=root
 DB_PASSWORD=example
 
-STRIPE_KEY=tu_stripe_public_key
-STRIPE_SECRET=tu_stripe_secret_key
+STRIPE_KEY= stripe_public_key
+STRIPE_SECRET= stripe_secret_key
 ```
 
 ### 3. Construir con Docker
