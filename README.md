@@ -103,7 +103,7 @@ El proyecto será accesible desde:
 
 ## 👨‍💻 Autor
 
-**Javier Martínez**  
+**Javier Martínez Rodríguez**  
 Grado Superior en Desarrollo de Aplicaciones Web (DAW)  
 [GitHub](https://github.com/javimr1224) · [Email](mailto:tuemail@ejemplo.com)
 
