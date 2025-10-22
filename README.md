@@ -1,7 +1,6 @@
 # 🎮 Microgames
 
-**Microgames** es una aplicacion web desarrollada como trabajo de final de grado de DAW.  
-El objetivo del proyecto es ofrecer una experiencia de minijuegos en línea donde los usuarios puedan **registrarse, identificarse y desbloquear juegos de pago** desarrollados con **Phaser.js**.
+**Microgames** es una aplicación web que tiene el objetivo de ofrecer una experiencia de minijuegos en línea donde los usuarios pueden **registrarse, identificarse y desbloquear juegos de pago** desarrollados con **Phaser.js**.
 
 El proyecto integra un **backend en Laravel**, un **frontend con React + Phaser**, y una **base de datos MongoDB** que gestiona usuarios, roles, permisos y juegos adquiridos.  
 Todo el sistema está preparado para **desplegarse mediante Docker** y entornos virtualizados como **Proxmox** .
