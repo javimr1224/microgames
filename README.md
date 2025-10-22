@@ -17,7 +17,7 @@ Todo el sistema está preparado para **desplegarse mediante Docker** y entornos 
 | **Base de datos** | MongoDB |
 | **Autenticación y Roles** | Laravel Breeze + Middleware personalizado |
 | **Pasarela de pago** | Stripe (modo test y producción) |
-| **Despliegue** | Docker Compose / Proxmox / Railway |
+| **Despliegue** | Docker Compose / Proxmox |
 | **Control de versiones** | Git + GitHub (repositorio público) |
 
 ---
