@@ -1,61 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎮 Microgames
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Microgames** es una aplicación web que tiene el objetivo de ofrecer una experiencia de minijuegos en línea donde los usuarios pueden **registrarse, identificarse y desbloquear juegos de pago** desarrollados con **Phaser.js**.
 
-## About Laravel
+El proyecto integra un **backend en Laravel**, un **frontend con React + Phaser**, y una **base de datos MongoDB** que gestiona usuarios, roles, permisos y juegos adquiridos.  
+Todo el sistema está preparado para **desplegarse mediante Docker** y entornos virtualizados como **Proxmox** .
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Stack Tecnológico
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Componente | Tecnología |
+|-------------|-------------|
+| **Frontend** | React + Phaser.js
+| **Backend** | Laravel 12 (PHP 8.2) |
+| **Base de datos** | MongoDB |
+| **Autenticación y Roles** | Laravel Breeze + Middleware personalizado |
+| **Pasarela de pago** | Stripe (modo test y producción) |
+| **Despliegue** | Docker Compose / Proxmox |
+| **Control de versiones** | Git + GitHub (repositorio público) |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ⚙️ Instalación y Ejecución (Local)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/javimr1224/microgames.git
+cd microgames
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Crear archivo '.env' en la carpeta 'backend'
+Configura tus variables de entorno:
+```bash
+APP_NAME=Microgames
+APP_ENV=local
+APP_KEY=base64:GENERAR_CON_PHP_ARTISAN_KEY
+APP_DEBUG=true
+APP_URL=http://localhost
 
-## Laravel Sponsors
+DB_CONNECTION=mongodb
+DB_HOST=mongodb
+DB_PORT=27017
+DB_DATABASE=microgames
+DB_USERNAME=root
+DB_PASSWORD=example
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+STRIPE_KEY= stripe_public_key
+STRIPE_SECRET= stripe_secret_key
+```
 
-### Premium Partners
+### 3. Construir con Docker
+```bash
+docker-compose up --build
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Este comando levantará:
+- `frontend` → React + Phaser 
+- `backend` → Laravel + API REST  
+- `mongodb` → Base de datos principal  
+- `nginx` (opcional) → Servidor de producción
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🌐 Despliegue
 
-## Code of Conduct
+Microgames se podria desplegar con las siguientes plataformas:
+- **Proxmox** (máquina virtual configurada desde el gestor)
+- **Docker Hub**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Para entornos locales o presentaciones:
+```bash
+docker-compose up
+```
+El proyecto será accesible desde:
+- Frontend → [http://localhost:3000](http://localhost:3000)  
+- Backend API → [http://localhost:8000](http://localhost:8000)
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🧩 Funcionalidades Implementadas / En Desarrollo
 
-## License
+- Autenticación de usuarios (registro e inicio de sesión)
+- Sistema de roles (admin / usuario)
+- Gestión de juegos (listado, compra, desbloqueo)
+- Integración con Stripe (modo test)
+- Dashboard administrativo
+- Minijuegos con Phaser.js
+- API REST para comunicación con el frontend
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📄 Documentación Adicional
+
+- **Descripción y justificación del proyecto:**  
+  [📘 Microgames_TFG_Documentacion.pdf](./Microgames_TFG_Documentacion.pdf)
+
+- **Esquema de base de datos (MongoDB):**  
+  Incluido en la La documentación
+
+---
+
+## 👨‍💻 Autor
+
+**Javier Martínez Rodríguez**  
+Grado Superior en Desarrollo de Aplicaciones Web (DAW)  
+[GitHub](https://github.com/javimr1224) · [Email](mailto:tuemail@ejemplo.com)
+
