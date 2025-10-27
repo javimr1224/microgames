@@ -104,5 +104,5 @@ El proyecto será accesible desde:
 
 **Javier Martínez Rodríguez**  
 Grado Superior en Desarrollo de Aplicaciones Web (DAW)  
-[GitHub](https://github.com/javimr1224) · [Email](mailto:tuemail@ejemplo.com)
+[GitHub](https://github.com/javimr1224) · [Email](mailto:jmarrod276@g.educaand.es)
 
