@@ -93,10 +93,14 @@
                 </div>
             </div>
         </header>
-        <div class="w-full">
+        <div class="relative w-full">
             <img class="w-full h-auto"
                 src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                 alt="Microgames retro background">
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <h4 class="mt-4 text-stroke" style="font-family: 'Press Start 2P', cursive; font-size: 30px;">Play now!</h4>
+                <img class="w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
+            </div>
         </div>
 
         <footer class="w-full bg-retro-dark text-gray-300 py-12 px-6 md:px-12">
