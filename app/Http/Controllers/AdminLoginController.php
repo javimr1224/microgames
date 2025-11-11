@@ -32,7 +32,7 @@ class AdminLoginController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->route('admin.dashboard');
         } else {
             Auth::logout();
             return redirect()->route('admin.login')->withErrors(['email' => 'You do not have admin access.']);
