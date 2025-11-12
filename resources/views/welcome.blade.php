@@ -18,6 +18,7 @@
 <body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
     <div class="flex-grow">
         <header
+            class="sticky top-0 z-50"
             style="width: 100%; background: #020617; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.75); font-family: 'Press Start 2P', cursive;">
             <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-6">
                 <div class="flex items-center">
@@ -88,9 +89,16 @@
             <img class="w-full h-auto gap-8"
                 src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                 alt="Microgames retro background">
-            <div class="absolute inset-0 flex flex-col items-center justify-start m-20  gap-16 animate-float">
-                <h4 class="text-stroke" style="font-family: 'Press Start 2P', cursive; font-size: 30px;">Play now!</h4>
-                <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
+            <div class="absolute inset-0 flex flex-col items-center justify-start m-20 gap-16">
+                <div class="flex flex-col items-center gap-16 animate-float">
+                    <h4 class="text-stroke" style="font-family: 'Press Start 2P', cursive; font-size: 30px;">Play now!</h4>
+                    <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
+                </div>
+                <a href="#" class="relative">
+                    <img src="{{ asset('images/button.png') }}" alt="Catalogo button" style="width: 230px; left-width: 230px;">
+                    <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 20px; top: 45%;">Catálogo</span>
+                </a>
             </div>
             <div class="wave-effect"></div>
         </div>
@@ -155,9 +163,7 @@
                             <img alt="TikTok" class="w-full h-full object-cover" src="{{ asset('images/tiktok.png') }}" />
                         </a>
                         <a href="#" class="w-10 h-10 hover:opacity-80 transition-opacity">
-                            <div class="relative w-full h-full overflow-hidden">
-                                <img alt="Discord" class="absolute h-[123.08%] left-[-16.67%] max-w-none top-[-15.38%] w-[133.33%]" src="{{ asset('images/discord.png') }}" />
-                            </div>
+                            <img alt="Discord" class="w-full h-full object-cover" src="{{ asset('images/discord.png') }}" />
                         </a>
                     </div>
                 </div>
