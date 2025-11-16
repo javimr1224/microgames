@@ -39,4 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/game-menu', function () {
+    return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/menu'); 
+})->name('game-menu');
+
+
 require __DIR__.'/auth.php';

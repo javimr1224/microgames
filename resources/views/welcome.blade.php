@@ -100,7 +100,7 @@
                     </h4>
                     <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
                 </div>
-                <a href="#" class="relative">
+                <a href="{{ route('game-menu')}}" class="relative">
                     <img src="{{ asset('images/button.png') }}" alt="Catalogo button"
                         style="width: 230px; left-width: 230px;">
                     <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
