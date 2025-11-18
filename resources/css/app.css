@@ -7,6 +7,17 @@
 		3px 3px 0 #474745, 2px 2px 4px #000000;
 }
 
+html body{
+	cursor: url('../../public/images/cursor.png'), auto;
+}
+
+button:hover {
+	cursor: url('../../public/images/cursor_hover.png'), auto;
+}
+
+a:hover{
+	cursor: url('../../public/images/cursor_hover.png'), auto;
+}
 
 .wave-container {
 	position: absolute;
