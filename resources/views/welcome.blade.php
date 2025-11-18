@@ -13,7 +13,7 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
@@ -78,7 +78,7 @@
                                     d="M10.9316 23.8333C17.3398 23.8333 22.68 18.474 22.68 11.9167C22.68 5.35935 17.3398 0 10.806 0C9.61229 0 8.41861 0.189154 7.22492 0.567461C6.65949 0.756615 6.28254 1.32408 6.28254 1.95459C6.34537 2.5851 6.78514 3.08951 7.4134 3.15256C10.8688 3.65697 13.4446 6.62037 13.4446 10.0882C13.4446 13.9343 10.3034 17.0869 6.47102 17.0869C4.90038 17.0869 3.39257 16.5825 2.13606 15.5736C1.63345 15.1953 0.942373 15.1953 0.502596 15.5736C-9.53674e-06 15.9519 -0.12566 16.6455 0.125643 17.213C2.26171 21.2482 6.34537 23.8333 10.9316 23.8333ZM12.942 2.90035C17.0257 3.84612 20.0413 7.56614 20.0413 11.9167C20.0413 17.0238 15.8948 21.1852 10.806 21.1852C8.98404 21.1852 7.22492 20.6808 5.77994 19.672C6.03124 19.672 6.28254 19.672 6.53384 19.672C11.8112 19.672 16.1461 15.3214 16.1461 10.0251C16.2718 7.25088 15.0153 4.66579 12.942 2.90035Z"
                                     fill="white" />
                             </svg>
-                            <a href="{{ route('login') }}" class="ml-12 relative">
+                            <a href="{{ route('login') }}" class="ml-12 relative animatable-button">
                                 <img src="{{ asset('images/button.png') }}" alt="Login button" style="width: 100px;">
                                 <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
                                     style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 13px; top: 45%;">Login</span>
@@ -100,7 +100,7 @@
                     </h4>
                     <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
                 </div>
-                <a href="{{ route('game-menu')}}" class="relative">
+                <a href="{{ route('game-menu')}}" class="relative animatable-button">
                     <img src="{{ asset('images/button.png') }}" alt="Catalogo button"
                         style="width: 230px; left-width: 230px;">
                     <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -108,8 +108,19 @@
                 </a>
             </div>
 
-            <div class="wave-container">
-                <div class="wave"></div>
+            <div class="wave-svg-container">
+                <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                    <defs>
+                        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                    </defs>
+                    <g class="parallax">
+                        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(2,6,23,0.7)" />
+                        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(2,6,23,0.5)" />
+                        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(2,6,23,0.3)" />
+                        <use xlink:href="#gentle-wave" x="48" y="7" fill="rgb(2,6,23)" />
+                    </g>
+                </svg>
             </div>
         </div>
 
