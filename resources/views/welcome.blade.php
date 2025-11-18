@@ -27,35 +27,60 @@
                     <span class="text-lg">Microgames</span>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-[12] text-gray-300 hover:text-white flex items-center">
-                        <span>Categorias</span>
-                        <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="ml-2">
-                            <path
-                                d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
-                                fill="#E9C46A" />
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white flex items-center">
-                        <span>Juegos</span>
-                        <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="ml-2">
-                            <path
-                                d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
-                                fill="#E9C46A" />
-                        </svg>
-                    </a>
-
+                    <div class="relative dropdown-container">
+                        <button class="text-[12] text-gray-300 hover:text-white flex items-center">
+                            <span>Categorias</span>
+                            <svg width="17" height="10" viewBox="0 0 17 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="ml-2">
+                                <path
+                                    d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
+                                    fill="#E9C46A" />
+                            </svg>
+                        </button>
+                        <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Arcade</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Aventura</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Estrategia</a>
+                        </div>
+                    </div>
+                    <div class="relative dropdown-container">
+                        <button class="text-gray-300 hover:text-white flex items-center">
+                            <span>Juegos</span>
+                            <svg width="17" height="10" viewBox="0 0 17 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="ml-2">
+                                <path
+                                    d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
+                                    fill="#E9C46A" />
+                            </svg>
+                        </button>
+                        <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Más
+                                Jugados</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Nuevos</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Recomendados</a>
+                        </div>
+                    </div>
                     <a href="#" class="text-gray-300 hover:text-white">Ayuda</a>
-                    <a href="#" class="text-gray-300 hover:text-white flex items-center">
-                        <span>Tienda</span>
-                        <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="ml-2">
-                            <path
-                                d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
-                                fill="#E9C46A" />
-                        </svg>
-                    </a>
+                    <div class="relative dropdown-container">
+                        <button class="text-gray-300 hover:text-white flex items-center">
+                            <span>Tienda</span>
+                            <svg width="17" height="10" viewBox="0 0 17 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="ml-2">
+                                <path
+                                    d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
+                                    fill="#E9C46A" />
+                            </svg>
+                        </button>
+                        <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Comprar juegos</a>
+                        </div>
+                    </div>
                 </nav>
                 <div class="flex items-center">
                     @if (Route::has('login'))
@@ -110,9 +135,10 @@
 
             <div class="wave-svg-container">
                 <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
                     <defs>
-                        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                        <path id="gentle-wave"
+                            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
                     </defs>
                     <g class="parallax">
                         <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(2,6,23,0.7)" />

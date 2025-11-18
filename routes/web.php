@@ -43,5 +43,27 @@ Route::get('/game-menu', function () {
     return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/menu'); 
 })->name('game-menu');
 
+// New Routes for Games Dropdown
+Route::get('/games/action', function () {
+    return '<h1>Action Games Page</h1>';
+})->name('games.action');
+
+Route::get('/games/puzzle', function () {
+    return '<h1>Puzzle Games Page</h1>';
+})->name('games.puzzle');
+
+Route::get('/games/adventure', function () {
+    return '<h1>Adventure Games Page</h1>';
+})->name('games.adventure');
+
+// New Routes for About Us Dropdown
+Route::get('/about/team', function () {
+    return '<h1>Our Team Page</h1>';
+})->name('about.team');
+
+Route::get('/about/contact', function () {
+    return '<h1>Contact Us Page</h1>';
+})->name('about.contact');
+
 
 require __DIR__.'/auth.php';
