@@ -15,7 +15,7 @@ export default function App() {
     tetris: 0,
     breakout: 0,
   });
-  const [apiMessage, setApiMessage] = useState<string>('Connecting to backend...');
+  const [apiMessage, setApiMessage] = useState<string>('Connecting...');
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -23,7 +23,7 @@ export default function App() {
       fetch(`${apiUrl}/test`)
         .then(res => {
           if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
+            throw new Error(`HTTP error, status: ${res.status}`);
           }
           return res.json();
         })

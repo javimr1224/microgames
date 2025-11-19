@@ -8,6 +8,22 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
         return view('admin.dashboard');
     })->name('dashboard');
 
+    Route::get('/users', function () {
+        return view('admin.users');
+    })->name('users');
+    
+    Route::get('/games', function () {
+        return view('admin.games');
+    })->name('games');
+
+    Route::get('/matches', function () {
+        return view('admin.matches');
+    })->name('matches');
+
+    Route::get('/incomes', function () {
+        return view('admin.incomes');
+    })->name('incomes'); 
+
     Route::get('/settings', function () {
         return view('admin.settings');
     })->name('settings');

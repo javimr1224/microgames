@@ -133,7 +133,6 @@ export function SnakeGame({ onBack, onScore }: SnakeGameProps) {
 
   return (
     <div className="min-h-screen p-4">
-      {/* Title */}
       <div className="text-center py-8">
         <h1 className="text-4xl md:text-6xl tracking-wider mb-4 bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent">
           SNAKE

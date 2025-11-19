@@ -78,7 +78,9 @@
                             </svg>
                         </button>
                         <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Comprar juegos</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Comprar
+                                juegos</a>
                         </div>
                     </div>
                 </nav>

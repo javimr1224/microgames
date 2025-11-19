@@ -32,6 +32,10 @@ a:hover{
 	cursor: url('../../public/images/cursor_hover.png'), auto;
 }
 
+p:hover{
+    cursor: url('../../public/images/cursor_hover.png'), auto;
+}
+
 
 .wave-svg-container {
     position: absolute;
