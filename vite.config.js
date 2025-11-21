@@ -8,4 +8,19 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: true,               
+        port: 5173,          
+        hmr: {
+            host: 'localhost',
+        },
+        watch: {
+            ignored: [
+                '**/docker/**',
+                '**/storage/**',
+                '**/vendor/**',
+                '**/node_modules/**',
+            ],
+        },
+    },
 });
