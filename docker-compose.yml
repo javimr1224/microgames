@@ -37,6 +37,19 @@ services:
       - ./:/var/www
     networks:
       - microgames
+  
+  frontend:
+    image: node:20
+    container_name: microgames-frontend
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - microgames
+
 
   mongo:
     image: mongo

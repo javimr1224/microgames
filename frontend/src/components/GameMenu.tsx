@@ -3,6 +3,7 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
 import { GameType } from "../App";
+import homeImageUrl from "./home.svg";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
@@ -57,12 +58,12 @@ export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
         >
           ARCADE
         </h2>
-        <div className="flex flex-col items-center justify-center relative animatable-button">
+        <div className="flex flex-col items-center justify-center relative">
           <a href="http://localhost:8000/" className="relative inline-block" style={{ width: "128px" }}
           >
-            <img src="../../casa-madera-estilo-pixel-art_475-removebg-preview.png" alt="inicio" className="block m-0 p-0 w-full" />
+            <img  src={homeImageUrl} alt="inicio" className=" block m-0 p-6 mb-4"/>
 
-            <span className="absolute left-1/2 -translate-x-1/2 text-white text-center" style={{ top: "calc(100% - 28px)", fontFamily: "Press Start 2P, monospace", fontSize: "14px", lineHeight: "1" }}>
+            <span className="absolute -translate-x-1/2 text-white text-center" style={{ top: "calc(100% - 28px)", fontFamily: "Press Start 2P, monospace", fontSize: "14px", lineHeight: "1" }}>
               Inicio
             </span>
           </a>
