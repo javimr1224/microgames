@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -58,6 +59,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/game-menu', function () {
     return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/menu'); 
 })->name('game-menu');
+
+Route::get('/store', function () {
+    return view('storeGames');
+})->name('storeGames');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // New Routes for Games Dropdown
 Route::get('/games/action', function () {

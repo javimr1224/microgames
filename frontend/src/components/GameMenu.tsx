@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
 import { GameType } from "../App";
 import homeImageUrl from "./home.svg";
+import gameImageUrl from "./game-controller.svg";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
@@ -52,20 +53,17 @@ export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
         <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-8xl text-left tracking-wider mb-4 md:mb-6 lg:mb-8 bg-gradient-to-r from-cyan-400 via-red-300 to-yellow-400 bg-clip-text text-transparent animate-pulse">
           MicroGames
         </h1>
-        <h2
-          className="text-3xl md:text-4xl tracking-wider text-white mb-2"
-          style={{ fontFamily: "Press Start 2P, monospace" }}
-        >
+        <h2 className="text-3xl md:text-4xl tracking-wider text-white mb-2" style={{ fontFamily: "Press Start 2P, monospace" }}>
           ARCADE
         </h2>
-        <div className="flex flex-col items-center justify-center relative">
-          <a href="http://localhost:8000/" className="relative inline-block" style={{ width: "128px" }}
-          >
-            <img  src={homeImageUrl} alt="inicio" className=" block m-0 p-6 mb-4"/>
-
-            <span className="absolute -translate-x-1/2 text-white text-center" style={{ top: "calc(100% - 28px)", fontFamily: "Press Start 2P, monospace", fontSize: "14px", lineHeight: "1" }}>
-              Inicio
-            </span>
+        <div className="flex flex-row items-start justify-center relative gap-6 mb-4">
+          <a href="http://localhost:8000/" className="flex flex-col items-center">
+            <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
+            <p className="text-white text-xs">Inicio</p>
+          </a>
+          <a href="http://localhost:8000/" className="flex flex-col items-center">
+            <img style={{ width: "40px" }} src={gameImageUrl} alt="inicio" className="block"/>
+            <p className="text-white text-xs ">Tienda</p>
           </a>
         </div>
       </div>
@@ -79,33 +77,19 @@ export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
           >
             <div className="p-6">
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${game.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}
-              ></div>
+                className={`absolute inset-0 bg-gradient-to-br ${game.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}>                  
+              </div>
 
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <div
-                    className={`p-3 rounded-lg bg-gradient-to-br ${game.color} text-white shadow-lg`}
-                  >
+                  <div className={`p-3 rounded-lg bg-gradient-to-br ${game.color} text-white shadow-lg`}>
                     {game.icon}
                   </div>
                   <div className="text-right">
-                    <div
-                      className="text-xs text-gray-400"
-                      style={{
-                        fontFamily:
-                          "Press Start 2P, monospace",
-                      }}
-                    >
+                    <div className="text-xs text-gray-400" style={{ fontFamily:"Press Start 2P, monospace",}}>
                       RECORD
                     </div>
-                    <div
-                      className="text-xl text-yellow-400"
-                      style={{
-                        fontFamily:
-                          "Press Start 2P, monospace",
-                      }}
-                    >
+                    <div className="text-xl text-yellow-400" style={{fontFamily:"Press Start 2P, monospace",}}>
                       {scores[game.id]}
                     </div>
                   </div>
@@ -149,7 +133,7 @@ export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
           className="text-gray-400 text-sm"
           style={{ fontFamily: "Press Start 2P, monospace" }}
         >
-          Usa las teclas de dirección para moverte • ESC para pausar
+          Usa las teclas de dirección para moverte | ESC para pausar
         </p>
       </div>
     </div>

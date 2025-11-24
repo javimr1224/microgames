@@ -26,13 +26,13 @@
                 src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                 alt="Microgames retro background">
 
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <div class="absolute inset-0 flex flex-col mb-3 items-center justify-center">
                 <div class="flex flex-col items-center gap-6 animate-float">
                     <h4 class="text-stroke" style="font-family: 'Press Start 2P', cursive; font-size: 30px;">Play now!
                     </h4>
                     <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
                 </div>
-                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-3">
+                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-4">
                     <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" style="width: 300px;">
                     <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
                         style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 20px; top: 45%;">Catálogo</span>
@@ -58,13 +58,27 @@
 
         <section class="bg-[#020617] text-white py-16 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center">
-                <h2 class="text-l font-extrabold tracking-tight sm:text-sm md:text-3xl"
+                <h2 class="text-l sm:text-sm md:text-3xl"
                     style="font-family: 'Press Start 2P', cursive; color: #ffff;">
                     Insert Coin para empezar
                 </h2>
                 <p class="mt-6 max-w-3xl mx-auto text-xl text-gray-300">
                     Explora la historia y la diversión de los arcades y consolas clásicas. La nostalgia del pixel te
                     espera en cada pantalla. </p>
+            </div>
+            <div class="flex flex-row justify-center mt-8 gap-8" style="font-size: 10px; font-family: 'Press Start 2P', cursive;">    
+                <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
+                    <button class="mx-3" value="Mejores">Populares</button>
+                </div>
+                <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
+                    <button class="mx-3" value="Mejores">Gratuitos</button>
+                </div>
+                <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
+                    <button class="mx-3" value="Mejores">Novedades</button>
+                </div>
+                <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
+                    <button class="mx-3" value="Mejores">Arcade</button>
+                </div>
             </div>
             <div class="flex justify-end mt-8 ">
                 <a href="#" style="color: #E9C46A; font-family: 'Press Start 2P', cursive;"
@@ -83,9 +97,12 @@
             </div>
 
             <div class="flex justify-center mt-8 gap-8">
-                <div class="bg-neutral-primary-soft block max-w-sm border border-default rounded-base shadow-xs">
+                <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
-                        <img class="rounded-md border" src="{{ asset('images/snake.png') }}" alt="" />
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/snake.png') }}" alt="" />
+                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
+                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif'}" type="video/mp4">
+                        </video>
                     </a>
                     <div class="p-6 text-start">
                         <a href="#">
@@ -93,10 +110,13 @@
                             <p style="font-family: 'Helvetica Neue';" class="mt-2">Texto</p>
                         </a>
                     </div>
-                </div>
-                <div class="bg-neutral-primary-soft block max-w-sm border border-default rounded-base shadow-xs">
+                </div>                
+                    <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
-                        <img class="rounded-md border" src="{{ asset('images/breakout.png') }}" alt="" />
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/breakout.png') }}" alt="" />
+                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
+                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" type="video/mp4">
+                        </video>
                     </a>
                     <div class="p-6 text-start">
                         <a href="#">
@@ -106,9 +126,12 @@
                         </a>
                     </div>
                 </div>
-                <div class="bg-neutral-primary-soft block max-w-sm border border-default rounded-base shadow-xs">
+                <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
-                        <img class="rounded-md border" src="{{ asset('images/tetris.png') }}" alt="" />
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/tetris.png') }}" alt="" />
+                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
+                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" type="video/mp4">
+                        </video>
                     </a>
                     <div class="p-4 text-start">
                         <a href="#">

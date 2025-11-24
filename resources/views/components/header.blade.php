@@ -57,26 +57,38 @@
                     </svg>
                 </button>
                 <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
-                    <a href="#"
+                    <a href="{{ route('storeGames') }}"
                         class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Comprar
                         juegos</a>
                 </div>
             </div>
         </nav>
+        <!-- Search bar (hidden by default) -->
+        <div id="header-search-bar" class="hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-full max-w-md">
+            <div class="relative">
+                <input id="header-search-input" type="text" placeholder="Buscar juegos..." class="w-full p-3 pl-10 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500" />
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <div id="header-search-results" class="mt-2 bg-gray-800 rounded-lg shadow-lg"></div>
+        </div>
+
         <div class="flex items-center">
             @if (Route::has('login'))
                 @auth
                     <a href="{{ url('/dashboard') }}"
                         class="text-sm font-semibold text-gray-300 hover:text-white">Dashboard</a>
                 @else
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        aria-label="Log in">
-                        <title>Search</title>
-                        <path
-                            d="M17.2116 14.8272V0H0V16.8627H14.6611L21.7184 24L24 21.6925L17.2116 14.8272ZM13.9844 13.599H3.22718V3.26375H13.9844V13.599ZM6.99222 12.511H4.30291V9.79126H6.99222V12.511Z"
-                            fill="white" />
-                    </svg>
-                    </a>
+                    <button id="header-search-icon" class="cursor-pointer">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            aria-label="Search">
+                            <title>Search</title>
+                            <path
+                                d="M17.2116 14.8272V0H0V16.8627H14.6611L21.7184 24L24 21.6925L17.2116 14.8272ZM13.9844 13.599H3.22718V3.26375H13.9844V13.599ZM6.99222 12.511H4.30291V9.79126H6.99222V12.511Z"
+                                fill="white" />
+                        </svg>
+                    </button>
                     <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         aria-label="Register" class="ml-8">
                         <title>Modo oscuro</title>
