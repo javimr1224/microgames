@@ -17,7 +17,7 @@
 
 </head>
 
-<body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
+<body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen ">
     <div class="flex-grow">
         <x-header />
 
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="flex justify-end mt-8 ">
-                <a href="#" style="color: #E9C46A; font-family: 'Press Start 2P', cursive;"
+                <a href="{{ route('game-menu') }}" style="color: #E9C46A; font-family: 'Press Start 2P', cursive;"
                     class="mx-6 underline text-center">
                     <span class="flex items-center justify-center ml-4 pl-4">
                         Explora
@@ -100,9 +100,7 @@
                 <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
                         <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/snake.png') }}" alt="" />
-                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
-                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif'}" type="video/mp4">
-                        </video>
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
                     </a>
                     <div class="p-6 text-start">
                         <a href="#">
@@ -114,9 +112,7 @@
                     <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
                         <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/breakout.png') }}" alt="" />
-                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
-                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" type="video/mp4">
-                        </video>
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
                     </a>
                     <div class="p-6 text-start">
                         <a href="#">
@@ -129,9 +125,7 @@
                 <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
                         <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/tetris.png') }}" alt="" />
-                        <video class="rounded-t-xl hidden w-full game-card-video" loop muted playsinline>
-                            <source src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" type="video/mp4">
-                        </video>
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
                     </a>
                     <div class="p-4 text-start">
                         <a href="#">
@@ -141,8 +135,26 @@
                     </div>
                 </div>
             </div>
-        </section>
-
+            <div class="inset-0 flex flex-col mb-3 items-center justify-center mb-6">
+                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-4">
+                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" style="width: 800px; height: 80px;">
+                    <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 20px; top: 45%;">Explora los juegos</span>
+                </a>
+            </div>
+            </section>
+            <section class="bg-[#020617] py-10 flex flex-col relative">
+                <div class="text-center mb-8">
+                    <h2 class="text-white" style="font-family: 'Press Start 2P', cursive; font-size: 25px; line-height: 1.5;">
+                        Una pequeña muestra <br>de nuestros juegos
+                    </h2>
+                </div>
+                <div class="flex flex-wrap justify-center items-end gap-8">
+                    <img class="w-20 object-contain" src="{{ asset('videos/dancingcowboydone2 1.gif') }}" alt="Cowboy">
+                    
+                    <img class="w-60 h-60 object-contain" src="{{ asset('images/snake.png') }}" alt="Snake">
+                </div>
+            </section>
         <x-footer />
     </div>
 </body>
