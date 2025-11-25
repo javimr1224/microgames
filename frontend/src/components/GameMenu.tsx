@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
@@ -8,10 +8,28 @@ import gameImageUrl from "./game-controller.svg";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
-  scores: Record<string, number>;
+  scores?: Record<string, number>;
 }
 
-export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
+export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps) {
+  const [scores, setScores] = useState(initialScores || {});
+
+  useEffect(() => {
+    // Hardcoded user ID for now
+    const userId = 1;
+    fetch(`/api/users/${userId}/scores`)
+      .then((res) => res.json())
+      .then((data) => {
+        const scoresByGame = data.reduce((acc: Record<string, number>, score: any) => {
+          if (!acc[score.game_id] || score.score > acc[score.game_id]) {
+            acc[score.game_id] = score.score;
+          }
+          return acc;
+        }, {});
+        setScores(scoresByGame);
+      });
+  }, []);
+
   const games = [
     {
       id: "snake" as const,
@@ -90,7 +108,7 @@ export function GameMenu({ onSelectGame, scores }: GameMenuProps) {
                       RECORD
                     </div>
                     <div className="text-xl text-yellow-400" style={{fontFamily:"Press Start 2P, monospace",}}>
-                      {scores[game.id]}
+                      {scores[game.id] || 0}
                     </div>
                   </div>
                 </div>
