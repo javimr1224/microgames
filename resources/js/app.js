@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchResults = document.getElementById('header-search-results');
 
     if (searchIcon && searchBar && searchInput && searchResults) {
-        // Toggle search bar visibility with GSAP
         searchIcon.addEventListener('click', () => {
             const isHidden = searchBar.classList.contains('hidden');
             if (isHidden) {
@@ -27,49 +26,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 gsap.fromTo(searchBar, { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: 'power1.out' });
                 searchInput.focus();
             } else {
-                gsap.to(searchBar, { y: -20, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
-                    searchBar.classList.add('hidden');
-                }});
+                gsap.to(searchBar, {
+                    y: -20, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
+                        searchBar.classList.add('hidden');
+                    }
+                });
             }
         });
 
-        // Perform search on input
         searchInput.addEventListener('input', function (e) {
             const query = e.target.value;
             searchResults.innerHTML = '';
 
             if (query.length > 2) {
-                axios.get('/search', { // Corrected URL
+                axios.get('/search', {
                     params: { query: query }
                 })
-                .then(response => {
-                    if (response.data.results && response.data.results.length > 0) {
-                        response.data.results.forEach(game => {
-                            const resultItem = document.createElement('a');
-                            resultItem.href = `/games/${game.id}`;
-                            resultItem.className = 'block p-2 text-left text-white hover:bg-gray-700 rounded-md';
-                            resultItem.textContent = game.name;
-                            searchResults.appendChild(resultItem);
-                        });
-                    } else {
-                        const noResults = document.createElement('p');
-                        noResults.className = 'p-2 text-gray-400';
-                        noResults.textContent = 'No results found.';
-                        searchResults.appendChild(noResults);
-                    }
-                })
-                .catch(error => {
-                    console.error('Search error:', error);
-                    const errorMsg = document.createElement('p');
-                    errorMsg.className = 'p-2 text-red-500';
-                    errorMsg.textContent = 'Error during search.';
-                    searchResults.appendChild(errorMsg);
-                });
+                    .then(response => {
+                        if (response.data.results && response.data.results.length > 0) {
+                            response.data.results.forEach(game => {
+                                const resultItem = document.createElement('a');
+                                resultItem.href = `/games/${game.id}`;
+                                resultItem.className = 'block p-2 text-left text-white hover:bg-gray-700 rounded-md';
+                                resultItem.textContent = game.name;
+                                searchResults.appendChild(resultItem);
+                            });
+                        } else {
+                            const noResults = document.createElement('p');
+                            noResults.className = 'p-2 text-gray-400';
+                            noResults.textContent = 'No results found.';
+                            searchResults.appendChild(noResults);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Search error:', error);
+                        const errorMsg = document.createElement('p');
+                        errorMsg.className = 'p-2 text-red-500';
+                        errorMsg.textContent = 'Error during search.';
+                        searchResults.appendChild(errorMsg);
+                    });
             }
         });
     }
 
-    // GSAP ScrollTrigger for game cards
     gsap.utils.toArray('.game-card').forEach(card => {
         gsap.from(card, {
             opacity: 0,
@@ -78,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ease: 'power1.out',
             scrollTrigger: {
                 trigger: card,
-                start: 'top 80%', // Animation starts when the top of the card is 80% from the top of the viewport
-                toggleActions: 'play none none none', // Only play the animation once
+                start: 'top 80%',
+                toggleActions: 'play none none none',
             }
         });
 
@@ -130,5 +129,248 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 300);
             });
         }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    if (typeof gsap === 'undefined') {
+        console.error('GSAP no está cargado');
+        return;
+    }
+
+    gsap.utils.toArray(['.sprite-top', '.sprite-left', '.sprite-right-1', '.sprite-right-2']).forEach(sprite => {
+        if (sprite) {
+            gsap.from(sprite, {
+                scale: 0,
+                rotation: 360,
+                duration: 0.8,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: sprite,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none',
+                }
+            });
+
+            gsap.to(sprite, {
+                y: -10,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut',
+                scrollTrigger: {
+                    trigger: sprite,
+                    start: 'top 85%',
+                }
+            });
+        }
+    });
+
+    const card1 = document.querySelector('.game-card-1');
+    if (card1) {
+        gsap.from(card1, {
+            x: -200,
+            opacity: 0,
+            scale: 0.8,
+            rotation: -5,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: card1,
+                start: 'top 75%',
+                toggleActions: 'play none none none',
+            }
+        });
+
+        card1.addEventListener('mouseenter', () => {
+            gsap.to(card1, {
+                scale: 1.05,
+                rotation: 2,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        card1.addEventListener('mouseleave', () => {
+            gsap.to(card1, {
+                scale: 1,
+                rotation: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    }
+
+    const card2 = document.querySelector('.game-card-2');
+    if (card2) {
+        gsap.from(card2, {
+            y: -300,
+            opacity: 0,
+            rotation: 180,
+            duration: 1.2,
+            ease: 'bounce.out',
+            scrollTrigger: {
+                trigger: card2,
+                start: 'top 75%',
+                toggleActions: 'play none none none',
+            }
+        });
+
+        card2.addEventListener('mouseenter', () => {
+            gsap.to(card2, {
+                y: -15,
+                scale: 1.03,
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+        });
+
+        card2.addEventListener('mouseleave', () => {
+            gsap.to(card2, {
+                y: 0,
+                scale: 1,
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+        });
+    }
+
+    const card3 = document.querySelector('.game-card-3');
+    if (card3) {
+        gsap.from(card3, {
+            x: -250,
+            opacity: 0,
+            scale: 0.5,
+            duration: 1,
+            ease: 'elastic.out(1, 0.5)',
+            scrollTrigger: {
+                trigger: card3,
+                start: 'top 75%',
+                toggleActions: 'play none none none',
+            }
+        });
+
+        card3.addEventListener('mouseenter', () => {
+            gsap.to(card3, {
+                scale: 1.08,
+                rotation: -3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+
+            const img = card3.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1.1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
+        });
+
+        card3.addEventListener('mouseleave', () => {
+            gsap.to(card3, {
+                scale: 1,
+                rotation: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+
+            const img = card3.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    }
+
+    const card4 = document.querySelector('.game-card-4');
+    if (card4) {
+        gsap.from(card4, {
+            x: 250,
+            opacity: 0,
+            scale: 0.5,
+            duration: 1.2,
+            ease: 'elastic.out(1, 0.6)',
+            scrollTrigger: {
+                trigger: card4,
+                start: 'top 75%',
+                toggleActions: 'play none none none',
+            }
+        });
+
+        card4.addEventListener('mouseenter', () => {
+            gsap.to(card4, {
+                scale: 1.1,
+                rotation: 4,
+                duration: 0.35,
+                ease: 'power3.out'
+            });
+
+            const img = card4.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1.12,
+                    duration: 0.35,
+                    ease: 'power3.out'
+                });
+            }
+        });
+
+        card4.addEventListener('mouseleave', () => {
+            gsap.to(card4, {
+                scale: 1,
+                rotation: 0,
+                duration: 0.35,
+                ease: 'power3.out'
+            });
+
+            const img = card4.querySelector('img');
+            if (img) {
+                gsap.to(img, {
+                    scale: 1,
+                    duration: 0.35,
+                    ease: 'power3.out'
+                });
+            }
+        });
+    }
+
+    const description = document.querySelector('.game-card-1')?.closest('section')?.querySelector('p');
+    if (description) {
+        gsap.from(description, {
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            delay: 0.3,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: description,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+            }
+        });
+    }
+
+    const exitSprites = document.querySelectorAll(
+        "img[src*='dancingcowboydone21.gif'], img[src*='pjpa72551.gif'], img[src*='walk_011'], img[src*='hideyoshi']"
+    );
+
+    exitSprites.forEach(sprite => {
+        gsap.from(sprite, {
+            opacity: 0,
+            scale: 0.7,
+            duration: 2.3,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: sprite,
+                start: "top 90%",
+                toggleActions: "play none none none",
+            }
+        });
     });
 });

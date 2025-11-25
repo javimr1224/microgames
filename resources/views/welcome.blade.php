@@ -4,38 +4,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Microgames</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
-<body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen ">
+<body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
     <div class="flex-grow">
         <x-header />
 
-        <div class="relative w-full max-h-[600px] overflow-hidden">
+        <div class="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden">
             <img class="w-full h-full object-cover"
                 src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                 alt="Microgames retro background">
 
-            <div class="absolute inset-0 flex flex-col mb-3 items-center justify-center">
-                <div class="flex flex-col items-center gap-6 animate-float">
-                    <h4 class="text-stroke" style="font-family: 'Press Start 2P', cursive; font-size: 30px;">Play now!
+            <div class="absolute inset-0 flex flex-col items-center justify-center px-4">
+                <div class="flex flex-col items-center gap-4 sm:gap-6 animate-float">
+                    <h4 class="text-stroke text-xl sm:text-2xl lg:text-3xl"
+                        style="font-family: 'Press Start 2P', cursive;">
+                        Play now!
                     </h4>
-                    <img class="imagen-principal w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
+                    <img class="w-64 sm:w-80 lg:w-96" src="{{ asset('images/retro-games.png') }}" alt="Retro Games">
                 </div>
-                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-4">
-                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" style="width: 300px;">
-                    <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                        style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 20px; top: 45%;">Catálogo</span>
+                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-4 w-48 sm:w-60 lg:w-72">
+                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" class="w-full">
+                    <span
+                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base lg:text-xl"
+                        style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000;">
+                        Catálogo
+                    </span>
                 </a>
             </div>
 
@@ -56,106 +57,215 @@
             </div>
         </div>
 
-        <section class="bg-[#020617] text-white py-16 px-4 sm:px-6 lg:px-8">
+        <section class="bg-[#020617] text-white py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center">
-                <h2 class="text-l sm:text-sm md:text-3xl"
-                    style="font-family: 'Press Start 2P', cursive; color: #ffff;">
-                    Insert Coin para empezar
-                </h2>
-                <p class="mt-6 max-w-3xl mx-auto text-xl text-gray-300">
-                    Explora la historia y la diversión de los arcades y consolas clásicas. La nostalgia del pixel te
-                    espera en cada pantalla. </p>
+                <div class="flex flex-col sm:flex-row text-center justify-center items-center gap-2 sm:gap-4">
+                    <h2 class="text-xs sm:text-lg md:text-2xl lg:text-3xl"
+                        style="font-family: 'Press Start 2P', cursive; color: #ffff;">
+                        Insert Coin para empezar
+                    </h2>
+                    <img class="w-12 sm:w-16 md:w-20" src="{{ asset('videos/coin_big 1.gif') }}" alt="Coin">
+                </div>
+                <p class="max-w-3xl mx-auto mt-4 text-sm sm:text-base lg:text-xl text-gray-300 px-4">
+                    Explora la historia y la diversión de los arcades y consolas clásicas.
+                    La nostalgia del pixel te espera en cada pantalla.
+                </p>
             </div>
-            <div class="flex flex-row justify-center mt-8 gap-8" style="font-size: 10px; font-family: 'Press Start 2P', cursive;">    
+
+            <div class="flex flex-wrap justify-center mt-6 sm:mt-8 gap-3 sm:gap-6 lg:gap-8 px-4"
+                style="font-size: 8px; font-family: 'Press Start 2P', cursive;">
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="mx-3" value="Mejores">Populares</button>
+                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Populares</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="mx-3" value="Mejores">Gratuitos</button>
+                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Gratuitos</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="mx-3" value="Mejores">Novedades</button>
+                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Novedades</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="mx-3" value="Mejores">Arcade</button>
+                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Arcade</button>
                 </div>
             </div>
-            <div class="flex justify-end mt-8 ">
+
+            <div class="flex justify-center sm:justify-end mt-6 sm:mt-8 px-4 sm:px-6">
                 <a href="{{ route('game-menu') }}" style="color: #E9C46A; font-family: 'Press Start 2P', cursive;"
-                    class="mx-6 underline text-center">
-                    <span class="flex items-center justify-center ml-4 pl-4">
+                    class="underline text-center text-xs sm:text-sm">
+                    <span class="flex items-center justify-center gap-2">
                         Explora
-                        <svg width="17" height="10" viewBox="0 0 17 10" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" style="transform: rotate(-90deg); margin-left: 8px;">
+                        <svg width="12" height="8" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="sm:w-[17px] sm:h-[10px]" style="transform: rotate(-90deg);">
                             <path
                                 d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
                                 fill="#E9C46A" />
                         </svg>
                     </span>
-                    nuestros juegos
+                    <span class="hidden sm:inline">nuestros juegos</span>
                 </a>
             </div>
 
-            <div class="flex justify-center mt-8 gap-8">
-                <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 max-w-7xl mx-auto px-4">
+                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/snake.png') }}" alt="" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
+                            src="{{ asset('images/snake.png') }}" alt="Snake" />
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                            class="rounded-t-xl hidden w-full game-card-video">
                     </a>
-                    <div class="p-6 text-start">
+                    <div class="p-4 sm:p-6 text-start">
                         <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-6 text-l">SNAKE</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2">Texto</p>
+                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
+                                SNAKE</h5>
+                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
                         </a>
                     </div>
-                </div>                
-                    <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
-                    <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/breakout.png') }}" alt="" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
-                    </a>
-                    <div class="p-6 text-start">
-                        <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-6 text-l">BREAKOUT</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2">Texto</p>
+                </div>
 
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-neutral-primary-soft block max-w-sm border-[3px] border-default rounded-xl shadow-xs game-card">
+                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
                     <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image" src="{{ asset('images/tetris.png') }}" alt="" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" class="rounded-t-xl hidden w-full game-card-video">
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
+                            src="{{ asset('images/breakout.png') }}" alt="Breakout" />
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                            class="rounded-t-xl hidden w-full game-card-video">
                     </a>
-                    <div class="p-4 text-start">
+                    <div class="p-4 sm:p-6 text-start">
                         <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-6 text-l">TETRIS</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2">Texto</p>
+                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
+                                BREAKOUT</h5>
+                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
+                    <a href="#">
+                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
+                            src="{{ asset('images/tetris.png') }}" alt="Tetris" />
+                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                            class="rounded-t-xl hidden w-full game-card-video">
+                    </a>
+                    <div class="p-4 sm:p-6 text-start">
+                        <a href="#">
+                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
+                                TETRIS</h5>
+                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="inset-0 flex flex-col mb-3 items-center justify-center mb-6">
-                <a href="{{ route('game-menu') }}" class="relative animatable-button mt-4">
-                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" style="width: 800px; height: 80px;">
-                    <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 20px; top: 45%;">Explora los juegos</span>
+
+            <section class="flex justify-center items-center py-8 sm:py-12 lg:py-16">
+                <a href="{{ route('game-menu') }}" class="relative animatable-button w-64 sm:w-96 lg:w-[500px] px-4">
+                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" class="w-full h-auto">
+                    <span
+                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] sm:text-sm lg:text-base whitespace-nowrap"
+                        style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000;">
+                        Explora los juegos
+                    </span>
                 </a>
+            </section>
+
+        </section>
+
+        <section class="w-full bg-[#020617] py-8 sm:py-12 lg:py-16 px-4 flex justify-center overflow-hidden">
+            <div class="w-full max-w-6xl flex flex-col items-center">
+                <div class="mb-8 sm:mb-12 w-full flex flex-col items-center lg:items-end px-4">
+                    <h1 style="font-family: 'Press Start 2P';"
+                        class="text-white text-sm sm:text-xl lg:text-2xl xl:text-3xl text-left lg:text-left leading-relaxed mb-4">
+                        Una pequeña muestra<br class="hidden sm:block"> de nuestros juegos
+                    </h1>
+                    <p style="font-family: 'Helvetica Neue';"
+                        class="text-white/70 text-xs sm:text-sm lg:text-base text-left lg:text-left max-w-lg">
+                        Descubre algunos de los minijuegos que hemos creado,
+                        todos inspirados en el estilo retro para que disfrutes
+                        de una experiencia divertida y nostálgica.
+                    </p>
+                </div>
+
+                <div class="relative w-full min-h-[1200px] sm:min-h-[1400px] lg:min-h-[1800px]">
+
+                    <img src="{{ asset('videos/dancingcowboydone21.gif') }}"
+                        class="w-8 sm:w-12 lg:w-[90px] absolute top-0 left-[5%] sm:left-[15%] lg:left-[29%]"
+                        style="image-rendering: pixelated;">
+
+                    <div
+                        class="game-card-1 absolute top-[50px] sm:top-[72px] left-[2%] sm:left-[5%] lg:left-[0.1%] w-[90%] sm:w-[400px] lg:w-[440px]">
+                        <div class="rounded-lg p-2 sm:p-3 shadow-2xl h-[200px] sm:h-[250px] lg:h-[300px]">
+                            <img src="{{ asset('images/video-snake.png') }}" class="rounded-xl w-full h-full"
+                                style="image-rendering: pixelated;">
+                        </div>
+                    </div>
+                    <div
+                        class="absolute top-[280px] sm:top-[350px] lg:top-[280px] right-[2%] sm:right-[5%] lg:left-[450px] w-[90%] sm:w-[400px] lg:w-[580px]">
+                        <img src="{{ asset('videos/pjpa72551.gif') }}"
+                            class="w-8 sm:w-12 lg:w-[90px] absolute -top-8 sm:-top-10 lg:-top-12 left-[84%]"
+                            style="transform: scaleX(-1) rotate(-5deg); image-rendering: pixelated;">
+
+                        <div class="rounded-lg mt-6 sm:mt-8 p-2 sm:p-3 shadow-2xl">
+                            <img src="{{ asset('images/video-tetris.png') }}" class="game-card-2 rounded-xl w-full"
+                                style="image-rendering: pixelated;">
+                        </div>
+                    </div>
+
+                    <img src="{{ asset('videos/walk_011.gif') }}"
+                        class="w-8 sm:w-12 lg:w-[90px] absolute top-[520px] sm:top-[620px] lg:top-[597px] left-[5%]"
+                        style="image-rendering: pixelated;">
+
+                    <div
+                        class="game-card-3 absolute top-[580px] sm:top-[700px] lg:top-[733px] left-[2%] sm:left-[5%] lg:left-[0.1%] w-[90%] sm:w-[480px] lg:w-[590px]">
+                        <div class="rounded-lg p-2 sm:p-3 shadow-2xl h-[200px] sm:h-[250px] lg:h-[300px]">
+                            <img src="{{ asset('images/video-brekout.png') }}" class="rounded-xl w-full h-full"
+                                style="image-rendering: pixelated;">
+                        </div>
+                    </div>
+
+                    <img src="{{ asset('videos/hideyoshianimpreviewexport 1.gif') }}"
+                        class="w-8 sm:w-12 lg:w-[90px] absolute top-[820px] sm:top-[900px] lg:top-[945px] right-[5%] lg:right-[21%]"
+                        style="image-rendering: pixelated;">
+
+                    <div
+                        class="game-card-4 absolute top-[880px] sm:top-[1000px] lg:top-[1000px] right-[2%] sm:right-[5%] lg:left-[400px] w-[90%] sm:w-[400px] lg:w-[580px]">
+                        <div class="rounded-lg mt-6 sm:mt-8 p-2 sm:p-3 shadow-2xl">
+                            <img src="{{ asset('images/video-pong.png') }}" class="rounded-xl w-full"
+                                style="image-rendering: pixelated;">
+                        </div>
+                    </div>
+                </div>
             </div>
-            </section>
-            <section class="bg-[#020617] py-10 flex flex-col relative">
-                <div class="text-center mb-8">
-                    <h2 class="text-white" style="font-family: 'Press Start 2P', cursive; font-size: 25px; line-height: 1.5;">
-                        Una pequeña muestra <br>de nuestros juegos
-                    </h2>
-                </div>
-                <div class="flex flex-wrap justify-center items-end gap-8">
-                    <img class="w-20 object-contain" src="{{ asset('videos/dancingcowboydone2 1.gif') }}" alt="Cowboy">
-                    
-                    <img class="w-60 h-60 object-contain" src="{{ asset('images/snake.png') }}" alt="Snake">
-                </div>
-            </section>
+        </section>
+        <div class="relative bg-slate-900">
+    
+    <div class="w-full overflow-hidden leading-[0]">
+        <svg class="relative block w-full h-[100px]" 
+             xmlns="http://www.w3.org/2000/svg" 
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28" 
+             preserveAspectRatio="none" 
+             shape-rendering="auto">
+            
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            
+            <g class="parallax">
+                <use href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                <use href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use href="#gentle-wave" x="48" y="7" fill="#ffffff" />
+            </g>
+        </svg>
+    </div>
+
+    <section class="bg-white min-h-[200px] relative z-10">
+        <div class="max-w-7xl mx-auto py-8 px-4 text-center">
+            <h2 class="text-xl font-bold text-gray-900">Sección TODO</h2>
+        </div>
+    </section>
+</div>
+
+
         <x-footer />
+
     </div>
 </body>
 
