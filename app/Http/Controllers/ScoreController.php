@@ -30,13 +30,29 @@ class ScoreController extends Controller
             'score' => 'required|integer',
         ]);
 
-        $score = Score::create([
-            'user_id' => Auth::id(), // Assuming authenticated user
-            'game_id' => $request->game_id,
-            'score' => $request->score,
-        ]);
+        $userId = Auth::id();
+        $gameId = $request->game_id;
+        $newScore = $request->score;
 
-        return response()->json($score, 201);
+        $existingScore = Score::where('user_id', $userId)
+            ->where('game_id', $gameId)
+            ->first();
+
+        if ($existingScore) {
+            if ($newScore > $existingScore->score) {
+                $existingScore->score = $newScore;
+                $existingScore->save();
+            }
+            return response()->json($existingScore, 200);
+        } else {
+            $score = Score::create([
+                'user_id' => $userId,
+                'game_id' => $gameId,
+                'score' => $newScore,
+            ]);
+
+            return response()->json($score, 201);
+        }
     }
 
     /**

@@ -374,3 +374,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const moonIcon = document.getElementById('moon-icon');
+    const sunIcon = document.getElementById('sun-icon');
+
+    if (darkModeToggle && moonIcon && sunIcon) {
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light-mode');
+            moonIcon.style.display = 'none';
+            sunIcon.style.display = 'block';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('light-mode');
+
+            if (document.documentElement.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            } else {
+                localStorage.setItem('theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        });
+    }
+});

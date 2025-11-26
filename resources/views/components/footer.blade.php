@@ -1,5 +1,5 @@
-<footer class="w-full bg-[#020617] text-white py-12 relative overflow-hidden"
-    style="font-family: 'Helvetica Neue', sans-serif;">
+<footer class="w-full bg-[#020617] text-white py-12 relative"
+    style="font-family: 'Helvetica Neue', sans-serif; box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.4), 0 -4px 6px -4px rgba(0, 0, 0, 0.2);">
     <div class="absolute top-0 left-0 right-0 h-px bg-white opacity-20"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

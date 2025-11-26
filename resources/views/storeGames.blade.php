@@ -31,31 +31,6 @@
                 </p>
             </div>
 
-            @php
-                $games = [
-                    [
-                        'name' => 'SNAKE',
-                        'description' => 'Come todas las manzanas y evita chocar',
-                        'image' => 'images/snake.png',
-                    ],
-                    [
-                        'name' => 'PONG',
-                        'description' => 'Clásico juego de pong',
-                        'image' => 'images/video-pong.png',
-                    ],
-                    [
-                        'name' => 'TETRIS',
-                        'description' => 'Encaja las piezas y completa líneas',
-                        'image' => 'images/tetris.png',
-                    ],
-                    [
-                        'name' => 'BREAKOUT',
-                        'description' => 'Rompe todos los bloques y alcanza un nuevo record',
-                        'image' => 'images/breakout.png',
-                    ],
-                ];
-            @endphp
-
             <div class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
                 @foreach ($games as $game)
                     <div
@@ -63,15 +38,15 @@
                         <div class="p-6">
                             <div class="relative z-10">
                                 <img class="w-full h-40 object-cover mb-4 rounded-lg"
-                                    src="{{ asset($game['image']) }}" alt="{{ $game['name'] }}">
+                                    src="{{ asset($game->image) }}" alt="{{ $game->name }}">
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
                                     style="font-family: 'Press Start 2P', monospace;">
-                                    {{ $game['name'] }}
+                                    {{ $game->name }}
                                 </h3>
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
-                                    {{ $game['description'] }}
+                                    {{ $game->description }}
                                 </p>
-                                <a href="http://localhost:5173/"
+                                <a href="http://localhost:3000"
                                     class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     JUGAR

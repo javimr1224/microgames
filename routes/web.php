@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -60,9 +61,7 @@ Route::get('/game-menu', function () {
     return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/menu'); 
 })->name('game-menu');
 
-Route::get('/store', function () {
-    return view('storeGames');
-})->name('storeGames');
+Route::get('/store', [GameController::class, 'index'])->name('storeGames');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 

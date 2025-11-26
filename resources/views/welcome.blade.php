@@ -182,7 +182,7 @@
                     </p>
                 </div>
 
-                <div class="relative w-full min-h-[1200px] sm:min-h-[1400px] lg:min-h-[1800px]">
+                <div class="relative w-full min-h-[1100px] sm:min-h-[1450px] lg:min-h-[1450px]">
 
                     <img src="{{ asset('videos/dancingcowboydone21.gif') }}"
                         class="w-8 sm:w-12 lg:w-[90px] absolute top-0 left-[5%] sm:left-[15%] lg:left-[29%]"
@@ -234,39 +234,90 @@
             </div>
         </section>
         <div class="relative bg-slate-900">
-    
-    <div class="w-full overflow-hidden leading-[0]">
-        <svg class="relative block w-full h-[100px]" 
-             xmlns="http://www.w3.org/2000/svg" 
-             xmlns:xlink="http://www.w3.org/1999/xlink"
-             viewBox="0 24 150 28" 
-             preserveAspectRatio="none" 
-             shape-rendering="auto">
-            
-            <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            
-            <g class="parallax">
-                <use href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
-                <use href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-                <use href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-                <use href="#gentle-wave" x="48" y="7" fill="#ffffff" />
-            </g>
-        </svg>
-    </div>
 
-    <section class="bg-white min-h-[200px] relative z-10">
-        <div class="max-w-7xl mx-auto py-8 px-4 text-center">
-            <h2 class="text-xl font-bold text-gray-900">Sección TODO</h2>
+            <div class="w-full overflow-hidden leading-[0]">
+                <svg style="background-color: rgba(2,6,23,23);" class="relative block w-full h-[100px]"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28"
+                    preserveAspectRatio="none" shape-rendering="auto">
+
+                    <defs>
+                        <path id="gentle-wave"
+                            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                    </defs>
+
+                    <g class="parallax">
+                        <use href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                        <use href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                        <use href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                        <use href="#gentle-wave" x="48" y="9" fill="#ffffff" />
+                    </g>
+                </svg>
+            </div>
+
+            <section class="bg-white min-h-[200px] relative z-10">
+                <div class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
+                    <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
+                    <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
+                        desarrolladores solo se compone del creador pero
+                        con <br> el potencial de está aplicación, pronto tendremos un equipo exitoso y con <br>
+                        experiencia en el mercado</h4>
+                    <img class="py-6 w-[220px]" src="{{ asset("images/javi.png") }}" alt="">
+                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Javier <br> Martínez </h3>
+                    <h4 class="mb-12 text-[#020617] py-0">Fundador de Microgames</h4>
+                </div>
+                <div class="flex flex-col max-w-7xl mx-auto px-4 text-center items-center justify-center">
+                    <div class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
+                        <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de <br>
+                            nuestros usuarios</h2>
+                        <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">“Cada
+                            uno de los juegos de la
+                            pagina web <br> Microgames ha conseguido que disfrute de <br> una experiencia divertida a la
+                            par que <br>
+                            desestresante con sus minijuegos Arcade ”</h2>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center">
+                    <div class="flex items-center mr-[90px]">
+                        <img class="w-[64px] h-[64px]" src="{{ asset('images/albi.png') }}" alt="imagen fundador">
+                        <div class="mb-12 flex flex-col mx-[22px]">
+                            <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Alba Espejo</h3>
+                            <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617]">CEO de BioVolt Systems
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center">
+                    <div class="bg-[#A8A8A8A8] p-16 rounded-2xl flex flex-row items-center gap-8">
+                        <div class="max-w-lg">
+                            <h2 style="font-family: 'Helvetica Neue';" class="text-3xl text-[#020617] font-medium">
+                                Consulta nuestros planes de precios
+                            </h2>
+                            <p style="font-family: 'Helvetica Neue';" class="text-[#020617] py-3">
+                                ¡Elige tu nivel de jugador y desbloquea el poder del píxel! <br>
+                                Cada jugador merece su propia aventura por eso mismo <br> tenemos planes que incluyen
+                                acceso inmediato a juegos retro, <br> soporte premium y actualizaciones constantes de
+                                contenido.
+                            </p>
+                        </div>
+
+                        <div>
+                            <a href="{{ route('storeGames') }}" class="relative animatable-button mt-4 w-48 sm:w-60 lg:w-72">
+                                <img src="{{ asset('images/button.svg') }}" alt="Precios button" class="w-[380px]">
+                                <span
+                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base lg:text-lg"
+                                    style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000;">
+                                    Ver planes
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
-</div>
-
-
-        <x-footer />
 
     </div>
+
+    <x-footer />
 </body>
 
 </html>

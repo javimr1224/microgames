@@ -112,3 +112,51 @@ p:hover{
 		2px 2px 0 #000,
 		0 0 10px rgba(233, 196, 106, 0.5);
 }
+
+.light-mode header {
+    background: #f8fafc !important; /* light gray */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.light-mode header span,
+.light-mode header a,
+.light-mode header button span {
+    color: #000 !important;
+}
+
+.light-mode header svg path {
+    fill: #000 !important;
+}
+
+.light-mode footer {
+    background-color: #f8fafc;
+    color: #000;
+}
+
+.light-mode footer .bg-clip-text {
+    background-image: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+}
+
+.light-mode .game-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.light-mode .game-card h3,
+.light-mode .game-card p {
+    color: #000 !important; /* or a dark gray */
+}
+
+
+.light-mode .text-stroke {
+    text-shadow: -2px -2px 0 #ccc, 2px -2px 0 #ccc, -2px 2px 0 #ccc, 2px 2px 0 #ccc;
+}
+
+.light-mode body {
+    background-color: #ffffff;
+    color: #000;
+}
