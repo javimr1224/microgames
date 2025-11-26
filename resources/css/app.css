@@ -105,12 +105,7 @@ p:hover{
 }
 
 .text-stroke {
-	text-shadow:
-		-2px -2px 0 #000,
-		2px -2px 0 #000,
-		-2px 2px 0 #000,
-		2px 2px 0 #000,
-		0 0 10px rgba(233, 196, 106, 0.5);
+	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 10px rgba(233, 196, 106, 0.5);
 }
 
 .light-mode header {
@@ -126,6 +121,10 @@ p:hover{
 
 .light-mode header svg path {
     fill: #000 !important;
+}
+
+.light-mode header .dropdown-container button svg {
+    stroke: #000 !important;
 }
 
 .light-mode footer {
@@ -146,17 +145,38 @@ p:hover{
     border-color: #e2e8f0;
 }
 
-.light-mode .game-card h3,
 .light-mode .game-card p {
     color: #000 !important; /* or a dark gray */
+}
+
+.light-mode .game-card h3,
+.light-mode .game-card h5 {
+    color: #000 !important;
 }
 
 
 .light-mode .text-stroke {
     text-shadow: -2px -2px 0 #ccc, 2px -2px 0 #ccc, -2px 2px 0 #ccc, 2px 2px 0 #ccc;
+    color: #fff !important; /* Keep white */
 }
+
+/* Prevent animatable button text from changing color */
+.light-mode .animatable-button span {
+    color: #fff !important; /* Keep white */
+}
+
 
 .light-mode body {
     background-color: #ffffff;
     color: #000;
+}
+
+.light-mode .dropdown-content {
+    background-color: #f8fafc !important;
+}
+
+
+.animatable-button {
+    z-index: 10;
+    cursor: pointer;
 }

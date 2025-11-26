@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.animatable-button');
 
     buttons.forEach(button => {
+        console.log('Animación activada para:', button);
         button.addEventListener('mousedown', () => {
             gsap.to(button, {
                 y: 5, 

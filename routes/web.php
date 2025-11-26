@@ -1,26 +1,22 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GameController as AdminGameController;
+use App\Http\Controllers\Admin\MatchController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/users', function () {
-        return view('admin.users');
-    })->name('users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
     
-    Route::get('/games', function () {
-        return view('admin.games');
-    })->name('games');
+    Route::get('/games', [AdminGameController::class, 'index'])->name('games');
 
-    Route::get('/matches', function () {
-        return view('admin.matches');
-    })->name('matches');
+    Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 
     Route::get('/incomes', function () {
         return view('admin.incomes');
@@ -87,5 +83,18 @@ Route::get('/about/contact', function () {
     return '<h1>Contact Us Page</h1>';
 })->name('about.contact');
 
+Route::get('/help', function () {
+    return view('help');
+})->name('help');
+
+Route::get('/support', function () {
+    return view('support');
+})->name('support');
+
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
+
 
 require __DIR__.'/auth.php';
+

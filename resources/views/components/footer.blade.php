@@ -22,13 +22,13 @@
             <div class="md:col-span-2 space-y-4" style="font-size: 18px; letter-spacing: -0.48px;">
                 <div class="opacity-50 leading-[1.3]">Páginas</div>
                 <div class="space-y-3">
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('game-menu') }}"
                             class="hover:text-[#e9c46a] transition-colors">Juegos</a></p>
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('help') }}"
                             class="hover:text-[#e9c46a] transition-colors">Ayuda</a></p>
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('game-menu') }}"
                             class="hover:text-[#e9c46a] transition-colors">Catálogo</a></p>
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('storeGames') }}"
                             class="hover:text-[#e9c46a] transition-colors">Tienda</a></p>
                 </div>
             </div>
@@ -36,20 +36,20 @@
             <div class="md:col-span-2 space-y-4" style="font-size: 18px; letter-spacing: -0.48px;">
                 <div class="opacity-50 leading-[1.3]">Secciones extra</div>
                 <div class="space-y-4">
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="#" id="dark-theme-link"
                             class="hover:text-[#e9c46a] transition-colors">Dark
                             theme</a></p>
-                    <p class="leading-[1.3] text-[#e9c46a]"><a href="#">Light theme</a></p>
+                    <p class="leading-[1.3] text-[#e9c46a]"><a href="#" id="light-theme-link" class="hover:text-white transition-colors">Light theme</a></p>
                 </div>
             </div>
 
             <div class="md:col-span-3 space-y-6" style="font-size: 18px; letter-spacing: -0.48px;">
                 <div class="opacity-50 leading-[1.3]">Contacto</div>
                 <div class="space-y-6">
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('support') }}"
                             class="hover:text-[#e9c46a] transition-colors">Soporte
                             técnico</a></p>
-                    <p class="leading-[1.3]"><a href="#"
+                    <p class="leading-[1.3]"><a href="{{ route('faq') }}"
                             class="hover:text-[#e9c46a] transition-colors">FAQ /
                             Guía de inicio</a></p>
                 </div>

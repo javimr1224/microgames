@@ -15,7 +15,6 @@ export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps)
   const [scores, setScores] = useState(initialScores || {});
 
   useEffect(() => {
-    // Hardcoded user ID for now
     const userId = 1;
     fetch(`/api/users/${userId}/scores`)
       .then((res) => res.json())
@@ -79,7 +78,7 @@ export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps)
             <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs">Inicio</p>
           </a>
-          <a href="http://localhost:8000/" className="flex flex-col items-center">
+          <a href="http://localhost:8000/store" className="flex flex-col items-center">
             <img style={{ width: "40px" }} src={gameImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs ">Tienda</p>
           </a>

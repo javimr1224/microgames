@@ -5,10 +5,11 @@ namespace App\Models;
 use MongoDB\Laravel\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasFactory;
+    use Notifiable, HasFactory, HasApiTokens;
 
     protected $connection = 'mongodb';
     protected $collection = 'users';
@@ -20,11 +21,6 @@ class User extends Authenticatable
         'role',
     ];
 
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
     protected $attributes = [
         'role' => 'usuario',
     ];

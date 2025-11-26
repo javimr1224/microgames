@@ -18,6 +18,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('header-search-input');
     const searchResults = document.getElementById('header-search-results');
 
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+
     if (searchIcon && searchBar && searchInput && searchResults) {
         searchIcon.addEventListener('click', () => {
             const isHidden = searchBar.classList.contains('hidden');
@@ -34,19 +43,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        searchInput.addEventListener('input', function (e) {
-            const query = e.target.value;
-            searchResults.innerHTML = '';
-
-            if (query.length > 2) {
-                axios.get('/search', {
-                    params: { query: query }
-                })
-                    .then(response => {
+        let latestQuery = '';
+        const debouncedSearch = debounce(function (query) {
+            latestQuery = query;
+            axios.get('/search', {
+                params: { query: query }
+            })
+                .then(response => {
+                    if (query === latestQuery) {
+                        searchResults.innerHTML = '';
                         if (response.data.results && response.data.results.length > 0) {
                             response.data.results.forEach(game => {
                                 const resultItem = document.createElement('a');
-                                resultItem.href = `/games/${game.id}`;
+                                resultItem.href = `http://localhost:3000/${game.name.toLowerCase()}`;
                                 resultItem.className = 'block p-2 text-left text-white hover:bg-gray-700 rounded-md';
                                 resultItem.textContent = game.name;
                                 searchResults.appendChild(resultItem);
@@ -57,14 +66,43 @@ document.addEventListener('DOMContentLoaded', function () {
                             noResults.textContent = 'No results found.';
                             searchResults.appendChild(noResults);
                         }
-                    })
-                    .catch(error => {
-                        console.error('Search error:', error);
-                        const errorMsg = document.createElement('p');
-                        errorMsg.className = 'p-2 text-red-500';
-                        errorMsg.textContent = 'Error during search.';
-                        searchResults.appendChild(errorMsg);
-                    });
+                    }
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    const errorMsg = document.createElement('p');
+                    errorMsg.className = 'p-2 text-red-500';
+                    errorMsg.textContent = 'Error during search.';
+                    searchResults.appendChild(errorMsg);
+                });
+        }, 300); 
+
+        searchInput.addEventListener('input', function (e) {
+            const query = e.target.value;
+            if (query.length > 2) {
+                debouncedSearch(query);
+            } else {
+                searchResults.innerHTML = '';
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !searchBar.classList.contains('hidden')) {
+                gsap.to(searchBar, {
+                    y: -20, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
+                        searchBar.classList.add('hidden');
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!searchBar.classList.contains('hidden') && !searchBar.contains(event.target) && !searchIcon.contains(event.target)) {
+                gsap.to(searchBar, {
+                    y: -20, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
+                        searchBar.classList.add('hidden');
+                    }
+                });
             }
         });
     }
@@ -379,26 +417,54 @@ document.addEventListener('DOMContentLoaded', function () {
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
+    const darkThemeLink = document.getElementById('dark-theme-link');
+    const lightThemeLink = document.getElementById('light-theme-link');
 
-    if (darkModeToggle && moonIcon && sunIcon) {
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light-mode');
+    const enableDarkMode = () => {
+        document.documentElement.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+        if (moonIcon && sunIcon) {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+    };
+
+    const enableLightMode = () => {
+        document.documentElement.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+        if (moonIcon && sunIcon) {
             moonIcon.style.display = 'none';
             sunIcon.style.display = 'block';
         }
+    };
 
+    if (localStorage.getItem('theme') === 'light') {
+        enableLightMode();
+    } else {
+        enableDarkMode();
+    }
+
+    if (darkModeToggle) {
         darkModeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('light-mode');
-
             if (document.documentElement.classList.contains('light-mode')) {
-                localStorage.setItem('theme', 'light');
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
+                enableDarkMode();
             } else {
-                localStorage.setItem('theme', 'dark');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'block';
+                enableLightMode();
             }
+        });
+    }
+
+    if (darkThemeLink) {
+        darkThemeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            enableDarkMode();
+        });
+    }
+
+    if (lightThemeLink) {
+        lightThemeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            enableLightMode();
         });
     }
 });

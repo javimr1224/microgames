@@ -12,13 +12,10 @@ class SearchController extends Controller
     {
         $query = $request->input('query');
         
-        // For now, just return a simple response
-        // In a real application, you would query your database here
-        // Example: $games = Game::where('name', 'like', "%{$query}%")->get();
+        $games = Game::where('name', 'regexp', "/.*{$query}.*/i")->get();
         
         return response()->json([
-            'message' => 'Search received for: ' . $query,
-            'results' => [] // Placeholder for actual results
+            'results' => $games
         ]);
     }
 }

@@ -4,6 +4,7 @@ import { SnakeGame } from './components/SnakeGame';
 import { PongGame } from './components/PongGame';
 import { TetrisGame } from './components/TetrisGame';
 import { BreakoutGame } from './components/BreakoutGame';
+import { saveScore, setupAxios } from './services/scoreService'; // Import setupAxios
 
 export type GameType = 'menu' | 'snake' | 'pong' | 'tetris' | 'breakout';
 
@@ -18,6 +19,8 @@ export default function App() {
   const [apiMessage, setApiMessage] = useState<string>('Connecting...');
 
   useEffect(() => {
+    setupAxios(); // Call setupAxios here to configure axios
+
     const apiUrl = import.meta.env.VITE_API_URL;
     if (apiUrl) {
       fetch(`${apiUrl}/test`)
@@ -37,23 +40,31 @@ export default function App() {
     }
   }, []);
 
-  const updateScore = (game: string, score: number) => {
-    setScores(prev => ({
-      ...prev,
-      [game]: Math.max(prev[game] || 0, score)
-    }));
+  const handleScore = async (game: string, score: number) => {
+    if (score > (scores[game] || 0)) {
+      setScores(prev => ({
+        ...prev,
+        [game]: score
+      }));
+      try {
+        await saveScore(game, score);
+        console.log(`Score for ${game} saved successfully.`);
+      } catch (error) {
+        console.error(`Failed to save score for ${game}.`);
+      }
+    }
   };
 
   const renderGame = () => {
     switch (currentGame) {
       case 'snake':
-        return <SnakeGame onBack={() => setCurrentGame('menu')} onScore={(score) => updateScore('snake', score)} />;
+        return <SnakeGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('snake', score)} />;
       case 'pong':
-        return <PongGame onBack={() => setCurrentGame('menu')} onScore={(score) => updateScore('pong', score)} />;
+        return <PongGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('pong', score)} />;
       case 'tetris':
-        return <TetrisGame onBack={() => setCurrentGame('menu')} onScore={(score) => updateScore('tetris', score)} />;
+        return <TetrisGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('tetris', score)} />;
       case 'breakout':
-        return <BreakoutGame onBack={() => setCurrentGame('menu')} onScore={(score) => updateScore('breakout', score)} />;
+        return <BreakoutGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('breakout', score)} />;
       default:
         return <GameMenu onSelectGame={setCurrentGame} scores={scores} />;
     }
