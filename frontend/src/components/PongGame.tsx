@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
@@ -109,16 +109,14 @@ export function PongGame({ onBack, onScore }: PongGameProps) {
     let targetY = state.ballY;
     const aiCenter = state.aiY + PADDLE_HEIGHT / 2;
 
-    // Ajustar precisión según dificultad
     const aiAccuracy = {
-      easy: 0.7,    // 70% de precisión - más errático
-      normal: 0.85, // 85% de precisión
-      hard: 0.98,   // 98% de precisión - casi perfecto
+      easy: 0.7,
+      normal: 0.85,
+      hard: 0.98,
     };
 
     const accuracy = aiAccuracy[difficulty];
     
-    // Añadir error aleatorio según la precisión
     if (Math.random() > accuracy) {
       targetY += (Math.random() - 0.5) * PADDLE_HEIGHT * 0.8;
     }
@@ -139,23 +137,35 @@ export function PongGame({ onBack, onScore }: PongGameProps) {
     }
 
     if (
+      state.ballVelX < 0 &&
       state.ballX - BALL_SIZE / 2 <= PADDLE_WIDTH &&
       state.ballY + BALL_SIZE / 2 >= state.playerY &&
       state.ballY - BALL_SIZE / 2 <= state.playerY + PADDLE_HEIGHT
     ) {
+      state.ballX = PADDLE_WIDTH + BALL_SIZE / 2;
       state.ballVelX = Math.abs(state.ballVelX) * 1.05;
+      
+      const maxSpeed = BALL_SPEEDS[difficulty] * 1.8;
+      state.ballVelX = Math.min(state.ballVelX, maxSpeed);
+      
       const relativeIntersectY = (state.playerY + PADDLE_HEIGHT / 2) - state.ballY;
-      state.ballVelY = -relativeIntersectY * 0.12 * (60 / (PADDLE_HEIGHT / 2));
+      state.ballVelY = -relativeIntersectY * 7;
     }
 
     if (
+      state.ballVelX > 0 &&
       state.ballX + BALL_SIZE / 2 >= CANVAS_WIDTH - PADDLE_WIDTH &&
       state.ballY + BALL_SIZE / 2 >= state.aiY &&
       state.ballY - BALL_SIZE / 2 <= state.aiY + PADDLE_HEIGHT
     ) {
+      state.ballX = CANVAS_WIDTH - PADDLE_WIDTH - BALL_SIZE / 2;
       state.ballVelX = -Math.abs(state.ballVelX) * 1.05;
+      
+      const maxSpeed = BALL_SPEEDS[difficulty] * 1.8;
+      state.ballVelX = Math.max(state.ballVelX, -maxSpeed);
+      
       const relativeIntersectY = (state.aiY + PADDLE_HEIGHT / 2) - state.ballY;
-      state.ballVelY = -relativeIntersectY * 0.12 * (60 / (PADDLE_HEIGHT / 2));
+      state.ballVelY = -relativeIntersectY * 7;
     }
 
     if (state.ballX < 0) {

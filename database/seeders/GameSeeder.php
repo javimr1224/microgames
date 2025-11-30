@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Game; // Import the Game model
 use Illuminate\Support\Facades\DB;
 
 class GameSeeder extends Seeder
@@ -13,8 +13,10 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('games')->truncate();
-        DB::table('games')->insert([
+        // Use the model to ensure timestamps are handled
+        Game::truncate();
+
+        $games = [
             [
                 'name' => 'Breakout',
                 'description' => 'Un juego clásico de arcade en el que controlas una paleta para romper ladrillos.',
@@ -43,6 +45,11 @@ class GameSeeder extends Seeder
                 'video' => '/videos/video-pong.png',
                 'file' => 'pong',
             ]
-        ]);
+        ];
+
+        // Insert data using the Eloquent model
+        foreach ($games as $gameData) {
+            Game::create($gameData);
+        }
     }
 }

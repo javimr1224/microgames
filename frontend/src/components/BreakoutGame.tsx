@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
@@ -136,7 +136,7 @@ export function BreakoutGame({ onBack, onScore }: BreakoutGameProps) {
     });
   }, [paddleWidth]);
 
-  const gameLoop = useRef<() => void>();
+  const gameLoop = useRef<(currentTime: number) => void>();
 
   useEffect(() => {
     gameLoop.current = (currentTime: number) => {
@@ -155,7 +155,7 @@ export function BreakoutGame({ onBack, onScore }: BreakoutGameProps) {
             setPaddleWidth(PADDLE_WIDTH * 1.5);
             setTimeout(() => {
               setPaddleWidth(PADDLE_WIDTH);
-            }, 10000); // 10 seconds
+            }, 10000);
             break;
           case 'SlowBall':
             if (slowBallTimeoutId.current) {
@@ -170,7 +170,7 @@ export function BreakoutGame({ onBack, onScore }: BreakoutGameProps) {
                 ball.velX /= 0.8;
                 ball.velY /= 0.8;
               });
-            }, 5000); // 5 seconds
+            }, 5000);
             break;
           case 'MultiBall':
             balls.current.push({
@@ -262,7 +262,7 @@ export function BreakoutGame({ onBack, onScore }: BreakoutGameProps) {
             setScore(s => s + 10);
             brick.visible = false;
 
-            if (Math.random() < 0.2) { // 20% chance to spawn a power-up
+            if (Math.random() < 0.2) {
               const powerUpTypes: PowerUpType[] = ['BiggerPaddle', 'SlowBall', 'MultiBall'];
               const randomType = powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)];
               powerUps.current.push({

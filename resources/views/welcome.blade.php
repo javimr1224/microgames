@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 
 <body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
@@ -93,8 +94,9 @@
                     class="underline text-center text-xs sm:text-sm">
                     <span class="flex items-center justify-center gap-2">
                         Explora
-                        <svg width="12" height="8" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="sm:w-[17px] sm:h-[10px]" style="transform: rotate(-90deg);">
+                        <svg width="12" height="8" viewBox="0 0 17 10" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="sm:w-[17px] sm:h-[10px]"
+                            style="transform: rotate(-90deg);">
                             <path
                                 d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
                                 fill="#E9C46A" />
@@ -238,8 +240,8 @@
 
             <div class="w-full overflow-hidden leading-[0]">
                 <svg style="background-color: rgba(2,6,23,23);" class="relative block w-full h-[100px]"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28"
-                    preserveAspectRatio="none" shape-rendering="auto">
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
 
                     <defs>
                         <path id="gentle-wave"
@@ -262,15 +264,18 @@
                         desarrolladores solo se compone del creador pero
                         con <br> el potencial de está aplicación, pronto tendremos un equipo exitoso y con <br>
                         experiencia en el mercado</h4>
-                    <img class="py-6 w-[220px]" src="{{ asset("images/javi.png") }}" alt="">
-                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Javier <br> Martínez </h3>
-                    <h4 style="font-family: 'Helvetica Neue';" class="mb-12 text-[#020617] py-0">Fundador de Microgames</h4>
+                    <img class="py-6 w-[220px]" src="{{ asset('images/javi.png') }}" alt="">
+                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Javier <br> Martínez
+                    </h3>
+                    <h4 style="font-family: 'Helvetica Neue';" class="mb-12 text-[#020617] py-0">Fundador de
+                        Microgames</h4>
                 </div>
                 <div class="flex flex-col max-w-7xl mx-auto px-4 text-center items-center justify-center">
                     <div class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
                         <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de <br>
                             nuestros usuarios</h2>
-                        <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">“Cada
+                        <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">
+                            “Cada
                             uno de los juegos de la
                             pagina web <br> Microgames ha conseguido que disfrute de <br> una experiencia divertida a la
                             par que <br>
@@ -288,7 +293,8 @@
                     </div>
                 </div>
                 <div class="flex justify-center py-16 items-center min-h-[300px] sm:min-h-[300px] lg:min-h-[300px]">
-                    <div style="box-shadow: 2px 2px 4px #3b3b3b;" class="bg-[#e8e8e8] p-16 rounded-2xl flex flex-row items-center gap-8 mb-12 w-[1000px]">
+                    <div style="box-shadow: 2px 2px 4px #3b3b3b;"
+                        class="bg-[#e8e8e8] p-16 rounded-2xl flex flex-row items-center gap-8 mb-12 w-[1000px]">
                         <div class="max-w-lg">
                             <h2 style="font-family: 'Helvetica Neue'; white-space: nowrap;"
                                 class="text-3xl text-[#020617] font-medium">
@@ -305,7 +311,7 @@
                         <div class="relative animatable-button px-6">
                             <a href="{{ route('storeGames') }}" class="relative mt-4 w-1900 sm:w-1900 lg:w-1900">
                                 <img src="{{ asset('images/Vectorized SVG.svg') }}" alt="Precios button"
-                                    class="w-[1500px] h-[80px]"> 
+                                    class="w-[1500px] h-[80px]">
                                 <span
                                     class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base lg:text-base"
                                     style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; white-space: nowrap;">

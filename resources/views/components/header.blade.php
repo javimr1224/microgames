@@ -3,7 +3,7 @@
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-6">
         <a href="{{ url('/') }}" class="flex items-center">
             <img src="{{ asset('images/image.png') }}" alt="Microgames Logo" class="mr-3 h-8 w-8">
-            <span class="text-lg">Microgames</span>
+            <span class="text-lg text-white">Microgames</span>
         </a>
         <nav class="hidden md:flex items-center space-x-8">
             <div class="relative dropdown-container">
@@ -118,15 +118,14 @@
                                     class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white w-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                                     Logout
-                                </a>
-                            </form>
+                                a </form>
                         </div>
                     </div>
                 @else
                     <a href="{{ route('login') }}" class="ml-12 relative animatable-button">
                         <img src="{{ asset('images/button.png') }}" alt="Login button" style="width: 100px;">
                         <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                            style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 13px; top: 45%;">Login</span>
+                            style="color: white; font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 13px; top: 45%;">Login</span>
                     </a>
                 @endauth
             @endif
