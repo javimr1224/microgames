@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\GameController; // Import GameController
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,9 @@ Route::get('/test', function (Request $request) {
 
 Route::get('/scores/{game_id}', [ScoreController::class, 'index']);
 Route::get('/users/{user_id}/scores', [ScoreController::class, 'userScores']);
+
+// New API route for filtering games
+Route::get('/games/filter/{filter}', [GameController::class, 'filterApi'])->name('api.games.filter');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/scores', [ScoreController::class, 'store']);

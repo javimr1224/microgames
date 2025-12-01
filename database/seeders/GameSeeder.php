@@ -13,23 +13,28 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        // Use the model to ensure timestamps are handled
         Game::truncate();
 
         $games = [
             [
                 'name' => 'Breakout',
-                'description' => 'Un juego clásico de arcade en el que controlas una paleta para romper ladrillos.',
+                'description' => 'Un juego clásico de arcade en el que controlas una pala para romper ladrillos.',
                 'image' => '/images/breakout.png',
                 'video' => '/videos/video-brekout.png',
                 'file' => 'breakout',
+                'category' => 'Arcade',
+                'visits' => rand(100, 500),
+                'recommended' => true,
             ],
             [
                 'name' => 'Snake',
-                'description' => 'Guía a una serpiente para que coma comida y crezca más, evitando chocar contra sí misma o las paredes.',
+                'description' => 'Guía a una serpiente para que coma y crezca más, evitando chocar contra sí misma o las paredes.',
                 'image' => '/images/snake.png',
                 'video' => '/videos/video-snake.png',
                 'file' => 'snake',
+                'category' => 'Arcade',
+                'visits' => rand(100, 500),
+                'recommended' => false,
             ],
             [
                 'name' => 'Tetris',
@@ -37,6 +42,9 @@ class GameSeeder extends Seeder
                 'image' => '/images/tetris.png',
                 'video' => '/videos/video-tetris.png',
                 'file' => 'tetris',
+                'category' => 'Arcade',
+                'visits' => rand(100, 500),
+                'recommended' => true,
             ],
             [
                 'name' => 'Pong',
@@ -44,10 +52,22 @@ class GameSeeder extends Seeder
                 'image' => '/images/video-pong.png',
                 'video' => '/videos/video-pong.png',
                 'file' => 'pong',
-            ]
+                'category' => 'Arcade',
+                'visits' => rand(100, 500),
+                'recommended' => false,
+            ],
+            [
+                'name' => 'Coming Soon',
+                'description' => '¡Prepárate! Este emocionante juego estará disponible muy pronto.',
+                'image' => '/images/pixel-trendy.png',
+                'video' => null,
+                'file' => null,
+                'category' => 'Novedades',
+                'visits' => 0,
+                'recommended' => true,
+            ],
         ];
 
-        // Insert data using the Eloquent model
         foreach ($games as $gameData) {
             Game::create($gameData);
         }

@@ -13,14 +13,14 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
-    
+
     Route::get('/games', [AdminGameController::class, 'index'])->name('games');
 
     Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 
     Route::get('/incomes', function () {
         return view('admin.incomes');
-    })->name('incomes'); 
+    })->name('incomes');
 
     Route::get('/settings', function () {
         return view('admin.settings');
@@ -54,27 +54,24 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/game-menu', function () {
-    return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/menu'); 
+    return redirect(env('FRONTEND_URL', 'http://localhost:3000'));
 })->name('game-menu');
 
 Route::get('/store', [GameController::class, 'index'])->name('storeGames');
+Route::get('/store/filter/{filter}', [GameController::class, 'filter'])->name('store.filter');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-// New Routes for Games Dropdown
-Route::get('/games/action', function () {
-    return '<h1>Action Games Page</h1>';
-})->name('games.action');
+Route::get('/categories', [GameController::class, 'getCategories'])->name('categories.index');
 
-Route::get('/games/puzzle', function () {
-    return '<h1>Puzzle Games Page</h1>';
-})->name('games.puzzle');
+Route::get('/games/{category}', [GameController::class, 'gamesByCategory'])->name('games.byCategory');
 
-Route::get('/games/adventure', function () {
-    return '<h1>Adventure Games Page</h1>';
-})->name('games.adventure');
+Route::get('/game/show/{game}', [GameController::class, 'show'])->middleware('game.visits')->name('games.show');
 
-// New Routes for About Us Dropdown
+
+
+Route::view('/help', 'help')->name('help');
+
 Route::get('/about/team', function () {
     return '<h1>Our Team Page</h1>';
 })->name('about.team');
@@ -83,10 +80,6 @@ Route::get('/about/contact', function () {
     return '<h1>Contact Us Page</h1>';
 })->name('about.contact');
 
-Route::get('/help', function () {
-    return view('help');
-})->name('help');
-
 Route::get('/support', function () {
     return view('support');
 })->name('support');
@@ -94,7 +87,6 @@ Route::get('/support', function () {
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
-
 
 require __DIR__.'/auth.php';
 

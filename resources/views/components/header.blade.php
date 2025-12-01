@@ -16,14 +16,7 @@
                             fill="#E9C46A" />
                     </svg>
                 </button>
-                <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
-                    <a href="#"
-                        class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Arcade</a>
-                    <a href="#"
-                        class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Aventura</a>
-                    <a href="#"
-                        class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Estrategia</a>
-                </div>
+                <div id="category-dropdown-content" class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content"></div>
             </div>
             <div class="relative dropdown-container">
                 <button class="text-gray-300 hover:text-white flex items-center">
@@ -36,12 +29,12 @@
                     </svg>
                 </button>
                 <div class="absolute mt-2 py-2 w-48 bg-gray-800 rounded-md shadow-xl z-20 dropdown-content">
-                    <a href="#"
+                    <a href="{{ route('store.filter', 'popular') }}"
                         class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Más
                         Jugados</a>
-                    <a href="#"
+                    <a href="{{ route('store.filter', 'newest') }}"
                         class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Nuevos</a>
-                    <a href="#"
+                    <a href="{{ route('store.filter', 'recommended') }}"
                         class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Recomendados</a>
                 </div>
             </div>
@@ -63,7 +56,6 @@
                 </div>
             </div>
         </nav>
-        <!-- Search bar (hidden by default) -->
         <div id="header-search-bar" class="hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-full max-w-md">
             <div class="relative">
                 <input id="header-search-input" type="text" placeholder="Buscar juegos..." class="w-full p-3 pl-10 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500" />
@@ -82,6 +74,13 @@
                     <path
                         d="M17.2116 14.8272V0H0V16.8627H14.6611L21.7184 24L24 21.6925L17.2116 14.8272ZM13.9844 13.599H3.22718V3.26375H13.9844V13.599ZM6.99222 12.511H4.30291V9.79126H6.99222V12.511Z"
                         fill="white" />
+                </svg>
+            </button>
+            <button id="header-cart-icon" class="ml-6 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
             </button>
             <button id="dark-mode-toggle" class="ml-6 cursor-pointer">
@@ -109,7 +108,7 @@
                             <a href="#"
                                 class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server mr-2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-                                Juegos
+                                Mis juegos
                             </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -118,11 +117,12 @@
                                     class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white w-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                                     Logout
-                                a </form>
+                                </a>
+                        </form>
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="ml-12 relative animatable-button">
+                    <a href="{{ route('login') }}" class="ml-5 mr-1 relative animatable-button">
                         <img src="{{ asset('images/button.png') }}" alt="Login button" style="width: 100px;">
                         <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
                             style="color: white; font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; font-size: 13px; top: 45%;">Login</span>

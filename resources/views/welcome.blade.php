@@ -39,9 +39,7 @@
                         Catálogo
                     </span>
                 </a>
-            </div>
-
-            <div class="wave-svg-container">
+            </div>            <div class="wave-svg-container">
                 <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
                     <defs>
@@ -76,13 +74,13 @@
             <div class="flex flex-wrap justify-center mt-6 sm:mt-8 gap-3 sm:gap-6 lg:gap-8 px-4"
                 style="font-size: 8px; font-family: 'Press Start 2P', cursive;">
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Populares</button>
+                    <button id="filter-popular-welcome" class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Populares</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
                     <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Gratuitos</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Novedades</button>
+                    <button id="filter-newest-welcome" class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Novedades</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
                     <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Arcade</button>
@@ -106,62 +104,15 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 max-w-7xl mx-auto px-4">
-                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
-                    <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
-                            src="{{ asset('images/snake.png') }}" alt="Snake" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
-                            class="rounded-t-xl hidden w-full game-card-video">
-                    </a>
-                    <div class="p-4 sm:p-6 text-start">
-                        <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
-                                SNAKE</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
-                    <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
-                            src="{{ asset('images/breakout.png') }}" alt="Breakout" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
-                            class="rounded-t-xl hidden w-full game-card-video">
-                    </a>
-                    <div class="p-4 sm:p-6 text-start">
-                        <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
-                                BREAKOUT</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
-                    <a href="#">
-                        <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full"
-                            src="{{ asset('images/tetris.png') }}" alt="Tetris" />
-                        <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
-                            class="rounded-t-xl hidden w-full game-card-video">
-                    </a>
-                    <div class="p-4 sm:p-6 text-start">
-                        <a href="#">
-                            <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
-                                TETRIS</h5>
-                            <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">Texto</p>
-                        </a>
-                    </div>
-                </div>
+            <div id="welcome-games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 max-w-7xl mx-auto px-4">
             </div>
 
             <section class="flex justify-center items-center py-8 sm:py-12 lg:py-16">
                 <a href="{{ route('game-menu') }}"
                     class="relative animatable-button w-64 sm:w-96 lg:w-[500px] h-[80px] px-4">
-                    <img src="{{ asset('images/button.svg') }}" alt="Catalogo button" class="w-full h-auto">
+                    <img src="{{ asset('images/button.png') }}" alt="Catalogo button" class="w-[120rem] h-[4.2rem]">
                     <span
-                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:text-sm lg:text-base whitespace-nowrap"
+                        class="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 sm:text-sm lg:text-base whitespace-nowrap"
                         style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000;">
                         Explora los juegos
                     </span>
@@ -257,7 +208,7 @@
                 </svg>
             </div>
 
-            <section class="bg-white min-h-[200px] relative z-10">
+            <section class="bg-white min-h-[200px] relative z-10" id="desarrollador-section">
                 <div class="flex flex-col max-w-7xl mx-auto mt-12 py-12 px-4 text-center items-center justify-center">
                     <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
                     <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
@@ -327,6 +278,79 @@
     </div>
 
     <x-footer />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterPopularBtn = document.getElementById('filter-popular-welcome');
+            const filterNewestBtn = document.getElementById('filter-newest-welcome');
+            const gamesContainer = document.getElementById('welcome-games-container');
+            const placeholderGifUrl = 'public/videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif';
+
+            function initializeCardHoverEffects(container) {
+                const cards = container.querySelectorAll('.game-card');
+                cards.forEach(card => {
+                    const image = card.querySelector('.game-card-image');
+                    const video = card.querySelector('.game-card-video');
+
+                    if (image && video) {
+                        card.addEventListener('mouseenter', () => {
+                            image.classList.add('hidden');
+                            video.classList.remove('hidden');
+                        });
+
+                        card.addEventListener('mouseleave', () => {
+                            video.classList.add('hidden');
+                            image.classList.remove('hidden');
+                        });
+                    }
+                });
+            }
+
+            function createGameCard(game) {
+                const imageUrl = game.image; 
+                
+                return `
+                    <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
+                        <a href="http://localhost:3000/${game.file}">
+                            <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
+                                src="${imageUrl}" alt="${game.name}" />
+                            <img src="${placeholderGifUrl}"
+                                class="rounded-t-xl hidden w-full h-48 object-cover game-card-video" />
+                        </a>
+                        <div class="p-4 sm:p-6 text-start">
+                            <a href="http://localhost:3000/${game.file}">
+                                <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
+                                    ${game.name}</h5>
+                                <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">${game.description}</p>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            async function fetchGames(filterType) {
+                try {
+                    const response = await fetch(`/api/games/filter/${filterType}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    } 
+                    const games = await response.json();
+                    gamesContainer.innerHTML = ''; 
+                    games.slice(0, 3).forEach(game => {
+                        gamesContainer.innerHTML += createGameCard(game);
+                    });
+                    initializeCardHoverEffects(gamesContainer);
+                } catch (error) {
+                    console.error("Could not fetch games:", error);
+                    gamesContainer.innerHTML = '<p class="text-center col-span-full">No se pudieron cargar los juegos.</p>';
+                }
+            }
+
+            filterPopularBtn.addEventListener('click', () => fetchGames('popular'));
+            filterNewestBtn.addEventListener('click', () => fetchGames('newest'));
+
+            fetchGames('popular');
+        });
+    </script>
 </body>
 
 </html>

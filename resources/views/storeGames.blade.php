@@ -23,22 +23,49 @@
 
         <main class="py-16 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center">
-                <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
-                    Game Store
-                </h1>
-                <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
-                    Browse our collection of exciting games!
-                </p>
+                @if (isset($filter) && $filter == 'popular')
+                    <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
+                        Juegos más Populares
+                    </h1>
+                    <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
+                        Estos son los juegos que la comunidad está jugando ahora mismo. ¡Únete a la diversión!
+                    </p>
+                @elseif (isset($filter) && $filter == 'newest')
+                    <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
+                    Ultimos Lanzamientos
+                    </h1>
+                    <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
+                        Descubre los juegos más nuevos añadidos a nuestra colección.
+                    </p>
+                @elseif (isset($filter) && $filter == 'recommended')
+                    <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
+                        Juegos Recomendados
+                    </h1>
+                    <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
+                        Nuestra selección de juegos que no te puedes perder.
+                    </p>
+                @else
+                    <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
+                        Game Store
+                    </h1>
+                    <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
+                        Bienvenido a la tienda de Microgames. Explora nuestra colección de juegos y disfruta de la experiencia retro más divertida.
+                    </p>
+                @endif
             </div>
 
-            <div class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+            <div id="games-container" class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
                 @foreach ($games as $game)
                     <div
-                        class="relative group cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
+                        class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
                         <div class="p-6">
                             <div class="relative z-10">
-                                <img class="w-full h-40 object-cover mb-4 rounded-lg"
-                                    src="{{ asset($game->image) }}" alt="{{ $game->name }}">
+                                <a href="http://localhost:3000/{{ $game->file }}">
+                                    <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
+                                        src="{{ asset($game->image) }}" alt="{{ $game->name }}">
+                                    <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                        class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
+                                </a>
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->name }}
@@ -46,7 +73,7 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                <a href="http://localhost:3000"
+                                <a href="http://localhost:3000/{{ $game->file }}"
                                     class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     JUGAR
@@ -60,6 +87,34 @@
 
         <x-footer />
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('games-container');
+            if (container) {
+                const cards = container.querySelectorAll('.game-card');
+                cards.forEach(card => {
+                    const image = card.querySelector('.game-card-image');
+                    const video = card.querySelector('.game-card-video');
+
+                    if (image && video) {
+                        const link = image.closest('a');
+                        if (link) {
+                            link.addEventListener('mouseenter', () => {
+                                image.classList.add('hidden');
+                                video.classList.remove('hidden');
+                            });
+
+                            link.addEventListener('mouseleave', () => {
+                                video.classList.add('hidden');
+                                image.classList.remove('hidden');
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

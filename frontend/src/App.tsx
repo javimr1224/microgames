@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { GameMenu } from './components/GameMenu';
 import { SnakeGame } from './components/SnakeGame';
 import { PongGame } from './components/PongGame';
 import { TetrisGame } from './components/TetrisGame';
 import { BreakoutGame } from './components/BreakoutGame';
-import { saveScore, setupAxios } from './services/scoreService'; // Import setupAxios
+import { saveScore, setupAxios } from './services/scoreService';
 
 export type GameType = 'menu' | 'snake' | 'pong' | 'tetris' | 'breakout';
 
 export default function App() {
-  const [currentGame, setCurrentGame] = useState<GameType>('menu');
   const [scores, setScores] = useState<Record<string, number>>({
     snake: 0,
     pong: 0,
@@ -17,9 +17,10 @@ export default function App() {
     breakout: 0,
   });
   const [apiMessage, setApiMessage] = useState<string>('Connecting...');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setupAxios(); // Call setupAxios here to configure axios
+    setupAxios();
 
     const apiUrl = import.meta.env.VITE_API_URL;
     if (apiUrl) {
@@ -55,19 +56,12 @@ export default function App() {
     }
   };
 
-  const renderGame = () => {
-    switch (currentGame) {
-      case 'snake':
-        return <SnakeGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('snake', score)} />;
-      case 'pong':
-        return <PongGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('pong', score)} />;
-      case 'tetris':
-        return <TetrisGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('tetris', score)} />;
-      case 'breakout':
-        return <BreakoutGame onBack={() => setCurrentGame('menu')} onScore={(score) => handleScore('breakout', score)} />;
-      default:
-        return <GameMenu onSelectGame={setCurrentGame} scores={scores} />;
-    }
+  const handleSelectGame = (game: GameType) => {
+    navigate(`/${game}`);
+  };
+
+  const handleBackToMenu = () => {
+    navigate('/');
   };
 
   return (
@@ -85,7 +79,13 @@ export default function App() {
         <div className="absolute top-2 left-1/2 -translate-x-1/2 text-white text-xs bg-black/30 px-3 py-1 rounded-full">
           {apiMessage}
         </div>
-        {renderGame()}
+        <Routes>
+          <Route path="/" element={<GameMenu onSelectGame={handleSelectGame} scores={scores} />} />
+          <Route path="/snake" element={<SnakeGame onBack={handleBackToMenu} onScore={(score) => handleScore('snake', score)} />} />
+          <Route path="/pong" element={<PongGame onBack={handleBackToMenu} onScore={(score) => handleScore('pong', score)} />} />
+          <Route path="/tetris" element={<TetrisGame onBack={handleBackToMenu} onScore={(score) => handleScore('tetris', score)} />} />
+          <Route path="/breakout" element={<BreakoutGame onBack={handleBackToMenu} onScore={(score) => handleScore('breakout', score)} />} />
+        </Routes>
       </div>
     </div>
   );

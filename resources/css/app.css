@@ -132,7 +132,7 @@ p:hover{
     color: #000;
 }
 
-.light-mode footer .bg-clip-text {
+.light-mode .bg-clip-text {
     background-image: none !important;
     -webkit-background-clip: unset !important;
     background-clip: unset !important;
