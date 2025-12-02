@@ -29,7 +29,7 @@ git clone https://github.com/javimr1224/microgames.git
 cd microgames
 ```
 
-### 2. Crear archivo '.env' en la carpeta 'backend'
+### 2. Crear archivo '.env' en la carpeta raíz
 Configura tus variables de entorno:
 ```bash
 APP_NAME=Microgames
@@ -39,7 +39,7 @@ APP_DEBUG=true
 APP_URL=http://localhost
 
 DB_CONNECTION=mongodb
-DB_HOST=mongodb
+DB_HOST=mongo
 DB_PORT=27017
 DB_DATABASE=microgames
 DB_USERNAME=root
@@ -51,14 +51,15 @@ STRIPE_SECRET= stripe_secret_key
 
 ### 3. Construir con Docker
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 Este comando levantará:
-- `frontend` → React + Phaser 
-- `backend` → Laravel + API REST  
-- `mongodb` → Base de datos principal  
-- `nginx` (opcional) → Servidor de producción
+- `nginx` → Vista Navegador
+- `app` → Laravel + API REST
+- `frontend` → React + Phaser
+- `vite` -> Herramienta de compilación 
+- `mongo` → Base de datos principal  
 
 ---
 
@@ -70,7 +71,7 @@ Microgames se podria desplegar con las siguientes plataformas:
 
 Para entornos locales o presentaciones:
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 El proyecto será accesible desde:
 - Frontend → [http://localhost:3000](http://localhost:3000)  
