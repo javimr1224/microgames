@@ -26,7 +26,7 @@ class CheckoutController extends Controller
         }
 
         $line_items = [];
-        $game_ids_in_cart = []; // To store game IDs for metadata
+        $game_ids_in_cart = [];
 
         $games = Game::findMany(array_keys($cart));
 
@@ -38,11 +38,11 @@ class CheckoutController extends Controller
                         'name' => $game->name,
                         'images' => [asset($game->image)],
                     ],
-                    'unit_amount' => $game->price * 100, // Amount in cents
+                    'unit_amount' => $game->price * 100, 
                 ],
                 'quantity' => $cart[$game->id]['quantity'],
             ];
-            $game_ids_in_cart[] = (string)$game->id; // Cast to string for metadata
+            $game_ids_in_cart[] = (string)$game->id;
         }
 
         $checkoutSession = Session::create([
@@ -51,8 +51,8 @@ class CheckoutController extends Controller
             'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout.cancel'),
             'metadata' => [
-                'user_id' => (string)$user->id, // Cast to string for metadata
-                'game_ids' => json_encode($game_ids_in_cart), // Store as JSON string
+                'user_id' => (string)$user->id, 
+                'game_ids' => json_encode($game_ids_in_cart), 
             ],
             'client_reference_id' => (string)$user->id,
         ]);
@@ -87,7 +87,7 @@ class CheckoutController extends Controller
             if ($user && is_array($gameIds)) {
                 foreach ($gameIds as $gameId) {
                     if (!in_array($gameId, $user->purchased_game_ids ?? [])) {
-                        $user->push('purchased_game_ids', $gameId, true); // Push unique values
+                        $user->push('purchased_game_ids', $gameId, true);
                     }
                 }
             }
