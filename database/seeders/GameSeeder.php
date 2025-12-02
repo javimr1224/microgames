@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Game; // Import the Game model
+use App\Models\Game;
 use Illuminate\Support\Facades\DB;
 
 class GameSeeder extends Seeder
@@ -65,6 +65,18 @@ class GameSeeder extends Seeder
                 'category' => 'Novedades',
                 'visits' => 0,
                 'recommended' => true,
+            ],
+            [
+                'name' => 'Skybound',
+                'description' => 'Un juego de aventuras épico donde vuelas por islas flotantes.',
+                'image' => '/images/skybound-banner.png',
+                'video' => null,
+                'file' => 'skybound',
+                'category' => 'Aventura',
+                'visits' => rand(100, 500),
+                'recommended' => true,
+                'price' => 3.99,
+                'stripe_price_id' => null,
             ],
         ];
 

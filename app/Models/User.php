@@ -19,10 +19,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'purchased_game_ids',
     ];
 
     protected $attributes = [
         'role' => 'usuario',
+        'purchased_game_ids' => [], // Ensure it defaults to an empty array
     ];
 
     protected $hidden = [

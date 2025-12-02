@@ -453,38 +453,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterPopularBtn = document.getElementById('filter-popular-welcome');
-            const filterNewestBtn = document.getElementById('filter-newest-welcome');
-            const gamesContainer = document.getElementById('welcome-games-container');
-            const assetBaseUrl = "{{ asset('') }}";
-            const placeholderVideoUrl = "{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}";
+document.addEventListener('DOMContentLoaded', function () {
+    const filterPopularBtn = document.getElementById('filter-popular-welcome');
+    const filterNewestBtn = document.getElementById('filter-newest-welcome');
+    const gamesContainer = document.getElementById('welcome-games-container');
+    const assetBaseUrl = "{{ asset('') }}";
+    const placeholderGifUrl = json("videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif");
 
-            function initializeCardHoverEffects(container) {
-                const cards = container.querySelectorAll('.game-card');
-                cards.forEach(card => {
-                    const image = card.querySelector('.game-card-image');
-                    const video = card.querySelector('.game-card-video');
+    function initializeCardHoverEffects(container) {
+        const cards = container.querySelectorAll('.game-card');
+        cards.forEach(card => {
+            const image = card.querySelector('.game-card-image');
+            const video = card.querySelector('.game-card-video');
 
-                    if (image && video) {
-                        const link = image.closest('a');
-                        link.addEventListener('mouseenter', () => {
-                            image.classList.add('hidden');
-                            video.classList.remove('hidden');
-                        });
+            if (image && video) {
+                const link = image.closest('a');
+                link.addEventListener('mouseenter', () => {
+                    image.classList.add('hidden');
+                    video.classList.remove('hidden');
+                });
 
-                        link.addEventListener('mouseleave', () => {
-                            video.classList.add('hidden');
-                            image.classList.remove('hidden');
-                        });
-                    }
+                link.addEventListener('mouseleave', () => {
+                    video.classList.add('hidden');
+                    image.classList.remove('hidden');
                 });
             }
+        });
+    }
 
-            function createGameCard(game) {
-                const imageUrl = game.image.startsWith('http') ? game.image : `${assetBaseUrl}/${game.image}`;
-                
-                return `
+    function createGameCard(game) {
+        const imageUrl = game.image.startsWith('http') ? game.image : `${assetBaseUrl}/${game.image}`;
+
+        return `
                     <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
                         <a href="/game/show/${game.id}">
                             <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
@@ -501,28 +501,28 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                     </div>
                 `;
+    }
+
+    async function fetchGames(filterType) {
+        try {
+            const response = await fetch(`/api/games/filter/${filterType}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const games = await response.json();
+            gamesContainer.innerHTML = '';
+            games.slice(0, 3).forEach(game => {
+                gamesContainer.innerHTML += createGameCard(game);
+            });
+            initializeCardHoverEffects(gamesContainer);
+        } catch (error) {
+            console.error("Could not fetch games:", error);
+            gamesContainer.innerHTML = '<p class="text-center col-span-full">No se pudieron cargar los juegos.</p>';
+        }
+    }
 
-            async function fetchGames(filterType) {
-                try {
-                    const response = await fetch(`/api/games/filter/${filterType}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const games = await response.json();
-                    gamesContainer.innerHTML = ''; 
-                    games.slice(0, 3).forEach(game => {
-                        gamesContainer.innerHTML += createGameCard(game);
-                    });
-                    initializeCardHoverEffects(gamesContainer);
-                } catch (error) {
-                    console.error("Could not fetch games:", error);
-                    gamesContainer.innerHTML = '<p class="text-center col-span-full">No se pudieron cargar los juegos.</p>';
-                }
-            }
+    filterPopularBtn.addEventListener('click', () => fetchGames('popular'));
+    filterNewestBtn.addEventListener('click', () => fetchGames('newest'));
 
-            filterPopularBtn.addEventListener('click', () => fetchGames('popular'));
-            filterNewestBtn.addEventListener('click', () => fetchGames('newest'));
-
-            fetchGames('popular');
-        });
+    fetchGames('popular');
+});

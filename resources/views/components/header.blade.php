@@ -76,13 +76,13 @@
                         fill="white" />
                 </svg>
             </button>
-            <button id="header-cart-icon" class="ml-6 cursor-pointer">
+            <a href="{{ route('cart') }}" id="header-cart-icon" class="ml-6 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
                     <circle cx="9" cy="21" r="1"></circle>
                     <circle cx="20" cy="21" r="1"></circle>
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
-            </button>
+            </a>
             <button id="dark-mode-toggle" class="ml-6 cursor-pointer">
                 <svg id="moon-icon" width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     aria-label="Modo oscuro">
@@ -105,9 +105,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user mr-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                 Mi perfil
                             </a>
-                            <a href="#"
+                            <a href="{{ route('my-games') }}"
                                 class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server mr-2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server mr-2"><path d="M2 14h20v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6zm0-12a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6H2V2z"></path><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
                                 Mis juegos
                             </a>
                             <form method="POST" action="{{ route('logout') }}">

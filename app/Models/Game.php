@@ -18,6 +18,8 @@ class Game extends Model
         'category',
         'recommended',
         'visits',
+        'price',
+        'stripe_price_id',
     ];
 
     public function getVisitsAttribute($value)

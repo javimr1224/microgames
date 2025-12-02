@@ -24,16 +24,19 @@ html body{
 	cursor: url('../../public/images/cursor.png'), auto;
 }
 
-button:hover {
+a:hover,
+button:hover,
+[role="button"]:hover,
+[onclick]:hover,
+select:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="file"]:hover,
+label:hover,
+.game-card:hover
+{
 	cursor: url('../../public/images/cursor_hover.png'), auto;
-}
-
-a:hover{
-	cursor: url('../../public/images/cursor_hover.png'), auto;
-}
-
-p:hover{
-    cursor: url('../../public/images/cursor_hover.png'), auto;
 }
 
 

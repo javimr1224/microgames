@@ -58,6 +58,11 @@
                 @foreach ($games as $game)
                     <div
                         class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
+                        @if($game->name === 'Skybound')
+                            <div class="absolute top-0 left-[5rem] bg-yellow-500 text-transparent bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-lg font-bold px-2 py-0 rounded-br-lg z-20">
+                                <p style="font-family: 'Press Start 2P', monospace;">PREMIUM</p> 
+                            </div>
+                        @endif
                         <div class="p-6">
                             <div class="relative z-10">
                                 <a href="http://localhost:3000/{{ $game->file }}">
@@ -73,11 +78,27 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                <a href="http://localhost:3000/{{ $game->file }}"
-                                    class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
-                                    style="font-family: 'Press Start 2P', monospace;">
-                                    JUGAR
-                                </a>
+                                @if(Auth::check() && in_array((string)$game->id, $purchasedGameIds))
+                                    <a href="{{ route('game.launch', $game) }}"
+                                        class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
+                                        style="font-family: 'Press Start 2P', monospace;">
+                                        JUGAR AHORA
+                                    </a>
+                                @elseif($game->price)
+                                    <form action="{{ route('cart.add', $game) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
+                                            style="font-family: 'Press Start 2P', monospace;">
+                                            AÑADIR AL CARRITO
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('game.launch', $game) }}"
+                                        class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
+                                        style="font-family: 'Press Start 2P', monospace;">
+                                        JUGAR AHORA
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class GameController extends Controller
 {
+    private function getPurchasedGameIds()
+    {
+        return Auth::check() ? (Auth::user()->purchased_game_ids ?? []) : [];
+    }
+
     public function index()
     {
         $games = Game::all(); // Get all games for the main store page
-        return view('storeGames', ['games' => $games]);
+        $purchasedGameIds = $this->getPurchasedGameIds();
+        return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function filter($filter)
@@ -30,12 +38,14 @@ class GameController extends Controller
             default:
                 // If an unknown filter is provided, return all games
                 $games = Game::all();
-                return view('storeGames', ['games' => $games]);
+                $purchasedGameIds = $this->getPurchasedGameIds();
+                return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
         }
 
         $games = $gamesQuery->get();
+        $purchasedGameIds = $this->getPurchasedGameIds();
 
-        return view('storeGames', ['games' => $games, 'filter' => $filter]);
+        return view('storeGames', ['games' => $games, 'filter' => $filter, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function getCategories()
@@ -47,12 +57,46 @@ class GameController extends Controller
     public function gamesByCategory($category)
     {
         $games = Game::where('category', 'LIKE', '%' . $category . '%')->get();
-        return view('gamesByCategory', ['games' => $games, 'category' => $category]);
+        $purchasedGameIds = $this->getPurchasedGameIds();
+        return view('gamesByCategory', ['games' => $games, 'category' => $category, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function show(Game $game)
     {
-        return view('showGame', ['game' => $game]);
+        $purchasedGameIds = $this->getPurchasedGameIds();
+        return view('showGame', ['game' => $game, 'purchasedGameIds' => $purchasedGameIds]);
+    }
+
+    public function launch(Game $game)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para jugar a este juego.');
+        }
+
+        $user = Auth::user();
+        if (!in_array((string)$game->id, $user->purchased_game_ids ?? [])) {
+            return redirect()->route('games.show', $game)->with('error', 'No has comprado este juego.');
+        }
+
+        if (!$game->file) {
+            return redirect()->back()->with('error', 'Este juego no está disponible para jugar.');
+        }
+
+        // Redirect to the frontend URL for the game
+        return Redirect::to(env('FRONTEND_URL', 'http://localhost:3000') . '/' . $game->file);
+    }
+
+    public function myGames()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para ver tus juegos.');
+        }
+
+        $user = Auth::user();
+        $purchasedGameIds = $user->purchased_game_ids ?? [];
+        $purchasedGames = Game::findMany($purchasedGameIds);
+
+        return view('my-games', ['purchasedGames' => $purchasedGames]);
     }
 
     public function filterApi($filter)

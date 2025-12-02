@@ -11,7 +11,7 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
 </head>
 
 <body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
@@ -39,7 +39,8 @@
                         Catálogo
                     </span>
                 </a>
-            </div>            <div class="wave-svg-container">
+            </div>
+            <div class="wave-svg-container">
                 <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
                     <defs>
@@ -74,7 +75,8 @@
             <div class="flex flex-wrap justify-center mt-6 sm:mt-8 gap-3 sm:gap-6 lg:gap-8 px-4"
                 style="font-size: 8px; font-family: 'Press Start 2P', cursive;">
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
-                    <button id="filter-popular-welcome" class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Populares</button>
+                    <button id="filter-popular-welcome"
+                        class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Populares</button>
                 </div>
                 <div class="rounded-2xl border p-2 transition-all duration-300 hover:scale-105">
                     <button class="px-2 sm:px-3 text-[8px] sm:text-[10px]">Gratuitos</button>
@@ -92,9 +94,8 @@
                     class="underline text-center text-xs sm:text-sm">
                     <span class="flex items-center justify-center gap-2">
                         Explora
-                        <svg width="12" height="8" viewBox="0 0 17 10" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" class="sm:w-[17px] sm:h-[10px]"
-                            style="transform: rotate(-90deg);">
+                        <svg width="12" height="8" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="sm:w-[17px] sm:h-[10px]" style="transform: rotate(-90deg);">
                             <path
                                 d="M8.78785 7.24942L8.5 7.24942L1.52399 -6.76478e-07L-6.64563e-08 1.52034L8.5 10L17 1.52034L15.476 -6.66157e-08L8.78785 7.24942Z"
                                 fill="#E9C46A" />
@@ -104,7 +105,8 @@
                 </a>
             </div>
 
-            <div id="welcome-games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 max-w-7xl mx-auto px-4">
+            <div id="welcome-games-container"
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8 max-w-7xl mx-auto px-4">
             </div>
 
             <section class="flex justify-center items-center py-8 sm:py-12 lg:py-16">
@@ -191,8 +193,8 @@
 
             <div class="w-full overflow-hidden leading-[0]">
                 <svg style="background-color: rgba(2,6,23,23);" class="relative block w-full h-[100px]"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28"
+                    preserveAspectRatio="none" shape-rendering="auto">
 
                     <defs>
                         <path id="gentle-wave"
@@ -228,9 +230,7 @@
                         <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">
                             “Cada
                             uno de los juegos de la
-                            pagina web <br> Microgames ha conseguido que disfrute de <br> una experiencia divertida a la
-                            par que <br>
-                            desestresante con sus minijuegos Arcade ”</h2>
+                            página web <br> Microgames ha conseguido que disfrute de <br> una experiencia divertida y, al mismo tiempo, <br> desestresante con sus minijuegos arcade”</h2>
                     </div>
                 </div>
                 <div class="flex justify-center items-center">
@@ -283,7 +283,7 @@
             const filterPopularBtn = document.getElementById('filter-popular-welcome');
             const filterNewestBtn = document.getElementById('filter-newest-welcome');
             const gamesContainer = document.getElementById('welcome-games-container');
-            const placeholderGifUrl = 'public/videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif';
+            const placeholderGifUrl = @json("videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif");
 
             function initializeCardHoverEffects(container) {
                 const cards = container.querySelectorAll('.game-card');
@@ -306,10 +306,10 @@
             }
 
             function createGameCard(game) {
-                const imageUrl = game.image; 
-                
+                const imageUrl = game.image;
+
                 return `
-                    <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
+                    <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card transition-transform duration-200 hover:scale-105">
                         <a href="http://localhost:3000/${game.file}">
                             <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
                                 src="${imageUrl}" alt="${game.name}" />
@@ -332,9 +332,9 @@
                     const response = await fetch(`/api/games/filter/${filterType}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
-                    } 
+                    }
                     const games = await response.json();
-                    gamesContainer.innerHTML = ''; 
+                    gamesContainer.innerHTML = '';
                     games.slice(0, 3).forEach(game => {
                         gamesContainer.innerHTML += createGameCard(game);
                     });

@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -41,7 +43,7 @@ Route::post('/admin/login', [App\Http\Controllers\AdminLoginController::class, '
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -68,8 +70,6 @@ Route::get('/games/{category}', [GameController::class, 'gamesByCategory'])->nam
 
 Route::get('/game/show/{game}', [GameController::class, 'show'])->middleware('game.visits')->name('games.show');
 
-
-
 Route::view('/help', 'help')->name('help');
 
 Route::get('/about/team', function () {
@@ -87,6 +87,18 @@ Route::get('/support', function () {
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart/add/{game}', [CartController::class, 'add'])->name('cart.add')->middleware('auth');
+Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
+
+Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+
+Route::get('/game/launch/{game}', [GameController::class, 'launch'])->name('game.launch');
+Route::get('/my-games', [GameController::class, 'myGames'])->middleware('auth')->name('my-games');
+
 
 require __DIR__.'/auth.php';
 
