@@ -20,6 +20,9 @@ class User extends Authenticatable
         'password',
         'role',
         'purchased_game_ids',
+        'avatar',
+        'banner',
+        'bio',
     ];
 
     protected $attributes = [

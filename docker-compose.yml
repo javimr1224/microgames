@@ -6,8 +6,10 @@ services:
     container_name: microgames-app
     restart: unless-stopped
     working_dir: /var/www/
+    command: sh -c "chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && php-fpm"
     volumes:
       - ./:/var/www
+      - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - mongo
     networks:
@@ -60,7 +62,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD:-password}
       MONGO_INITDB_DATABASE: ${DB_DATABASE:-microgames}
     volumes:
-      - ./docker/mongo_data:/data/db
+      - ./docker/mongo__data:/data/db
     ports:
       - "27017:27017"
     networks:

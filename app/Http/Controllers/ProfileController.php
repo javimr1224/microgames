@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -35,6 +36,50 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's profile with bio, avatar, and banner.
+     */
+    public function updateProfile(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'bio' => 'nullable|string|max:1000',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+        ]);
+
+        $updateData = [];
+
+        if ($request->filled('bio')) {
+            $updateData['bio'] = $request->input('bio');
+        }
+
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if it exists
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $updateData['avatar'] = $avatarPath;
+        }
+
+        if ($request->hasFile('banner')) {
+            // Delete old banner if it exists
+            if ($user->banner) {
+                Storage::disk('public')->delete($user->banner);
+            }
+            $bannerPath = $request->file('banner')->store('banners', 'public');
+            $updateData['banner'] = $bannerPath;
+        }
+        
+        if (!empty($updateData)) {
+            $user->update($updateData);
+        }
+
+        return Redirect::route('profile.show')->with('status', 'profile-updated');
     }
 
     /**

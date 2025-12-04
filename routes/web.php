@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileViewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -53,6 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/show', [ProfileViewController::class, 'show'])->name('profile.show');
+    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.updateProfile');
 });
 
 Route::get('/game-menu', function () {

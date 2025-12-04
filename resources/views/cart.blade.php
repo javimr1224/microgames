@@ -37,13 +37,13 @@
                             </div>
                             <form action="{{ route('cart.remove', $game->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
+                                <button style="font-family: 'Press Start 2P', cursive;" type="submit" class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
                             </form>
                         </div>
                     @endforeach
 
                     <div class="mt-8 text-right">
-                        <p class="text-xl font-bold">Total: <span style="font-family: 'Press Start 2P', cursive;">{{ number_format($total, 2) }}€</span></p>
+                        <p class="text-xl font-bold">Total: <span class="text-sm" style="font-family: 'Press Start 2P', cursive;">{{ number_format($total, 2) }}€</span></p>
                         <form action="{{ route('checkout') }}" method="POST" class="mt-6">
                             @csrf
                             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl" style="font-family: 'Press Start 2P', cursive;">
