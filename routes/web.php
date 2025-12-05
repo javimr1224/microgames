@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Admin\MatchController;
@@ -26,7 +27,8 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     })->name('incomes');
 
     Route::get('/settings', function () {
-        return view('admin.settings');
+        $user = Auth::user(); // Get the authenticated user
+        return view('admin.settings', compact('user')); // Pass the user to the view
     })->name('settings');
 
     Route::get('/pages', function () {

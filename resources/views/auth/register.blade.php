@@ -72,7 +72,7 @@
                     </button>
                 </div>
                     <a class="mt-6 underline text-sm text-gray-900 dark:text-gray-900 hover:text-gray-900 dark:hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-900 dark:focus:ring-offset-black-900"
-                    href="{{ route('login') }}"> {{ __('Already registered?') }}
+                    href="{{ route('login') }}"> {{ __('Ya tienes una cuenta?') }}
                 </a>
             </div>
         </form>

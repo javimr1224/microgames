@@ -17,6 +17,7 @@ public_html/storage
 public_html/hot
 docker/mongo/_data/
 docker/mongo__data/
+/public/avatars
 
 storage/*.key
 .env
