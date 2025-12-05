@@ -24,12 +24,12 @@
             @endif
             <!-- Profile Header -->
             <div class="bg-gray-800 shadow-md rounded-lg overflow-hidden">
-                <div class="h-48 bg-gray-700 bg-cover bg-center" style="background-image: url('{{ $user->banner ? asset('storage/' . $user->banner) : 'https://via.placeholder.com/1500x500' }}');">
+                <div class="h-48 bg-gray-700 bg-cover bg-center" style="background-image: url('{{ $user->banner ? asset($user->banner) : 'https://via.placeholder.com/1500x500' }}');">
                 </div>
 
                 <div class="p-6">
                     <div class="flex items-end -mt-24">
-                        <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://via.placeholder.com/150' }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-900 object-cover">
+                        <img src="{{ $user->avatar ? asset($user->avatar) : 'https://via.placeholder.com/150' }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-900 object-cover">
                         <div class="ml-4 flex-grow">
                             <div class="flex items-center justify-between">
                                 <div>

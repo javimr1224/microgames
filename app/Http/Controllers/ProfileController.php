@@ -60,19 +60,27 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             // Delete old avatar if it exists
             if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+                if (file_exists(public_path($user->avatar))) {
+                    unlink(public_path($user->avatar));
+                }
             }
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $updateData['avatar'] = $avatarPath;
+            $avatarFile = $request->file('avatar');
+            $avatarName = 'avatars/' . time() . '.' . $avatarFile->getClientOriginalExtension();
+            $avatarFile->move(public_path('avatars'), $avatarName);
+            $updateData['avatar'] = $avatarName;
         }
 
         if ($request->hasFile('banner')) {
             // Delete old banner if it exists
             if ($user->banner) {
-                Storage::disk('public')->delete($user->banner);
+                if (file_exists(public_path($user->banner))) {
+                    unlink(public_path($user->banner));
+                }
             }
-            $bannerPath = $request->file('banner')->store('banners', 'public');
-            $updateData['banner'] = $bannerPath;
+            $bannerFile = $request->file('banner');
+            $bannerName = 'banners/' . time() . '.' . $bannerFile->getClientOriginalExtension();
+            $bannerFile->move(public_path('banners'), $bannerName);
+            $updateData['banner'] = $bannerName;
         }
         
         if (!empty($updateData)) {

@@ -1,4 +1,5 @@
-node_modules
-npm-debug.log
-
-docker/mongo_data/*
+**/node_modules
+**/vendor
+docker/mongo_data
+docker/mongo__data
+docker/nginx
