@@ -7,7 +7,6 @@ use App\Models\Game;
 use App\Models\Score;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -21,14 +20,14 @@ class DashboardController extends Controller
 
         Stripe::setApiKey(config('stripe.secret'));
         $charges = Charge::all(['limit' => 100]);
-        $revenue = $charges->data->reduce(function ($carry, $charge) {
+        $revenue = array_reduce($charges->data, function ($carry, $charge) {
             if ($charge->status == 'succeeded') {
                 return $carry + $charge->amount;
             }
             return $carry;
         }, 0) / 100;
         
-        $recentActivities = []; // Placeholder
+        $recentActivities = [];
 
         return view('admin.dashboard', compact('totalUsers', 'totalGames', 'todaySessions', 'revenue', 'recentActivities'));
     }

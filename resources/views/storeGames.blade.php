@@ -67,8 +67,8 @@
                             <div class="relative z-10">
                                 <a href="http://localhost:3000/{{ $game->file }}">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
-                                        src="{{ asset($game->image) }}" alt="{{ $game->name }}">
-                                    <img src="{{ asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                        src="{{ $game->image }}" alt="{{ $game->name }}">
+                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
                                         class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                 </a>
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
@@ -108,34 +108,6 @@
 
         <x-footer />
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.getElementById('games-container');
-            if (container) {
-                const cards = container.querySelectorAll('.game-card');
-                cards.forEach(card => {
-                    const image = card.querySelector('.game-card-image');
-                    const video = card.querySelector('.game-card-video');
-
-                    if (image && video) {
-                        const link = image.closest('a');
-                        if (link) {
-                            link.addEventListener('mouseenter', () => {
-                                image.classList.add('hidden');
-                                video.classList.remove('hidden');
-                            });
-
-                            link.addEventListener('mouseleave', () => {
-                                video.classList.add('hidden');
-                                image.classList.remove('hidden');
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -17,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::resource('users', UserController::class);
 
-    Route::get('/games', [AdminGameController::class, 'index'])->name('games');
+    Route::resource('games', AdminGameController::class);
 
     Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 
     Route::get('/incomes', [IncomeController::class, 'index'])->name('incomes');
 
     Route::get('/settings', function () {
-        $user = Auth::user(); // Get the authenticated user
-        return view('admin.settings', compact('user')); // Pass the user to the view
+        $user = Auth::user();
+        return view('admin.settings', compact('user'));
     })->name('settings');
 
     Route::get('/pages', function () {

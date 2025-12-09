@@ -17,7 +17,7 @@
                 <div class="icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <a href="{{ route('admin.users') }}" class="small-box-footer">
+                <a href="{{ route('admin.users.index') }}" class="small-box-footer">
                     Más info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -31,7 +31,7 @@
                 <div class="icon">
                     <i class="fas fa-gamepad"></i>
                 </div>
-                <a href="{{ route('admin.games') }}" class="small-box-footer">
+                <a href="{{ route('admin.games.index') }}" class="small-box-footer">
                     Más info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -66,7 +66,6 @@
         </div>
     </div>
 
-    {{-- Recent activity table --}}
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Actividad Reciente</h3>
@@ -98,33 +97,28 @@
         </div>
     </div>
 
-    {{-- Quick action buttons --}}
     <div class="row">
-        <div class="col-3">
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
             <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-block">
                 <i class="fas fa-plus"></i> Nuevo Juego
             </a>
         </div>
-        <div class="col-3">
-            <a href="{{ route('admin.users') }}" class="btn btn-success btn-block">
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <a href="{{ route('admin.users.index') }}" class="btn btn-success btn-block">
                 <i class="fas fa-users"></i> Administrar Usuarios
             </a>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
             <a href="{{ route('admin.matches') }}" class="btn btn-warning btn-block">
                 <i class="fas fa-gamepad"></i> Ver Partidas
             </a>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
             <a href="{{ route('admin.incomes') }}" class="btn btn-danger btn-block">
                 <i class="fas fa-dollar-sign"></i> Ingresos
             </a>
         </div>
     </div>
-@stop
-
-@section('css')
-    {{-- agregar CSS en un futuro para personalizacion adaptada --}}
 @stop
 
 @section('js')

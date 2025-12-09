@@ -16,7 +16,15 @@ class GameController extends Controller
 
     public function index()
     {
-        $games = Game::all(); // Get all games for the main store page
+        $games = Game::all();
+        $games->each(function ($game) {
+            if ($game->image && !str_starts_with($game->image, 'http')) {
+                $game->image = asset('images/' . $game->image);
+            }
+            if ($game->video && !str_starts_with($game->video, 'http')) {
+                $game->video = asset('videos/' . $game->video);
+            }
+        });
         $purchasedGameIds = $this->getPurchasedGameIds();
         return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
     }
@@ -36,13 +44,28 @@ class GameController extends Controller
                 $gamesQuery->where('recommended', true);
                 break;
             default:
-                // If an unknown filter is provided, return all games
                 $games = Game::all();
+                $games->each(function ($game) {
+                    if ($game->image && !str_starts_with($game->image, 'http')) {
+                        $game->image = asset('images/' . $game->image);
+                    }
+                    if ($game->video && !str_starts_with($game->video, 'http')) {
+                        $game->video = asset('videos/' . $game->video);
+                    }
+                });
                 $purchasedGameIds = $this->getPurchasedGameIds();
                 return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
         }
 
         $games = $gamesQuery->get();
+        $games->each(function ($game) {
+            if ($game->image && !str_starts_with($game->image, 'http')) {
+                $game->image = asset('images/' . $game->image);
+            }
+            if ($game->video && !str_starts_with($game->video, 'http')) {
+                $game->video = asset('videos/' . $game->video);
+            }
+        });
         $purchasedGameIds = $this->getPurchasedGameIds();
 
         return view('storeGames', ['games' => $games, 'filter' => $filter, 'purchasedGameIds' => $purchasedGameIds]);
@@ -57,12 +80,26 @@ class GameController extends Controller
     public function gamesByCategory($category)
     {
         $games = Game::where('category', 'LIKE', '%' . $category . '%')->get();
+        $games->each(function ($game) {
+            if ($game->image && !str_starts_with($game->image, 'http')) {
+                $game->image = asset('images/' . $game->image);
+            }
+            if ($game->video && !str_starts_with($game->video, 'http')) {
+                $game->video = asset('videos/' . $game->video);
+            }
+        });
         $purchasedGameIds = $this->getPurchasedGameIds();
         return view('gamesByCategory', ['games' => $games, 'category' => $category, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function show(Game $game)
     {
+        if ($game->image && !str_starts_with($game->image, 'http')) {
+            $game->image = asset('images/' . $game->image);
+        }
+        if ($game->video && !str_starts_with($game->video, 'http')) {
+            $game->video = asset('videos/' . $game->video);
+        }
         $purchasedGameIds = $this->getPurchasedGameIds();
         return view('showGame', ['game' => $game, 'purchasedGameIds' => $purchasedGameIds]);
     }
@@ -82,7 +119,6 @@ class GameController extends Controller
             return redirect()->back()->with('error', 'Este juego no está disponible para jugar.');
         }
 
-        // Redirect to the frontend URL for the game
         return Redirect::to(env('FRONTEND_URL', 'http://localhost:3000') . '/' . $game->file);
     }
 
@@ -95,6 +131,15 @@ class GameController extends Controller
         $user = Auth::user();
         $purchasedGameIds = $user->purchased_game_ids ?? [];
         $purchasedGames = Game::findMany($purchasedGameIds);
+
+        $purchasedGames->each(function ($game) {
+            if ($game->image && !str_starts_with($game->image, 'http')) {
+                $game->image = asset('images/' . $game->image);
+            }
+            if ($game->video && !str_starts_with($game->video, 'http')) {
+                $game->video = asset('videos/' . $game->video);
+            }
+        });
 
         return view('my-games', ['purchasedGames' => $purchasedGames]);
     }
@@ -113,22 +158,20 @@ class GameController extends Controller
             case 'recommended':
                 $gamesQuery->where('recommended', true);
                 break;
-            case 'all': // New case for clearing filters
-                // No specific filtering, just get all games
+            case 'all':
                 break;
             default:
-                $gamesQuery->orderBy('created_at', 'desc'); // Default to newest if no valid filter
+                $gamesQuery->orderBy('created_at', 'desc');
         }
 
         $games = $gamesQuery->get();
 
-        // Prepend the full asset URL to the image and video paths
         $games->each(function ($game) {
             if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset($game->image);
+                $game->image = asset('images/' . $game->image);
             }
             if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset($game->video);
+                $game->video = asset('videos/' . $game->video);
             }
         });
 

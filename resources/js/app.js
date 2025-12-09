@@ -12,7 +12,36 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
+// Generic function to initialize hover effects on game cards
+function initializeCardHoverEffects(container) {
+    const cards = container.querySelectorAll('.game-card');
+    cards.forEach(card => {
+        const image = card.querySelector('.game-card-image');
+        const video = card.querySelector('.game-card-video');
+
+        if (image && video) {
+            // Ensure the hover events are added only once per card
+            if (!card.dataset.hoverInitialized) {
+                card.addEventListener('mouseenter', () => {
+                    image.classList.add('hidden');
+                    video.classList.remove('hidden');
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.classList.add('hidden');
+                    image.classList.remove('hidden');
+                });
+                card.dataset.hoverInitialized = 'true';
+            }
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialize hover effect for all static game cards on the site
+    initializeCardHoverEffects(document);
+
+    // Search functionality
     const searchIcon = document.getElementById('header-search-icon');
     const searchBar = document.getElementById('header-search-bar');
     const searchInput = document.getElementById('header-search-input');
@@ -122,9 +151,64 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(error => console.error('Error fetching categories:', error));
-});
 
-document.addEventListener('DOMContentLoaded', function () {
+    const filterPopularBtn = document.getElementById('filter-popular-welcome');
+    const filterNewestBtn = document.getElementById('filter-newest-welcome');
+    const gamesContainer = document.getElementById('welcome-games-container');
+    const placeholderGifUrl = "/videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif";
+
+    function createGameCard(game) {
+        const imageUrl = game.image;
+        const videoUrl = game.video || placeholderGifUrl;
+
+        return `
+            <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card transition-transform duration-200 hover:scale-105">
+                <a href="/game/show/${game.id}">
+                    <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
+                        src="${imageUrl}" alt="${game.name}" />
+                    <img src="${videoUrl}"
+                        class="rounded-t-xl hidden w-full h-48 object-cover game-card-video" />
+                </a>
+                <div class="p-4 sm:p-6 text-start">
+                    <a href="/game/show/${game.id}">
+                        <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
+                            ${game.name}</h5>
+                        <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">${game.description}</p>
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    async function fetchGames(filterType) {
+        try {
+            const response = await fetch(`/api/games/filter/${filterType}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const games = await response.json();
+            if (gamesContainer) {
+                gamesContainer.innerHTML = '';
+                games.slice(0, 3).forEach(game => {
+                    gamesContainer.innerHTML += createGameCard(game);
+                });
+                initializeCardHoverEffects(gamesContainer); // Re-initialize hover effects after new games are loaded
+            }
+        } catch (error) {
+            console.error("Could not fetch games:", error);
+            if (gamesContainer) {
+                gamesContainer.innerHTML = '<p class="text-center col-span-full">No se pudieron cargar los juegos.</p>';
+            }
+        }
+    }
+
+    if (filterPopularBtn && filterNewestBtn && gamesContainer) {
+        filterPopularBtn.addEventListener('click', () => fetchGames('popular'));
+        filterNewestBtn.addEventListener('click', () => fetchGames('newest'));
+
+        fetchGames('popular');
+    }
+    
     const dropdownContainers = document.querySelectorAll('.dropdown-container');
 
     dropdownContainers.forEach(container => {
@@ -152,9 +236,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
 
     if (typeof gsap === 'undefined') {
         console.error('GSAP no está cargado');
@@ -395,9 +476,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
@@ -432,7 +511,8 @@ document.addEventListener('DOMContentLoaded', function () {
         darkModeToggle.addEventListener('click', () => {
             if (document.documentElement.classList.contains('light-mode')) {
                 enableDarkMode();
-            } else {
+            }
+            else {
                 enableLightMode();
             }
         });
@@ -451,78 +531,4 @@ document.addEventListener('DOMContentLoaded', function () {
             enableLightMode();
         });
     }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const filterPopularBtn = document.getElementById('filter-popular-welcome');
-    const filterNewestBtn = document.getElementById('filter-newest-welcome');
-    const gamesContainer = document.getElementById('welcome-games-container');
-    const assetBaseUrl = "{{ asset('') }}";
-    const placeholderGifUrl = json("videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif");
-
-    function initializeCardHoverEffects(container) {
-        const cards = container.querySelectorAll('.game-card');
-        cards.forEach(card => {
-            const image = card.querySelector('.game-card-image');
-            const video = card.querySelector('.game-card-video');
-
-            if (image && video) {
-                const link = image.closest('a');
-                link.addEventListener('mouseenter', () => {
-                    image.classList.add('hidden');
-                    video.classList.remove('hidden');
-                });
-
-                link.addEventListener('mouseleave', () => {
-                    video.classList.add('hidden');
-                    image.classList.remove('hidden');
-                });
-            }
-        });
-    }
-
-    function createGameCard(game) {
-        const imageUrl = game.image.startsWith('http') ? game.image : `${assetBaseUrl}/${game.image}`;
-
-        return `
-                    <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card">
-                        <a href="/game/show/${game.id}">
-                            <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
-                                src="${imageUrl}" alt="${game.name}" />
-                            <img src="${placeholderVideoUrl}"
-                                class="rounded-t-xl hidden w-full h-48 object-cover game-card-video" />
-                        </a>
-                        <div class="p-4 sm:p-6 text-start">
-                            <a href="/game/show/${game.id}">
-                                <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
-                                    ${game.name}</h5>
-                                <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">${game.description}</p>
-                            </a>
-                        </div>
-                    </div>
-                `;
-    }
-
-    async function fetchGames(filterType) {
-        try {
-            const response = await fetch(`/api/games/filter/${filterType}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const games = await response.json();
-            gamesContainer.innerHTML = '';
-            games.slice(0, 3).forEach(game => {
-                gamesContainer.innerHTML += createGameCard(game);
-            });
-            initializeCardHoverEffects(gamesContainer);
-        } catch (error) {
-            console.error("Could not fetch games:", error);
-            gamesContainer.innerHTML = '<p class="text-center col-span-full">No se pudieron cargar los juegos.</p>';
-        }
-    }
-
-    filterPopularBtn.addEventListener('click', () => fetchGames('popular'));
-    filterNewestBtn.addEventListener('click', () => fetchGames('newest'));
-
-    fetchGames('popular');
 });

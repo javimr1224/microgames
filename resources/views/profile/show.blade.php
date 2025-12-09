@@ -38,7 +38,7 @@
                                 </div>
                                 @if(Auth::user()->id === $user->id)
                                     <button id="edit-profile-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-                                        Edit Profile
+                                        Editar perfil
                                     </button>
                                 @endif
                             </div>
@@ -56,14 +56,33 @@
             <div class="mt-12">
                 <h2 class="text-3xl font-bold text-center mb-8" style="font-family: 'Press Start 2P', cursive;">Mis juegos</h2>
                 @if($purchased_games->count() > 0)
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div id="games-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         @foreach($purchased_games as $game)
-                            <a href="{{ route('games.show', $game) }}" class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                                <img src="{{ asset($game->image) }}" alt="{{ $game->name }}" class="w-full h-48 object-cover rounded-t-lg">
-                                <div class="p-4">
-                                    <h3 class="text-lg font-bold" style="font-family: 'Press Start 2P', cursive;">{{ $game->name }}</h3>
+                            <div
+                                class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
+                                <div class="p-6">
+                                    <div class="relative z-10">
+                                        <a href="{{ route('games.show', $game) }}">
+                                            <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
+                                                src="{{ $game->image }}" alt="{{ $game->name }}">
+                                            <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                                class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
+                                        </a>
+                                        <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
+                                            style="font-family: 'Press Start 2P', monospace;">
+                                            {{ $game->name }}
+                                        </h3>
+                                        <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
+                                            {{ $game->description }}
+                                        </p>
+                                        <a href="{{ route('game.launch', $game) }}"
+                                            class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
+                                            style="font-family: 'Press Start 2P', monospace;">
+                                            JUGAR
+                                        </a>
+                                    </div>
                                 </div>
-                            </a>
+                            </div>
                         @endforeach
                     </div>
                 @else

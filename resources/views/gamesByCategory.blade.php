@@ -34,11 +34,15 @@
             <div class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
                 @foreach ($games as $game)
                     <div
-                        class="relative group cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
+                        class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
                         <div class="p-6">
                             <div class="relative z-10">
-                                <img class="w-full h-40 object-cover mb-4 rounded-lg"
-                                    src="{{ asset($game->image) }}" alt="{{ $game->name }}">
+                                <a href="{{ route('games.show', $game->id) }}">
+                                    <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
+                                        src="{{ $game->image }}" alt="{{ $game->name }}">
+                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                        class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
+                                </a>
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->name }}
