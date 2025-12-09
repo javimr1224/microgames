@@ -12,7 +12,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="width: 10px">#</th>
+                        <th style="width: 10px">Id</th>
                         <th>Usuario</th>
                         <th>Juego</th>
                         <th>Puntuación</th>
