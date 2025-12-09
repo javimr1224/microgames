@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Pages')
+@section('title', 'Ingresos')
 
 @section('content_header')
     <h1>Ingresos</h1>
@@ -23,13 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Skybound</td>
-                        <td>3.99 €</td>
-                        <td>2025-12-05</td>
-                        <td>Completado</td>
-                    </tr>
+                    @foreach ($charges->data as $charge)
+                        <tr>
+                            <td>{{ $charge->id }}</td>
+                            <td>{{ $charge->description }}</td>
+                            <td>{{ number_format($charge->amount / 100, 2) }} €</td>
+                            <td>{{ \Carbon\Carbon::createFromTimestamp($charge->created)->toDateTimeString() }}</td>
+                            <td>{{ $charge->status }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

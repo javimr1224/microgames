@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
+use App\Http\Controllers\Admin\IncomeController;
 use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\GameController;
@@ -22,9 +23,7 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 
     Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 
-    Route::get('/incomes', function () {
-        return view('admin.incomes');
-    })->name('incomes');
+    Route::get('/incomes', [IncomeController::class, 'index'])->name('incomes');
 
     Route::get('/settings', function () {
         $user = Auth::user(); // Get the authenticated user
