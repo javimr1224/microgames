@@ -27,7 +27,7 @@ class DashboardController extends Controller
             return $carry;
         }, 0) / 100;
         
-        $recentActivities = [];
+        $recentActivities = Score::with('user', 'game')->latest()->take(5)->get();
 
         return view('admin.dashboard', compact('totalUsers', 'totalGames', 'todaySessions', 'revenue', 'recentActivities'));
     }

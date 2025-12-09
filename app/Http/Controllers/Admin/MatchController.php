@@ -9,7 +9,7 @@ class MatchController extends Controller
 {
     public function index()
     {
-        $scores = Score::with('user', 'game')->get();
+        $scores = Score::with('user', 'game')->latest()->paginate(15);
         return view('admin.matches', compact('scores'));
     }
 }

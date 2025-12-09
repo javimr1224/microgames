@@ -39,6 +39,7 @@ export const logout = async () => {
 
 export const saveScore = async (gameId: string, score: number) => {
   try {
+    await getCsrfCookie(); // Ensure CSRF token is available
     const response = await axios.post(`${API_URL}/scores`, {
       game_id: gameId,
       score: score,

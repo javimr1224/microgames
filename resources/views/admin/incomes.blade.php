@@ -16,7 +16,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Concepto</th>
                         <th>Monto</th>
                         <th>Fecha</th>
                         <th>Estado</th>
@@ -26,7 +25,6 @@
                     @foreach ($charges->data as $charge)
                         <tr>
                             <td>{{ $charge->id }}</td>
-                            <td>{{ $charge->description }}</td>
                             <td>{{ number_format($charge->amount / 100, 2) }} €</td>
                             <td>{{ \Carbon\Carbon::createFromTimestamp($charge->created)->toDateTimeString() }}</td>
                             <td>{{ $charge->status }}</td>

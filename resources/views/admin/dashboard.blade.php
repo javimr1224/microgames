@@ -66,6 +66,7 @@
         </div>
     </div>
 
+    {{-- Recent activity table --}}
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Actividad Reciente</h3>
@@ -75,23 +76,24 @@
                 <thead>
                     <tr>
                         <th>Usuario</th>
-                        <th>Acción</th>
+                        <th>Juego</th>
+                        <th>Puntuación</th>
                         <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($recentActivities ?? [] as $activity)
+                    @forelse($recentActivities ?? [] as $activity)
                         <tr>
-                            <td>{{ $activity->user->name }}</td>
-                            <td>{{ $activity->action }}</td>
+                            <td>{{ $activity->user->name ?? 'N/A' }}</td>
+                            <td>{{ $activity->game->name ?? 'N/A' }}</td>
+                            <td>{{ $activity->score }}</td>
                             <td>{{ $activity->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
-                    @endforeach
-                    @if(empty($recentActivities))
+                    @empty
                         <tr>
-                            <td colspan="3" class="text-center">No hay actividad reciente</td>
+                            <td colspan="4" class="text-center">No hay actividad reciente</td>
                         </tr>
-                    @endif
+                    @endforelse
                 </tbody>
             </table>
         </div>
