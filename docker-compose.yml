@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   app:
     build:
@@ -5,15 +7,24 @@ services:
       dockerfile: Dockerfile
     container_name: microgames-app
     restart: unless-stopped
-    working_dir: /var/www/
-    command: sh -c "chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && php-fpm"
+    working_dir: /var/www
     volumes:
       - ./:/var/www
       - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    environment:
+      DB_CONNECTION: mongodb
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_DATABASE: microgames
+      DB_USERNAME: admin
+      DB_PASSWORD: password
+      APP_ENV: local
+      APP_DEBUG: "true"
     depends_on:
       - mongo
     networks:
       - microgames
+
   nginx:
     image: nginx:alpine
     container_name: microgames-nginx
@@ -28,23 +39,12 @@ services:
     networks:
       - microgames
 
-  vite:
-    image: node:20
-    container_name: microgames-vite
-    working_dir: /var/www/
-    command: sh -c "npm install && npm run dev -- --host"
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./:/var/www
-    networks:
-      - microgames
-  
   frontend:
-    image: node:20
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: microgames-frontend
     working_dir: /app
-    command: sh -c "npm install && npm run dev -- --host"
     ports:
       - "3000:3000"
     volumes:
@@ -52,17 +52,16 @@ services:
     networks:
       - microgames
 
-
   mongo:
-    image: mongo
+    image: mongo:6
     container_name: microgames-mongo
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME:-admin}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD:-password}
-      MONGO_INITDB_DATABASE: ${DB_DATABASE:-microgames}
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: microgames
     volumes:
-      - ./docker/mongo__data:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     networks:
@@ -71,3 +70,6 @@ services:
 networks:
   microgames:
     driver: bridge
+
+volumes:
+  mongo_data:

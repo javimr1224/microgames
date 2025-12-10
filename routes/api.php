@@ -15,5 +15,8 @@ Route::get('/users/{user_id}/scores', [ScoreController::class, 'userScores']);
 Route::get('/games/filter/{filter}', [GameController::class, 'filterApi'])->name('api.games.filter');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::post('/scores', [ScoreController::class, 'store']);
 });

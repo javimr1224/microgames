@@ -2,32 +2,41 @@ import React, { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
-import { GameType } from "../App";
+import { GameType, User } from "../App";
 import homeImageUrl from "./home.svg";
 import gameImageUrl from "./game-controller.svg";
+import { PongGame } from "./PongGame";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
   scores?: Record<string, number>;
+  onLogin: (email: string, password: string) => Promise<void>;
+  user: User | null;
 }
 
-export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps) {
+const apiUrl = import.meta.env.VITE_API_URL;
+
+export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }: GameMenuProps) {
   const [scores, setScores] = useState(initialScores || {});
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   useEffect(() => {
-    const userId = 1;
-    fetch(`/api/users/${userId}/scores`)
-      .then((res) => res.json())
-      .then((data) => {
-        const scoresByGame = data.reduce((acc: Record<string, number>, score: any) => {
-          if (!acc[score.game_id] || score.score > acc[score.game_id]) {
-            acc[score.game_id] = score.score;
-          }
-          return acc;
-        }, {});
-        setScores(scoresByGame);
-      });
-  }, []);
+    if (user) {
+      fetch(`${apiUrl}/api/users/${user.id}/scores`)
+        .then((res) => res.json())
+        .then((data) => {
+          const scoresByGame = data.reduce((acc: Record<string, number>, score: any) => {
+            if (!acc[score.game_id] || score.score > acc[score.game_id]) {
+              acc[score.game_id] = score.score;
+            }
+            return acc;
+          }, {});
+          setScores(scoresByGame);
+        });
+    }
+  }, [user]);
+
+
 
   const games = [
     {
@@ -64,6 +73,33 @@ export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps)
     },
   ];
 
+    if (selectedGame) {
+    if (selectedGame === 'pong') {
+      return (
+        <PongGame
+          onBack={() => setSelectedGame(null)}
+          onScore={(score) => console.log('Score:', score)}
+          fromMenu={true}
+        />
+      );
+    }
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center py-8">
+        <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-8xl text-left tracking-wider mb-4 md:mb-6 lg:mb-8 bg-gradient-to-r from-cyan-400 via-red-300 to-yellow-400 bg-clip-text text-transparent animate-pulse">
+          MicroGames
+        </h1>
+        <p className="text-white text-2xl mb-8">No has iniciado sesion!!</p>
+        <a href="http://localhost:8000" className="flex flex-col items-center">
+            <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
+            <p className="text-white text-xs">Inicio</p>
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-8">
       <div className="text-center mb-8">
@@ -74,7 +110,7 @@ export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps)
           ARCADE
         </h2>
         <div className="flex flex-row items-start justify-center relative gap-6 mb-4">
-          <a href="http://localhost:8000/" className="flex flex-col items-center">
+          <a href="http://localhost:8000" className="flex flex-col items-center">
             <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs">Inicio</p>
           </a>
@@ -82,6 +118,9 @@ export function GameMenu({ onSelectGame, scores: initialScores }: GameMenuProps)
             <img style={{ width: "40px" }} src={gameImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs ">Tienda</p>
           </a>
+        </div>
+        <div className="text-white">
+          Bienvenido, {user.name}!
         </div>
       </div>
 

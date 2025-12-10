@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfileViewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ScoreController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -46,10 +48,6 @@ Route::post('/admin/login', [App\Http\Controllers\AdminLoginController::class, '
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -103,6 +101,17 @@ Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('che
 Route::get('/game/launch/{game}', [GameController::class, 'launch'])->name('game.launch');
 Route::get('/my-games', [GameController::class, 'myGames'])->middleware('auth')->name('my-games');
 
+Route::get('/play', function(){
+    return null;    
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/user', function (Request $request) {
+        return response()->json($request->user());
+    });
+
+    Route::post('/api/scores', [ScoreController::class, 'store']);
+});
 
 require __DIR__.'/auth.php';
 
