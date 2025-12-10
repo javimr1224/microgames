@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { GameRoute } from './components/GameRoute';
 import { GameMenu } from './components/GameMenu';
 import { SnakeGame } from './components/SnakeGame';
 import { PongGame } from './components/PongGame';
@@ -87,7 +88,7 @@ export default function App() {
     }
   };
 
-  const handleSelectGame = (game: GameType) => navigate(`/${game}`);
+  const handleSelectGame = (game: GameType) => navigate(`/${game}?from=menu`);
   const handleBackToMenu = () => navigate('/');
 
   return (
@@ -106,10 +107,10 @@ export default function App() {
               user={user}
             />
           }/>
-          <Route path="/snake" element={<SnakeGame onBack={handleBackToMenu} onScore={score => handleScore('snake', score)} />} />
-          <Route path="/pong" element={<PongGame onBack={handleBackToMenu} onScore={score => handleScore('pong', score)} />} />
-          <Route path="/tetris" element={<TetrisGame onBack={handleBackToMenu} onScore={score => handleScore('tetris', score)} />} />
-          <Route path="/breakout" element={<BreakoutGame onBack={handleBackToMenu} onScore={score => handleScore('breakout', score)} />} />
+          <Route path="/snake" element={<GameRoute component={SnakeGame} onBack={handleBackToMenu} onScore={(score: number) => handleScore('snake', score)} />} />
+          <Route path="/pong" element={<GameRoute component={PongGame} onBack={handleBackToMenu} onScore={(score: number) => handleScore('pong', score)} />} />
+          <Route path="/tetris" element={<GameRoute component={TetrisGame} onBack={handleBackToMenu} onScore={(score: number) => handleScore('tetris', score)} />} />
+          <Route path="/breakout" element={<GameRoute component={BreakoutGame} onBack={handleBackToMenu} onScore={(score: number) => handleScore('breakout', score)} />} />
         </Routes>
       </div>
     </div>

@@ -73,18 +73,6 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
     },
   ];
 
-    if (selectedGame) {
-    if (selectedGame === 'pong') {
-      return (
-        <PongGame
-          onBack={() => setSelectedGame(null)}
-          onScore={(score) => console.log('Score:', score)}
-          fromMenu={true}
-        />
-      );
-    }
-  }
-
   if (!user) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
@@ -128,8 +116,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
         {games.map((game) => (
           <Card
             key={game.id}
-            className={`relative group cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white hover:shadow-2xl ${game.glowColor}`}
-            onClick={() => onSelectGame(game.id)}
+            className={`relative group transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white hover:shadow-2xl ${game.glowColor}`}
           >
             <div className="p-6">
               <div
@@ -170,6 +157,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
                 </p>
 
                 <Button
+                  onClick={() => onSelectGame(game.id)}
                   className={`w-full tracking-wider bg-gradient-to-r ${game.color} hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0`}
                   style={{
                     fontFamily: "Press Start 2P, monospace",

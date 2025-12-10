@@ -6,6 +6,7 @@ import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
 interface SnakeGameProps {
   onBack: () => void;
   onScore: (score: number) => void;
+  fromMenu?: boolean;
 }
 
 interface Position {
@@ -17,7 +18,22 @@ const GRID_SIZE = 20;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_FOOD = { x: 5, y: 5 };
 
-export function SnakeGame({ onBack, onScore }: SnakeGameProps) {
+export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
+  if (!fromMenu) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <h1 className="text-2xl mb-4">Acceso no permitido</h1>
+        <p>Debes entrar al juego desde el menú.</p>
+        <button
+          onClick={onBack}
+          className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+        >
+          Volver
+        </button>
+      </div>
+    );
+  }
+
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
   const [food, setFood] = useState<Position>(INITIAL_FOOD);
   const [direction, setDirection] = useState<Position>({ x: 0, y: 0 });

@@ -30,21 +30,21 @@ const BALL_SPEEDS = {
   hard: 450,
 };
 
-export function PongGame({ onBack, onScore, fromMenu }: PongGameProps) {
-  if (!fromMenu) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <h1 className="text-2xl mb-4">Acceso no permitido</h1>
-        <p>Debes entrar al juego desde el menú.</p>
-        <button
-          onClick={onBack}
-          className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-        >
-          Volver
-        </button>
-      </div>
-    );
-  }
+  export function PongGame({ onBack, onScore, fromMenu }: PongGameProps) {
+    if (!fromMenu) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+          <h1 className="text-2xl mb-4">Acceso no permitido</h1>
+          <p>Debes entrar al juego desde el menú.</p>
+          <button
+            onClick={onBack}
+            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+          >
+            Volver
+          </button>
+        </div>
+      );
+    }
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
