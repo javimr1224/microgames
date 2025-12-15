@@ -1,88 +1,105 @@
-# Stage 1: Node / Vite build
-FROM node:20-alpine AS node-builder
-
+# ----------------------------
+# Stage 1: Construcción del Frontend (React/Vite)
+# ----------------------------
+FROM node:20-alpine AS frontend-builder
 WORKDIR /app
-
-# Configurar NODE_ENV para producción
-ENV NODE_ENV=production
-
-# Copiar archivos de dependencias
-COPY package*.json ./
-
-# Instalar TODAS las dependencias (incluidas devDependencies para el build)
+# Copiamos solo la carpeta frontend
+COPY frontend/package*.json ./
 RUN npm ci
-
-# Copiar archivos necesarios para el build
-COPY resources ./resources
-COPY vite.config.js ./
-COPY tailwind.config.js* ./
-COPY postcss.config.js* ./
-COPY public ./public
-
-# Build assets con NODE_ENV=production
+COPY frontend/ .
+# Construimos el frontend. Según tu vite.config.ts, el output va a 'build'
+# y la base es '/play/'
 RUN npm run build
 
-# Verificar que el build se creó correctamente
-RUN ls -la public/build || echo "Build directory not found!"
+# ----------------------------
+# Stage 2: Construcción de Assets de Laravel
+# ----------------------------
+FROM node:20-alpine AS laravel-assets-builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+# Esto genera los archivos en public/build (CSS/JS de Laravel)
+RUN npm run build
 
-# Stage 2: PHP / Laravel
-FROM php:8.2-cli-alpine
+# ----------------------------
+# Stage 3: Imagen Final de Producción (PHP + Nginx)
+# ----------------------------
+FROM php:8.2-fpm-alpine
 
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema, Nginx y Supervisor
 RUN apk add --no-cache \
+    nginx \
+    supervisor \
     git \
     curl \
     libpng-dev \
-    oniguruma-dev \
     libxml2-dev \
     zip \
     unzip \
-    openssl-dev \
-    autoconf \
-    g++ \
-    make
+    oniguruma-dev \
+    libssl3 \
+    freetype-dev \
+    libjpeg-turbo-dev
 
-# Instalar extensiones PHP
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Instalar extensiones PHP necesarias
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Instalar MongoDB extension
+# Instalar extensión MongoDB
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Copiar Composer desde imagen oficial
+# Copiar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copiar archivos de dependencias de PHP primero (mejor caching)
-COPY composer.json composer.lock* ./
+# Copiar archivos de dependencias de Laravel primero (para cachear capas)
+COPY composer.json composer.lock ./
 
-# Instalar dependencias de PHP
+# Instalar dependencias de PHP (Producción)
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
-# Copiar código de la aplicación
+# Copiar el código de la aplicación Laravel
 COPY . .
 
-# Copiar assets compilados desde node-builder
-COPY --from=node-builder /app/public/build ./public/build
+# Copiar los assets compilados de Laravel (Stage 2)
+COPY --from=laravel-assets-builder /app/public/build ./public/build
 
-# Verificar que los assets se copiaron
-RUN ls -la public/build && cat public/build/manifest.json || echo "No manifest found"
+# Copiar el build del Frontend (Stage 1) a la carpeta pública de juegos
+# IMPORTANTE: Tu Nginx espera los juegos en /var/www/public/games/
+RUN mkdir -p public/games
+COPY --from=frontend-builder /app/build ./public/games
 
-# Crear directorios necesarios y establecer permisos
-RUN mkdir -p storage/framework/{sessions,views,cache} \
-    storage/logs \
-    bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache public/build 2>/dev/null || true
+# Configuración de Nginx
+# Reemplazamos la configuración por defecto de Alpine
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 
-# Ejecutar scripts de composer
-RUN composer run-script post-autoload-dump 2>/dev/null || true
+# Crear archivo de configuración de Supervisor al vuelo
+# Esto gestiona que Nginx y PHP corran a la vez
+RUN echo "[supervisord]" > /etc/supervisord.conf && \
+    echo "nodaemon=true" >> /etc/supervisord.conf && \
+    echo "user=root" >> /etc/supervisord.conf && \
+    echo "[program:php-fpm]" >> /etc/supervisord.conf && \
+    echo "command=php-fpm" >> /etc/supervisord.conf && \
+    echo "autorestart=true" >> /etc/supervisord.conf && \
+    echo "[program:nginx]" >> /etc/supervisord.conf && \
+    echo "command=nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
+    echo "autorestart=true" >> /etc/supervisord.conf && \
+    echo "stdout_logfile=/dev/stdout" >> /etc/supervisord.conf && \
+    echo "stdout_logfile_maxbytes=0" >> /etc/supervisord.conf && \
+    echo "stderr_logfile=/dev/stderr" >> /etc/supervisord.conf && \
+    echo "stderr_logfile_maxbytes=0" >> /etc/supervisord.conf
 
-# Exponer puerto
-EXPOSE 8080
+# Permisos de carpetas para Laravel
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+# Limpieza y caché de Laravel al iniciar
+RUN php artisan package:discover --ansi
+
+# Puerto que expone Railway
+EXPOSE 80
 
 # Comando de inicio
-CMD php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan view:clear && \
-    php artisan route:clear && \
-    php -S 0.0.0.0:${PORT:-8080} -t public
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
