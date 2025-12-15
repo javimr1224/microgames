@@ -96,4 +96,4 @@ RUN php artisan package:discover --ansi
 EXPOSE 80
 
 # 10. Script de inicio que ajusta el PUERTO dinámico de Railway
-CMD ["/bin/sh", "-c", "sed -i 's/listen 80;/listen ${PORT:-80};/g' /etc/nginx/conf.d/default.conf && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/bin/sh", "-c", "sed -i \"s/listen 80;/listen ${PORT:-80};/g\" /etc/nginx/conf.d/default.conf && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
