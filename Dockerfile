@@ -1,44 +1,59 @@
 # ------------------------------
-# Dockerfile para Railway (Producción)
+# Stage 1: Build de Node / Vite
 # ------------------------------
+FROM node:20 AS node-builder
 
-# 1. Base PHP con CLI
+WORKDIR /app
+
+# Copiar package.json y package-lock.json
+COPY package*.json ./
+
+# Instalar dependencias Node
+RUN npm install
+
+# Copiar todo el proyecto (necesario para Vite)
+COPY . .
+
+# Build de Vite → genera public/build/manifest.json
+RUN npm run build
+
+# ------------------------------
+# Stage 2: PHP con Laravel
+# ------------------------------
 FROM php:8.2-cli
 
-# 2. Dependencias del sistema
+# Dependencias del sistema
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev zip unzip libssl-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. Extensiones PHP
+# Extensiones PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# 4. Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 5. Node para Vite
+# Node para posible uso de npm scripts en runtime (opcional)
 COPY --from=node:20 /usr/local/bin /usr/local/bin
 COPY --from=node:20 /usr/local/lib /usr/local/lib
 
-# 6. Directorio de trabajo
+# Directorio de trabajo
 WORKDIR /var/www
 COPY . .
 
-# 7. Crear carpetas críticas y permisos
-RUN mkdir -p storage bootstrap/cache public/build \
+# Copiar los assets de Vite generados en el stage anterior
+COPY --from=node-builder /app/public/build /var/www/public/build
+
+# Crear carpetas críticas y permisos
+RUN mkdir -p storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache public/build
 
-# 8. Dependencias PHP
+# Dependencias PHP
 RUN composer install --no-interaction --optimize-autoloader
 
-# 9. Dependencias Node + build Vite (genera manifest.json)
-RUN npm install
-RUN npm run build
-
-# 10. Exponer puerto para Railway
+# Exponer puerto para Railway
 EXPOSE 8080
 
-# 11. Arranque de Laravel con PHP CLI server
-#    Railway asigna el puerto automáticamente con la variable $PORT
+# Arranque de Laravel con PHP CLI server
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t public"]
