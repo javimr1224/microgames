@@ -3,20 +3,27 @@ FROM node:20-alpine AS node-builder
 
 WORKDIR /app
 
-# Copiar solo archivos de dependencias primero (mejor caching)
+# Configurar NODE_ENV para producción
+ENV NODE_ENV=production
+
+# Copiar archivos de dependencias
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm ci --only=production
+# Instalar TODAS las dependencias (incluidas devDependencies para el build)
+RUN npm ci
 
-# Copiar código fuente
+# Copiar archivos necesarios para el build
 COPY resources ./resources
 COPY vite.config.js ./
-COPY tailwind.config.js ./
-COPY postcss.config.js ./
+COPY tailwind.config.js* ./
+COPY postcss.config.js* ./
+COPY public ./public
 
-# Build assets
+# Build assets con NODE_ENV=production
 RUN npm run build
+
+# Verificar que el build se creó correctamente
+RUN ls -la public/build || echo "Build directory not found!"
 
 # Stage 2: PHP / Laravel
 FROM php:8.2-cli-alpine
@@ -46,8 +53,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copiar archivos de dependencias de PHP
-COPY composer.json composer.lock ./
+# Copiar archivos de dependencias de PHP primero (mejor caching)
+COPY composer.json composer.lock* ./
 
 # Instalar dependencias de PHP
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
@@ -58,20 +65,24 @@ COPY . .
 # Copiar assets compilados desde node-builder
 COPY --from=node-builder /app/public/build ./public/build
 
+# Verificar que los assets se copiaron
+RUN ls -la public/build && cat public/build/manifest.json || echo "No manifest found"
+
 # Crear directorios necesarios y establecer permisos
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     storage/logs \
     bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache public/build
+    && chmod -R 775 storage bootstrap/cache public/build 2>/dev/null || true
 
-# Optimizaciones de Laravel
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Ejecutar scripts de composer
+RUN composer run-script post-autoload-dump 2>/dev/null || true
 
 # Exponer puerto
 EXPOSE 8080
 
 # Comando de inicio
-CMD php artisan config:clear && php -S 0.0.0.0:${PORT:-8080} -t public
+CMD php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear && \
+    php artisan route:clear && \
+    php -S 0.0.0.0:${PORT:-8080} -t public
