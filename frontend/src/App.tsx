@@ -16,7 +16,7 @@ export interface User {
   email: string;
 }
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 axios.defaults.withCredentials = true;
 
 const getCsrfCookie = async () => {
@@ -57,13 +57,11 @@ export default function App() {
     };
     checkUser();
 
-    const apiUrl = import.meta.env.VITE_API_URL;
-    if (apiUrl) {
+    const apiUrl = import.meta.env.VITE_API_URL || '';
       fetch(`${apiUrl}/api/test`)
         .then(res => res.json())
         .then(data => setApiMessage(data.message || 'Connected'))
         .catch(() => setApiMessage('Failed to connect to backend.'));
-    }
   }, []);
 
   const handleLogin = async (email: string, password: string) => {
