@@ -1,5 +1,4 @@
-**/node_modules
-**/vendor
+node_modules
+vendor
 docker/mongo_data
 docker/mongo__data
-docker/nginx
