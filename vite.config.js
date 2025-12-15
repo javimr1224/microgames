@@ -14,9 +14,6 @@ export default defineConfig({
         ? {
               manifest: true,
               outDir: 'public/build',
-              rollupOptions: {
-                  input: 'resources/js/app.js',
-              },
           }
         : undefined,
     server: !isProduction
