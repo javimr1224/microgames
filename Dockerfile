@@ -83,10 +83,9 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 RUN sed -i 's/app:9000/127.0.0.1:9000/g' /etc/nginx/conf.d/default.conf
 
 # 8. Permisos
-RUN mkdir -p storage bootstrap/cache public/avatars public/banners public/games \
-    && chown -R www-data:www-data storage bootstrap/cache public/avatars public/banners public/games \
-    && chmod -R 775 storage bootstrap/cache public/avatars public/banners public/games
-
+RUN mkdir -p storage bootstrap/cache public/avatars public/banners public/games public/images \
+    && chown -R www-data:www-data storage bootstrap/cache public/avatars public/banners public/games public/images \
+    && chmod -R 775 storage bootstrap/cache public/avatars public/banners public/games public/images
 # 9. Configurar Supervisor
 RUN echo "[supervisord]" > /etc/supervisor/conf.d/supervisord.conf && \
     echo "nodaemon=true" >> /etc/supervisor/conf.d/supervisord.conf && \
