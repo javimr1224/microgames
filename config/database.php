@@ -115,6 +115,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
+            'dsn' => env('DB_DSN'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE'),
@@ -122,7 +123,7 @@ return [
             'password' => env('DB_PASSWORD'),
             'options' => [
                 'authSource' => env('DB_AUTHENTICATION_DATABASE', 'admin'),
-                'ssl' => false, // importante: deshabilita SSL
+                'ssl' => true, // importante: deshabilita SSL
             ],
         ],
 
