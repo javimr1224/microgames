@@ -46,7 +46,7 @@
                     </p>
                 @else
                     <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
-                        Game Store
+                        Tienda de Microgames
                     </h1>
                     <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
                         Bienvenido a la tienda de Microgames. Explora nuestra colección de juegos y disfruta de la experiencia retro más divertida.

@@ -19,7 +19,7 @@
         <main class="max-w-7xl mx-auto mt-12 py-12 px-4">
             @if (session('status') === 'profile-updated')
                 <div class="mb-4 bg-green-500 text-white p-4 rounded-lg">
-                    Profile updated successfully.
+                    Perfil actualizado correctamente.
                 </div>
             @endif
             <!-- Profile Header -->
@@ -87,9 +87,9 @@
                     </div>
                 @else
                     <div class="text-center bg-gray-800 p-12 rounded-lg">
-                        <p class="text-2xl text-gray-400">You haven't purchased any games yet.</p>
+                        <p class="text-2xl text-gray-400">No has comprado ningún juego todavía.</p>
                         <a href="{{ route('storeGames') }}" class="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg" style="font-family: 'Press Start 2P', cursive;">
-                            Go to Store
+                            Ir la la tienda
                         </a>
                     </div>
                 @endif
@@ -101,7 +101,7 @@
     <!-- Edit Profile Modal -->
     <div id="edit-profile-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-gray-800 rounded-lg p-8 w-full max-w-2xl">
-            <h2 class="text-2xl font-bold mb-4" style="font-family: 'Press Start 2P', cursive;">Edit Profile</h2>
+            <h2 class="text-2xl font-bold mb-4" style="font-family: 'Press Start 2P', cursive;">Editar Perfil</h2>
             <form action="{{ route('profile.updateProfile') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
@@ -118,10 +118,10 @@
                 </div>
                 <div class="flex justify-end">
                     <button type="button" id="cancel-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg mr-2">
-                        Cancel
+                        Cancelar
                     </button>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-                        Save Changes
+                        Guardar cambios
                     </button>
                 </div>
             </form>
@@ -143,7 +143,6 @@
             editProfileModal.classList.add('hidden');
         });
 
-        // Close modal if clicking outside of it
         window.addEventListener('click', (event) => {
             if (event.target === editProfileModal) {
                 editProfileModal.classList.add('hidden');
