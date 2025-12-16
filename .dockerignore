@@ -2,3 +2,5 @@ node_modules
 vendor
 docker/mongo_data
 docker/mongo__data
+frontend/.env.local
+.env.local
