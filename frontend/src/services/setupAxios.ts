@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const setupAxios = () => {
   axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 };
 
 export const getCsrfCookie = async () => {
