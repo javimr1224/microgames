@@ -23,6 +23,7 @@ return [
     '127.0.0.1:8000',
     '::1',
     Sanctum::currentApplicationUrlWithPort(),
+    'microgames-production.up.railway.app',
     ]))),
 
     /*
