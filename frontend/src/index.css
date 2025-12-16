@@ -1840,15 +1840,15 @@
 
 html body {
   font-size: var(--font-size);
-  cursor: url('http://localhost:8000/images/cursor.png'), auto;
+  cursor: url('/images/cursor.png'), auto;
 }
 
 button:hover {
-  cursor: url('http://localhost:8000/images/cursor_hover.png'), auto;
+  cursor: url('/images/cursor_hover.png'), auto;
 }
 
 a:hover {
-  cursor: url('http://localhost:8000/images/cursor_hover.png'), auto;
+  cursor: url('/images/cursor_hover.png'), auto;
 }
 
 /* div:hover {
