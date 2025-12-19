@@ -10,6 +10,7 @@
     <div class="card">
         <div class="card-header">
             <a href="{{ route('admin.games.create') }}" class="btn btn-primary">Añadir Nuevo Juego</a>
+            <a href="{{ route('admin.games.report') }}" class="btn btn-secondary">Generar Informe</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

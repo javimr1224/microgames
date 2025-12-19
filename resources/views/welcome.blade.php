@@ -211,60 +211,60 @@
             </div>
 
             <section class="bg-white min-h-[200px] relative z-10" id="desarrollador-section">
-                <div class="flex flex-col max-w-7xl mx-auto mt-12 py-12 px-4 text-center items-center justify-center">
-                    <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
-                    <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
-                        desarrolladores solo se compone del creador pero
-                        con <br> el potencial de está aplicación, pronto tendremos un equipo exitoso y con <br>
-                        experiencia en el mercado</h4>
-                    <img class="py-6 w-[220px]" src="{{ asset('images/javi.png') }}" alt="">
-                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Javier <br> Martínez
-                    </h3>
-                    <h4 style="font-family: 'Helvetica Neue';" class="mb-12 text-[#020617] py-0">Fundador de
-                        Microgames</h4>
-                </div>
-                <div class="flex flex-col max-w-7xl mx-auto px-4 text-center items-center justify-center">
-                    <div class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
-                        <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de <br>
-                            nuestros usuarios</h2>
-                        <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">
-                            “Cada
-                            uno de los juegos de la
-                            página web <br> Microgames ha conseguido que disfrute de <br> una experiencia divertida y, al mismo tiempo, <br> desestresante con sus minijuegos arcade”</h2>
+                <div class="flex flex-col lg:flex-row max-w-7xl mx-auto mt-12 py-12 px-4 text-center items-center justify-center">
+                    <div class="lg:w-1/2">
+                        <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
+                        <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
+                            desarrolladores solo se compone del creador pero
+                            con el potencial de está aplicación, pronto tendremos un equipo exitoso y con
+                            experiencia en el mercado</h4>
+                        <img class="py-6 w-[220px] mx-auto" src="{{ asset('images/javi.png') }}" alt="">
+                        <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Javier <br> Martínez
+                        </h3>
+                        <h4 style="font-family: 'Helvetica Neue';" class="mb-12 text-[#020617] py-0">Fundador de
+                            Microgames</h4>
                     </div>
-                </div>
-                <div class="flex justify-center items-center">
-                    <div class="flex items-center mr-[90px] mb-12">
-                        <img class="w-[64px] h-[64px]" src="{{ asset('images/albi.png') }}" alt="imagen fundador">
-                        <div class="flex flex-col mx-[22px]">
-                            <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Alba Espejo</h3>
-                            <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617]">CEO de BioVolt Systems
-                            </h4>
+                    <div class="lg:w-1/2">
+                        <div class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
+                            <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de nuestros usuarios</h2>
+                            <h2 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-10 text-left text-2xl">
+                                “Cada uno de los juegos de la página web Microgames ha conseguido que disfrute de una experiencia divertida y, al mismo tiempo, desestresante con sus minijuegos arcade”</h2>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <div class="flex items-center mr-0 lg:mr-[90px] mb-12">
+                                <img class="w-[64px] h-[64px]" src="{{ asset('images/albi.png') }}" alt="imagen fundador">
+                                <div class="flex flex-col mx-[22px]">
+                                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Alba Espejo</h3>
+                                    <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617]">CEO de BioVolt Systems
+                                    </h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-center py-16 items-center min-h-[300px] sm:min-h-[300px] lg:min-h-[300px]">
                     <div style="box-shadow: 2px 2px 4px #3b3b3b;"
-                        class="bg-[#e8e8e8] p-16 rounded-2xl flex flex-row items-center gap-8 mb-12 w-[1000px]">
-                        <div class="max-w-lg">
-                            <h2 style="font-family: 'Helvetica Neue'; white-space: nowrap;"
-                                class="text-3xl text-[#020617] font-medium">
+                        class="bg-[#e8e8e8] p-8 sm:p-16 rounded-2xl flex flex-col lg:flex-row items-center gap-8 mb-12 w-full max-w-4xl">
+                        <div class="max-w-lg text-center lg:text-left">
+                            <h2 style="font-family: 'Helvetica Neue';"
+                                class="text-2xl sm:text-3xl text-[#020617] font-medium">
                                 Consulta nuestros planes de precios
                             </h2>
-                            <p style="font-family: 'Helvetica Neue';" class="text-[#020617] py-3">
-                                ¡Elige tu nivel de jugador y desbloquea el poder del píxel! <br>
-                                Cada jugador merece su propia aventura por eso mismo <br> tenemos planes que incluyen
-                                acceso inmediato a juegos retro, <br> soporte premium y actualizaciones constantes de
+                            <p style="font-family: 'Helvetica Neue';" class="text-[#020617] py-3 text-sm sm:text-base">
+                                ¡Elige tu nivel de jugador y desbloquea el poder del píxel!
+                                Cada jugador merece su propia aventura por eso mismo
+                                tenemos planes que incluyen acceso inmediato a juegos retro,
+                                soporte premium y actualizaciones constantes de
                                 contenido.
                             </p>
                         </div>
 
-                        <div class="relative animatable-button px-6">
-                            <a href="{{ route('storeGames') }}" class="relative mt-4 w-1900 sm:w-1900 lg:w-1900">
+                        <div class="relative animatable-button px-6 mt-8 lg:mt-0">
+                            <a href="{{ route('storeGames') }}" class="relative w-full">
                                 <img src="{{ asset('images/Vectorized SVG.svg') }}" alt="Precios button"
-                                    class="w-[1500px] h-[80px]">
+                                    class="w-full h-auto max-w-[200px] sm:max-w-[250px]">
                                 <span
-                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base lg:text-base"
+                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base"
                                     style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; white-space: nowrap;">
                                     Ver planes
                                 </span>

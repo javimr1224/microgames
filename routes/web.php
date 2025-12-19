@@ -14,14 +14,18 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ScoreController;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('users', UserController::class);
+    Route::get('/users/report', [ReportController::class, 'usersReport'])->name('users.report');
 
     Route::resource('games', AdminGameController::class);
+    Route::get('/games/report', [ReportController::class, 'gamesReport'])->name('games.report');
 
     Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 

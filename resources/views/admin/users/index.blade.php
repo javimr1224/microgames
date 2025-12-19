@@ -10,6 +10,7 @@
     <div class="card">
         <div class="card-header">
             <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Crear Usuario</a>
+            <a href="{{ route('admin.users.report') }}" class="btn btn-secondary">Generar Informe</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
