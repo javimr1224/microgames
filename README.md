@@ -21,6 +21,16 @@ Todo el sistema está preparado para **desplegarse mediante Docker** y entornos 
 
 ---
 
+🌍 Demo en Producción
+
+La aplicación Microgames se encuentra desplegada y es accesible públicamente en el siguiente enlace:
+
+👉 https://microgames-production.up.railway.app/
+
+Este entorno corresponde a la versión en producción del proyecto y permite probar la aplicación sin necesidad de instalación local.
+
+---
+
 ## ⚙️ Instalación y Ejecución (Local)
 
 ### 1. Clonar el repositorio
