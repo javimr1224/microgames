@@ -14,6 +14,7 @@
 </head>
 
 <body class="antialiased bg-gray-900 text-white font-sans flex flex-col min-h-screen">
+    
     <div class="flex-grow">
         <x-header />
 
