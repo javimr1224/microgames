@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Play, Pause, RotateCcw, ArrowUp, ArrowDown, ArrowRight } from 'lucide-react';
 
 interface SnakeGameProps {
   onBack: () => void;
@@ -17,6 +17,29 @@ interface Position {
 const GRID_SIZE = 20;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_FOOD = { x: 5, y: 5 };
+
+// Componente para los controles táctiles
+function TouchControls({ onDirectionChange }: { onDirectionChange: (dir: Position) => void }) {
+  const handleTouch = (e: React.TouchEvent<HTMLButtonElement>, dir: Position) => {
+    e.preventDefault();
+    onDirectionChange(dir);
+  };
+
+  return (
+    <div className="md:hidden fixed bottom-4 right-4 grid grid-cols-3 gap-3">
+      <div></div>
+      <Button onTouchStart={(e) => handleTouch(e, { x: 0, y: -1 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowUp /></Button>
+      <div></div>
+      <Button onTouchStart={(e) => handleTouch(e, { x: -1, y: 0 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowLeft /></Button>
+      <div></div>
+      <Button onTouchStart={(e) => handleTouch(e, { x: 1, y: 0 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowRight /></Button>
+      <div></div>
+      <Button onTouchStart={(e) => handleTouch(e, { x: 0, y: 1 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowDown /></Button>
+      <div></div>
+    </div>
+  );
+}
+
 
 export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   if (!fromMenu) {
@@ -66,6 +89,18 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   const pauseGame = useCallback(() => {
     setGameRunning(prev => !prev);
   }, []);
+
+  const handleDirectionChange = useCallback((newDirection: Position) => {
+    if (!gameRunning) return;
+
+    const isOppositeDirection = 
+      (newDirection.x !== 0 && newDirection.x === -direction.x) ||
+      (newDirection.y !== 0 && newDirection.y === -direction.y);
+
+    if (!isOppositeDirection) {
+      setDirection(newDirection);
+    }
+  }, [gameRunning, direction]);
 
   const checkCollision = useCallback((head: Position, snakeBody: Position[]) => {
     if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
@@ -118,24 +153,19 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!gameRunning) return;
-
+      e.preventDefault();
       switch (e.key) {
         case 'ArrowUp':
-          e.preventDefault();
-          if (direction.y !== 1) setDirection({ x: 0, y: -1 });
+          handleDirectionChange({ x: 0, y: -1 });
           break;
         case 'ArrowDown':
-          e.preventDefault();
-          if (direction.y !== -1) setDirection({ x: 0, y: 1 });
+          handleDirectionChange({ x: 0, y: 1 });
           break;
         case 'ArrowLeft':
-          e.preventDefault();
-          if (direction.x !== 1) setDirection({ x: -1, y: 0 });
+          handleDirectionChange({ x: -1, y: 0 });
           break;
         case 'ArrowRight':
-          e.preventDefault();
-          if (direction.x !== -1) setDirection({ x: 1, y: 0 });
+          handleDirectionChange({ x: 1, y: 0 });
           break;
         case 'Escape':
           pauseGame();
@@ -145,21 +175,21 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [direction, gameRunning, pauseGame]);
+  }, [handleDirectionChange, pauseGame]);
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="text-center py-8">
+    <div className="min-h-screen p-4 flex flex-col items-center">
+      <div className="text-center py-8 w-full">
         <h1 className="text-4xl md:text-6xl tracking-wider mb-4 bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent">
           SNAKE
         </h1>
         <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-emerald-400 mx-auto"></div>
       </div>
 
-      <div className="flex items-center justify-center">
-        <Card className="bg-gray-900/90 border-green-500 border-2 shadow-2xl shadow-green-500/50 backdrop-blur-sm">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center w-full">
+        <Card className="bg-gray-900/90 border-green-500 border-2 shadow-2xl shadow-green-500/50 backdrop-blur-sm w-full max-w-[630px]">
+          <div className="p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <Button 
                 onClick={onBack}
                 variant="outline" 
@@ -172,7 +202,7 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
               </Button>
               
               <div className="text-center">
-                <div className="text-yellow-400" style={{ fontFamily: 'Press Start 2P, monospace' }}>PUNTOS: {score}</div>
+                <div className="text-yellow-400 text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>PUNTOS: {score}</div>
               </div>
               
               <div className="flex gap-2">
@@ -192,14 +222,12 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
               </div>
             </div>
 
-          <div className="relative">
+          <div className="relative w-full aspect-square">
             <div 
-              className="grid bg-black border-2 border-green-500 relative"
+              className="grid bg-black border-2 border-green-500 w-full h-full"
               style={{
-                gridTemplateColumns: `repeat(${GRID_SIZE}, 2fr)`,
+                gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
                 gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)`,
-                width: '630px',
-                height: '600px',
               }}
             >
               {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
@@ -212,7 +240,7 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
               {snake.map((segment, index) => (
                 <div
                   key={index}
-                  className={`absolute ${index === 0 ? 'bg-green-300' : 'bg-green-500'} border border-green-300 transition-all duration-75`}
+                  className={`absolute ${index === 0 ? 'bg-green-300' : 'bg-green-500'} border border-green-300 transition-transform duration-75`}
                   style={{
                     left: `${(segment.x / GRID_SIZE) * 100}%`,
                     top: `${(segment.y / GRID_SIZE) * 100}%`,
@@ -235,8 +263,8 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
             {gameOver && (
               <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
-                <div className="text-center">
-                  <h3 className="text-3xl text-red-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>GAME OVER</h3>
+                <div className="text-center p-4">
+                  <h3 className="text-2xl sm:text-3xl text-red-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>GAME OVER</h3>
                   <p className="text-yellow-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>Puntuación Final: {score}</p>
                   <Button onClick={resetGame} className="bg-green-600 hover:bg-green-700" style={{ fontFamily: 'Press Start 2P, monospace' }}>
                     JUGAR DE NUEVO
@@ -247,8 +275,8 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
             {(!gameRunning && !gameOver && (direction.x !== 0 || direction.y !== 0)) ? (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-              <div className="text-center">
-                <h3 className="text-2xl text-yellow-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>PAUSADO</h3>
+              <div className="text-center p-4">
+                <h3 className="text-xl sm:text-2xl text-yellow-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>PAUSADO</h3>
                 <Button onClick={pauseGame} className="bg-green-600 hover:bg-green-700" style={{ fontFamily: 'Press Start 2P, monospace' }}>
                   CONTINUAR
                 </Button>
@@ -257,12 +285,14 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
           ) : null}
           </div>
 
-          <div className="mt-4 text-center text-green-400 text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>
-            Usa las flechas para moverte • ESC para pausar
+          <div className="mt-4 text-center text-green-400 text-xs sm:text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>
+            <span className="hidden md:block">Usa las flechas para moverte • ESC para pausar</span>
+            <span className="md:hidden">Usa los controles en pantalla para moverte</span>
           </div>
           </div>
         </Card>
       </div>
+      <TouchControls onDirectionChange={handleDirectionChange} />
     </div>
   );
 }
