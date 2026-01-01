@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { ArrowLeft, Play, Pause, RotateCcw, ArrowUp, ArrowDown, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
 
 interface SnakeGameProps {
   onBack: () => void;
@@ -17,29 +17,6 @@ interface Position {
 const GRID_SIZE = 20;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_FOOD = { x: 5, y: 5 };
-
-// Componente para los controles táctiles
-function TouchControls({ onDirectionChange }: { onDirectionChange: (dir: Position) => void }) {
-  const handleTouch = (e: React.TouchEvent<HTMLButtonElement>, dir: Position) => {
-    e.preventDefault();
-    onDirectionChange(dir);
-  };
-
-  return (
-    <div className="md:hidden fixed bottom-4 right-4 grid grid-cols-3 gap-3">
-      <div></div>
-      <Button onTouchStart={(e) => handleTouch(e, { x: 0, y: -1 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowUp /></Button>
-      <div></div>
-      <Button onTouchStart={(e) => handleTouch(e, { x: -1, y: 0 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowLeft /></Button>
-      <div></div>
-      <Button onTouchStart={(e) => handleTouch(e, { x: 1, y: 0 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowRight /></Button>
-      <div></div>
-      <Button onTouchStart={(e) => handleTouch(e, { x: 0, y: 1 })} className="w-16 h-16 bg-green-700 active:bg-green-500"><ArrowDown /></Button>
-      <div></div>
-    </div>
-  );
-}
-
 
 export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   if (!fromMenu) {
@@ -63,6 +40,11 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   const [gameRunning, setGameRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  
+  // State for swipe controls
+  const [touchStart, setTouchStart] = useState<Position | null>(null);
+  const [touchEnd, setTouchEnd] = useState<Position | null>(null);
+  const minSwipeDistance = 30;
 
   const generateFood = useCallback(() => {
     const newFood = {
@@ -177,6 +159,36 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleDirectionChange, pauseGame]);
 
+  // Touch event handlers for swipe controls
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const diffX = touchEnd.x - touchStart.x;
+    const diffY = touchEnd.y - touchStart.y;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (Math.abs(diffX) > minSwipeDistance) {
+        if (diffX > 0) handleDirectionChange({ x: 1, y: 0 }); // Right
+        else handleDirectionChange({ x: -1, y: 0 }); // Left
+      }
+    } else {
+      if (Math.abs(diffY) > minSwipeDistance) {
+        if (diffY > 0) handleDirectionChange({ x: 0, y: 1 }); // Down
+        else handleDirectionChange({ x: 0, y: -1 }); // Up
+      }
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
   return (
     <div className="min-h-screen p-4 flex flex-col items-center">
       <div className="text-center py-8 w-full">
@@ -222,7 +234,12 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
               </div>
             </div>
 
-          <div className="relative w-full aspect-square">
+          <div 
+            className="relative w-full aspect-square"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div 
               className="grid bg-black border-2 border-green-500 w-full h-full"
               style={{
@@ -287,12 +304,11 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
           <div className="mt-4 text-center text-green-400 text-xs sm:text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>
             <span className="hidden md:block">Usa las flechas para moverte • ESC para pausar</span>
-            <span className="md:hidden">Usa los controles en pantalla para moverte</span>
+            <span className="md:hidden">Desliza para moverte</span>
           </div>
           </div>
         </Card>
       </div>
-      <TouchControls onDirectionChange={handleDirectionChange} />
     </div>
   );
 }

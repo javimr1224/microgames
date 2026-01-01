@@ -54,6 +54,11 @@ const BALL_SPEEDS = {
   const [gameOver, setGameOver] = useState(false);
   const [playerScore, setPlayerScore] = useState(0);
   const [aiScore, setAiScore] = useState(0);
+  
+  // State for touch controls
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const [paddleStartTouchY, setPaddleStartTouchY] = useState<number | null>(null);
+
 
   const gameState = useRef({
     playerY: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
@@ -281,6 +286,32 @@ const BALL_SPEEDS = {
     return () => canvas.removeEventListener('mousemove', handleMouseMove);
   }, [gameRunning]);
 
+  // Touch event handlers for swipe controls
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!gameRunning) return;
+    setTouchStartY(e.targetTouches[0].clientY);
+    setPaddleStartTouchY(gameState.current.playerY);
+    e.preventDefault(); // Prevent scrolling
+  }, [gameRunning]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!gameRunning || touchStartY === null || paddleStartTouchY === null) return;
+    const touchDeltaY = e.targetTouches[0].clientY - touchStartY;
+    let newPaddleY = paddleStartTouchY + touchDeltaY;
+    
+    gameState.current.playerY = Math.max(
+      0,
+      Math.min(newPaddleY, CANVAS_HEIGHT - PADDLE_HEIGHT)
+    );
+    e.preventDefault(); // Prevent scrolling
+  }, [gameRunning, touchStartY, paddleStartTouchY]);
+
+  const handleTouchEnd = useCallback(() => {
+    setTouchStartY(null);
+    setPaddleStartTouchY(null);
+  }, []);
+
+
   return (
     <div className="min-h-screen p-4 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
 
@@ -388,6 +419,9 @@ const BALL_SPEEDS = {
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
                 className="border-2 border-blue-500 bg-black cursor-none shadow-lg shadow-blue-500/30"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
               />
 
               {gameOver && (
@@ -451,7 +485,8 @@ const BALL_SPEEDS = {
             </div>
 
             <div className="mt-4 text-center text-blue-400 text-xs md:text-sm">
-              Mueve el ratón para controlar la pala • Cambia dificultad en cualquier momento
+              <span className="hidden md:block">Mueve el ratón para controlar la pala • Cambia dificultad en cualquier momento</span>
+              <span className="md:hidden">Desliza el dedo arriba/abajo para controlar la pala • Cambia dificultad en cualquier momento</span>
             </div>
 
           </div>
