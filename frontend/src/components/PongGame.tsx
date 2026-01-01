@@ -419,6 +419,7 @@ const BALL_SPEEDS = {
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
                 className="border-2 border-blue-500 bg-black cursor-none shadow-lg shadow-blue-500/30"
+                style={{ touchAction: 'none' }}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}

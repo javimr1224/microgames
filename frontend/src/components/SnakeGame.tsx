@@ -236,6 +236,7 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
           <div 
             className="relative w-full aspect-square"
+            style={{ touchAction: 'none' }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}

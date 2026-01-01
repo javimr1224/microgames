@@ -460,6 +460,7 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
                   width={BOARD_WIDTH * CELL_SIZE}
                   height={BOARD_HEIGHT * CELL_SIZE}
                   className="border-2 border-purple-500 bg-black max-w-full h-auto"
+                  style={{ touchAction: 'none' }}
                   onTouchStart={handleTouchStart}
                   onTouchMove={handleTouchMove}
                   onTouchEnd={handleTouchEnd}
