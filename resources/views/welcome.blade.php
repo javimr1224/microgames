@@ -123,7 +123,6 @@
             </section>
 
         </section>
-
         <section class="w-full bg-[#020617] py-8 sm:py-12 lg:py-16 px-4 flex justify-center overflow-hidden">
             <div class="w-full max-w-6xl flex flex-col items-center">
                 <div class="mb-8 sm:mb-12 w-full flex flex-col items-center lg:items-end px-4">
@@ -211,10 +210,8 @@
                 </svg>
             </div>
 
-            <section class="bg-white min-h-[200px] relative z-10" id="desarrollador-section">
-                <div
-                    class="flex flex-col lg:flex-row max-w-7xl mx-auto mt-12 py-12 px-4 text-center items-center justify-center">
-                    <div class="lg:w-1/2">
+            <section class="bg-white min-h-[200px] relative z-10 flex flex-col items-center justify-center text-center py-16" id="desarrollador-section">
+                    <div class="w-full max-w-4xl">
                         <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
                         <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
                             desarrolladores solo se compone del creador pero
@@ -226,7 +223,8 @@
                         <h4 style="font-family: 'Helvetica Neue';" class="mb-12 text-[#020617] py-0">Fundador de
                             Microgames</h4>
                     </div>
-                    <div class="lg:w-1/2">
+
+                    <div class="w-full max-w-4xl mt-12">
                         <div
                             class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
                             <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de
@@ -250,8 +248,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex justify-center py-16 items-center min-h-[300px] sm:min-h-[300px] lg:min-h-[300px]">
+                <div class="flex justify-center py-16 items-center min-h-[300px] sm:min-h-[300px] lg:min-h-[300px] w-full max-w-4xl">
                     <div style="box-shadow: 2px 2px 4px #3b3b3b;"
                         class="bg-[#e8e8e8] p-8 sm:p-16 rounded-2xl flex flex-col lg:flex-row items-center gap-8 mb-12 w-full max-w-4xl">
                         <div class="max-w-lg text-center lg:text-left">
@@ -269,12 +266,12 @@
                             </p>
                         </div>
 
-                        <div class="relative animatable-button px-6 mt-8 lg:mt-0">
-                            <a href="{{ route('storeGames') }}" class="relative w-full">
+                        <div class="relative animatable-button px-6 mt-8 lg:mt-0 flex justify-center">
+                            <a href="{{ route('storeGames') }}" class="grid place-items-center">
                                 <img src="{{ asset('images/Vectorized SVG.svg') }}" alt="Precios button"
-                                    class="w-full h-auto max-w-[200px] sm:max-w-[250px]">
+                                    class="w-full h-auto max-w-[200px] sm:max-w-[200px] [grid-area:1/1]">
                                 <span
-                                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-base"
+                                    class="text-xs sm:text-base text-center [grid-area:1/1]"
                                     style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000; white-space: nowrap;">
                                     Ver planes
                                 </span>

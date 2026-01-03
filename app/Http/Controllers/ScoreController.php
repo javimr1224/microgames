@@ -30,8 +30,16 @@ class ScoreController extends Controller
             'score' => 'required|integer',
         ]);
 
+        // Find the game by its name (which is sent as game_id from frontend)
+        $game = \App\Models\Game::where('name', 'like', $request->game_id)->first();
+
+        if (!$game) {
+            return response()->json(['message' => 'Game not found'], 404);
+        }
+
         $userId = Auth::id();
-        $gameId = $request->game_id;
+        // Use the actual game _id
+        $gameId = $game->_id;
         $newScore = $request->score;
 
         $existingScore = Score::where('user_id', $userId)

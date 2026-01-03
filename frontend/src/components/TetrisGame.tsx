@@ -166,7 +166,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     if (newCurrent && !isValidPosition(newCurrent, clearedBoard)) {
       setGameOver(true);
       setGameRunning(false);
-      onScore(score);
     } else {
       setCurrentPiece(newCurrent);
       setNextPiece(newNext);
@@ -195,7 +194,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     if (!gameRunning || !currentPiece) return;
     const rotated = { ...currentPiece, shape: currentPiece.shape[0].map((_, i) => currentPiece.shape.map(row => row[i]).reverse()) };
     
-    // Wall kick logic
     let kickPiece = rotated;
     const kicks = [0, 1, -1, 2, -2];
     for (const kick of kicks) {
@@ -415,6 +413,12 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     drawSmallCanvas(nextPieceCanvasRef.current, nextPiece);
     drawSmallCanvas(heldPieceCanvasRef.current, heldPiece);
   }, [draw, drawSmallCanvas, nextPiece, heldPiece]);
+
+  useEffect(() => {
+    if (gameOver) {
+      onScore(score);
+    }
+  }, [gameOver]);
 
   return (
     <div className="min-h-screen p-2 sm:p-4">

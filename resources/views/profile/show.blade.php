@@ -47,7 +47,7 @@
 
                     <div class="mt-6 border-t border-gray-700 pt-6">
                         <h2 class="text-xl font-semibold" style="font-family: 'Press Start 2P', cursive;">Bio</h2>
-                        <p class="mt-2 text-gray-400">{{ $user->bio ?? 'This user has no bio yet.' }}</p>
+                        <p class="mt-2 text-gray-400">{{ $user->bio ?? 'Este usuario no tiene biografía.' }}</p>
                     </div>
                 </div>
             </div>
