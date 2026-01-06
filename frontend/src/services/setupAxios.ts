@@ -2,6 +2,9 @@ import axios from 'axios';
 
 export const setupAxios = () => {
   axios.defaults.withCredentials = true;
+
+  console.log('API URL detectada:', import.meta.env.VITE_API_URL);
+
   axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 };
 

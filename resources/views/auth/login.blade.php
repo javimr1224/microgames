@@ -36,11 +36,16 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
-            <div class="mt-4">
+            <div class="mt-4 relative">
                 <x-input-label for="password" />
 
-                <x-text-input id="password" class="block mt-1 w-full" placeholder="Contraseña" type="password"
+                <x-text-input id="password" class="block mt-1 w-full pr-10" placeholder="Contraseña" type="password"
                     name="password" required autocomplete="current-password" />
+
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                    <img id="eyeOpened" src="{{ asset('images/eye-opened.png') }}" class="w-6 h-auto text-gray-700" alt="Show Password">
+                    <img id="eyeClosed" src="{{ asset('images/eye-closed.png') }}" class="w-6 h-auto text-gray-700 hidden" alt="Hide Password">
+                </div>
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
@@ -68,6 +73,23 @@
             </div>
         </form>
     </x-guest-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePasswordContainer = document.querySelector('.absolute.inset-y-0.right-0.pr-3.flex.items-center.text-sm.leading-5');
+        const password = document.getElementById('password');
+        const eyeOpened = document.getElementById('eyeOpened');
+        const eyeClosed = document.getElementById('eyeClosed');
+
+        if (togglePasswordContainer) {
+            togglePasswordContainer.addEventListener('click', function (e) {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                eyeOpened.classList.toggle('hidden');
+                eyeClosed.classList.toggle('hidden');
+            });
+        }
+    });
+</script>
 </body>
 
 </html>
