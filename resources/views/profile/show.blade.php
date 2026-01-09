@@ -29,7 +29,13 @@
 
                 <div class="p-6">
                     <div class="flex items-end -mt-24">
-                        <img src="{{ $user->avatar ? asset($user->avatar) : 'https://via.placeholder.com/150' }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-900 object-cover">
+                        <div class="relative w-32 h-32 rounded-full border-4 border-gray-900 overflow-hidden bg-gray-700 flex items-center justify-center">
+                            @if($user->avatar)
+                                <img src="{{ asset($user->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-gray-400 text-xl font-bold">Avatar</span>
+                            @endif
+                        </div>
                         <div class="ml-4 flex-grow">
                             <div class="flex items-center justify-between">
                                 <div>
@@ -75,7 +81,7 @@
                                         <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                             {{ $game->description }}
                                         </p>
-                                        <a href="{{ route('game.launch', $game) }}"
+                                        <a href="{{ route('game.play', $game) }}"
                                             class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                             style="font-family: 'Press Start 2P', monospace;">
                                             JUGAR

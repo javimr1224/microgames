@@ -68,7 +68,7 @@
                         @endif
                         <div class="p-6">
                             <div class="relative z-10">
-                                <a href="http://localhost:3000/{{ $game->file }}">
+                                <a href="http://localhost:3000/play/{{ $game->file }}?from=menu">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
                                         src="{{ $game->image }}" alt="{{ $game->name }}">
                                     <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
@@ -82,13 +82,13 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                @if (Auth::check() && in_array((string) $game->id, $purchasedGameIds))
-                                    <a href="{{ route('game.launch', $game) }}"
-                                        class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
-                                        style="font-family: 'Press Start 2P', monospace;">
+                                @if (!$game->price || (Auth::user() && in_array($game->id, Auth::user()->purchased_game_ids)))
+                                    <a href="http://localhost:3000/play/{{ $game->file }}?from=menu"
+                                       class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
+                                       style="font-family: 'Press Start 2P', monospace;">
                                         JUGAR AHORA
                                     </a>
-                                @elseif($game->price)
+                                @else
                                     <form action="{{ route('cart.add', $game) }}" method="POST">
                                         @csrf
                                         <button type="submit"
@@ -97,12 +97,6 @@
                                             AÑADIR AL CARRITO
                                         </button>
                                     </form>
-                                @else
-                                    <a href="{{ route('game.launch', $game) }}"
-                                        class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
-                                        style="font-family: 'Press Start 2P', monospace;">
-                                        JUGAR AHORA
-                                    </a>
                                 @endif
                             </div>
                         </div>
@@ -110,7 +104,7 @@
                 @endforeach
             </div>
         </main>
-
+        <br>
         <x-footer />
     </div>
 </body>

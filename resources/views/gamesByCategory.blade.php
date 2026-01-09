@@ -24,7 +24,7 @@
         <main class="py-16 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center">
                 <h1 style="font-family: 'Press Start 2P', cursive; font-size: 50px;">
-                    {{ ucfirst($category) }} Games
+                    Juegos de {{ ucfirst($category) }}
                 </h1>
                 <p class="mt-6 max-w-3xl mx-auto text-gray-300" style="font-size: 20px;">
                     Explora nuestra colección de juegos de la categoría {{ $category }}.
@@ -37,10 +37,12 @@
                         class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
                         <div class="p-6">
                             <div class="relative z-10">
-                                <a href="{{ route('games.show', $game->id) }}">
+                                <a
+                                    href="{{ env('FRONTEND_URL', 'http://localhost:3000') }}/play/{{ $game->file }}?from=menu">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
                                         src="{{ $game->image }}" alt="{{ $game->name }}">
-                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                                        alt="Game GIF"
                                         class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                 </a>
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
@@ -50,7 +52,7 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                <a href="{{ route('games.show', $game->id) }}"
+                                <a href="{{ env('FRONTEND_URL', 'http://localhost:3000') }}/play/{{ $game->file }}?from=menu"
                                     class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     JUGAR

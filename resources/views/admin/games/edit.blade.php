@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.games.update', $game->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.games.update', $game->slug) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">

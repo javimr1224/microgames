@@ -12,7 +12,6 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// Generic function to initialize hover effects on game cards
 function initializeCardHoverEffects(container) {
     const cards = container.querySelectorAll('.game-card');
     cards.forEach(card => {
@@ -20,7 +19,6 @@ function initializeCardHoverEffects(container) {
         const video = card.querySelector('.game-card-video');
 
         if (image && video) {
-            // Ensure the hover events are added only once per card
             if (!card.dataset.hoverInitialized) {
                 card.addEventListener('mouseenter', () => {
                     image.classList.add('hidden');
@@ -38,10 +36,8 @@ function initializeCardHoverEffects(container) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize hover effect for all static game cards on the site
     initializeCardHoverEffects(document);
 
-    // Search functionality
     const searchIcon = document.getElementById('header-search-icon');
     const searchBar = document.getElementById('header-search-bar');
     const searchInput = document.getElementById('header-search-input');
@@ -84,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (response.data.results && response.data.results.length > 0) {
                             response.data.results.forEach(game => {
                                 const resultItem = document.createElement('a');
-                                resultItem.href = `http://localhost:3000/${game.name.toLowerCase()}`;
+                                resultItem.href = `http://localhost:3000/play/${game.name.toLowerCase()}?from=menu`;
                                 resultItem.className = 'block p-2 text-left text-white hover:bg-gray-700 rounded-md';
                                 resultItem.textContent = game.name;
                                 searchResults.appendChild(resultItem);
@@ -163,14 +159,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return `
             <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card transition-transform duration-200 hover:scale-105">
-                <a href="/game/show/${game.id}">
                     <img class="rounded-t-xl border-b-[3px] border-default game-card-image w-full h-48 object-cover"
                         src="${imageUrl}" alt="${game.name}" />
                     <img src="${videoUrl}"
                         class="rounded-t-xl hidden w-full h-48 object-cover game-card-video" />
                 </a>
                 <div class="p-4 sm:p-6 text-start">
-                    <a href="/game/show/${game.id}">
+                    <a href="http://localhost:3000/play/${game.slug}?from=menu">
                         <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
                             ${game.name}</h5>
                         <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">${game.description}</p>
@@ -192,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 games.slice(0, 3).forEach(game => {
                     gamesContainer.innerHTML += createGameCard(game);
                 });
-                initializeCardHoverEffects(gamesContainer); // Re-initialize hover effects after new games are loaded
+                initializeCardHoverEffects(gamesContainer);
             }
         } catch (error) {
             console.error("Could not fetch games:", error);

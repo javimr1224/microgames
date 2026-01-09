@@ -4,13 +4,14 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: dockerfile.dev
     container_name: microgames-app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - ./:/var/www
       - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./storage:/var/www/storage
     environment:
       DB_CONNECTION: mongodb
       DB_HOST: mongo

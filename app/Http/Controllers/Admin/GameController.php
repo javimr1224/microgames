@@ -61,6 +61,11 @@ class GameController extends Controller
         return view('admin.games.edit', compact('game'));
     }
 
+    public function show(Game $game)
+    {
+        return view('admin.games.show', compact('game'));
+    }
+
     public function update(Request $request, Game $game)
     {
         $request->validate([
@@ -100,9 +105,6 @@ class GameController extends Controller
 
     public function destroy(Game $game)
     {
-        // Optional: delete files from storage
-        // Storage::disk('public')->delete($game->image);
-        // Storage::disk('public')->delete($game->video);
         $game->delete();
 
         return redirect()->route('admin.games.index')->with('success', 'Juego eliminado con éxito.');

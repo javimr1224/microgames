@@ -30,7 +30,7 @@
                     <tbody>
                         @foreach($games as $game)
                             <tr>
-                                <td>{{ $game->id }}</td>
+                                <td>{{ $game->slug }}</td>
                                 <td>{{ $game->name }}</td>
                                 <td class="d-none d-sm-table-cell">{{ Str::limit($game->description, 50) }}</td>
                                 <td class="d-none d-md-table-cell">{{ $game->category }}</td>
@@ -43,11 +43,11 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu">
-                                            <a href="{{ route('admin.games.edit', $game->id) }}" class="dropdown-item">
+                                            <a href="{{ route('admin.games.edit', $game->slug) }}" class="dropdown-item">
                                                 <i class="fas fa-pencil-alt mr-2"></i>
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <form action="{{ route('admin.games.destroy', $game->id) }}" method="POST">
+                                            <form action="{{ route('admin.games.destroy', $game->slug) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="dropdown-item text-danger" onclick="return confirm('¿Estás seguro de eliminar este juego?')">

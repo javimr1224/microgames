@@ -24,6 +24,8 @@
         <section class="bg-[#020617] text-white py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto text-center">
                 <p>Aquí encontrarás la ayuda que necesitas.</p>
+                <p class="mt-4"><a href="{{ route('faq') }}" class="text-blue-400 hover:text-blue-200">Preguntas Frecuentes (FAQ)</a></p>
+                <p class="mt-4"><a href="{{ route('support') }}" class="text-blue-400 hover:text-blue-200">Soporte Técnico</a></p>
             </div>
         </section>
 

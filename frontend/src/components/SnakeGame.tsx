@@ -37,11 +37,11 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
   const [food, setFood] = useState<Position>(INITIAL_FOOD);
   const [direction, setDirection] = useState<Position>({ x: 0, y: 0 });
+  const [canChangeDirection, setCanChangeDirection] = useState(true);
   const [gameRunning, setGameRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
-  
-  // State for swipe controls
+
   const [touchStart, setTouchStart] = useState<Position | null>(null);
   const [touchEnd, setTouchEnd] = useState<Position | null>(null);
   const minSwipeDistance = 30;
@@ -73,16 +73,17 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   }, []);
 
   const handleDirectionChange = useCallback((newDirection: Position) => {
-    if (!gameRunning) return;
+    if (!gameRunning || !canChangeDirection) return;
 
-    const isOppositeDirection = 
+    const isOppositeDirection =
       (newDirection.x !== 0 && newDirection.x === -direction.x) ||
       (newDirection.y !== 0 && newDirection.y === -direction.y);
 
     if (!isOppositeDirection) {
       setDirection(newDirection);
+      setCanChangeDirection(false);
     }
-  }, [gameRunning, direction]);
+  }, [gameRunning, direction, canChangeDirection]);
 
   const checkCollision = useCallback((head: Position, snakeBody: Position[]) => {
     if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
@@ -94,9 +95,6 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
   const gameLoop = useCallback(() => {
     if (!gameRunning || gameOver) return;
 
-    let shouldEndGame = false;
-    let finalScore = 0;
-
     setSnake(prevSnake => {
       const newSnake = [...prevSnake];
       const head = { ...newSnake[0] };
@@ -106,8 +104,6 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
       if (checkCollision(head, newSnake)) {
         setGameOver(true);
         setGameRunning(false);
-        shouldEndGame = true;
-        finalScore = score;
         return prevSnake;
       }
 
@@ -120,13 +116,16 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
         newSnake.pop();
       }
 
+      setCanChangeDirection(true);
       return newSnake;
     });
+  }, [gameRunning, gameOver, direction, food, checkCollision, generateFood]);
 
-    if (shouldEndGame) {
-      onScore(finalScore);
+  useEffect(() => {
+    if (gameOver) {
+      onScore(score);
     }
-  }, [gameRunning, gameOver, direction, food, score, checkCollision, generateFood, onScore]);
+  }, [gameOver, onScore, score]);
 
   useEffect(() => {
     const interval = setInterval(gameLoop, 150);
@@ -159,7 +158,6 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleDirectionChange, pauseGame]);
 
-  // Touch event handlers for swipe controls
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
@@ -176,13 +174,13 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
 
     if (Math.abs(diffX) > Math.abs(diffY)) {
       if (Math.abs(diffX) > minSwipeDistance) {
-        if (diffX > 0) handleDirectionChange({ x: 1, y: 0 }); // Right
-        else handleDirectionChange({ x: -1, y: 0 }); // Left
+        if (diffX > 0) handleDirectionChange({ x: 1, y: 0 });
+        else handleDirectionChange({ x: -1, y: 0 });
       }
     } else {
       if (Math.abs(diffY) > minSwipeDistance) {
-        if (diffY > 0) handleDirectionChange({ x: 0, y: 1 }); // Down
-        else handleDirectionChange({ x: 0, y: -1 }); // Up
+        if (diffY > 0) handleDirectionChange({ x: 0, y: 1 });
+        else handleDirectionChange({ x: 0, y: -1 });
       }
     }
     setTouchStart(null);
@@ -199,49 +197,48 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
       </div>
 
       <div className="flex items-center justify-center w-full">
-        <Card className="bg-gray-900/90 border-green-500 border-2 shadow-2xl shadow-green-500/50 backdrop-blur-sm w-full max-w-[630px]">
-          <div className="p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <Button 
-                onClick={onBack}
-                variant="outline" 
-                size="sm"
-                className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
-                style={{ fontFamily: 'Press Start 2P, monospace' }}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                VOLVER
-              </Button>
-              
-              <div className="text-center">
-                <div className="text-yellow-400 text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>PUNTOS: {score}</div>
-              </div>
-              
-              <div className="flex gap-2">
-                {!gameRunning && !gameOver && (
-                  <Button onClick={startGame} size="sm" className="bg-green-600 hover:bg-green-700">
-                    <Play className="w-4 h-4" />
-                  </Button>
-                )}
-                {gameRunning && (
-                  <Button onClick={pauseGame} size="sm" className="bg-yellow-600 hover:bg-yellow-700">
-                    <Pause className="w-4 h-4" />
-                  </Button>
-                )}
-                <Button onClick={resetGame} size="sm" className="bg-red-600 hover:bg-red-700">
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
-              </div>
+        <Card className="bg-gray-900/90 border-green-500 border-2 shadow-2xl shadow-green-500/50 backdrop-blur-sm w-full max-w-[400px]">          <div className="p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <Button
+              onClick={onBack}
+              variant="outline"
+              size="sm"
+              className="bg-red-600 hover:bg-red-700 border-red-500 text-white"
+              style={{ fontFamily: 'Press Start 2P, monospace' }}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              VOLVER
+            </Button>
+
+            <div className="text-center">
+              <div className="text-yellow-400 text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>PUNTOS: {score}</div>
             </div>
 
-          <div 
+            <div className="flex gap-2">
+              {!gameRunning && !gameOver && (
+                <Button onClick={startGame} size="sm" className="bg-green-600 hover:bg-green-700">
+                  <Play className="w-4 h-4" />
+                </Button>
+              )}
+              {gameRunning && (
+                <Button onClick={pauseGame} size="sm" className="bg-yellow-600 hover:bg-yellow-700">
+                  <Pause className="w-4 h-4" />
+                </Button>
+              )}
+              <Button onClick={resetGame} size="sm" className="bg-red-600 hover:bg-red-700">
+                <RotateCcw className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div
             className="relative w-full aspect-square"
             style={{ touchAction: 'none' }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div 
+            <div
               className="grid bg-black border-2 border-green-500 w-full h-full"
               style={{
                 gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
@@ -249,7 +246,7 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
               }}
             >
               {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
-                <div 
+                <div
                   key={index}
                   className="border border-green-900/30"
                 ></div>
@@ -292,22 +289,22 @@ export function SnakeGame({ onBack, onScore, fromMenu }: SnakeGameProps) {
             )}
 
             {(!gameRunning && !gameOver && (direction.x !== 0 || direction.y !== 0)) ? (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-              <div className="text-center p-4">
-                <h3 className="text-xl sm:text-2xl text-yellow-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>PAUSADO</h3>
-                <Button onClick={pauseGame} className="bg-green-600 hover:bg-green-700" style={{ fontFamily: 'Press Start 2P, monospace' }}>
-                  CONTINUAR
-                </Button>
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                <div className="text-center p-4">
+                  <h3 className="text-xl sm:text-2xl text-yellow-400 mb-4" style={{ fontFamily: 'Press Start 2P, monospace' }}>PAUSADO</h3>
+                  <Button onClick={pauseGame} className="bg-green-600 hover:bg-green-700" style={{ fontFamily: 'Press Start 2P, monospace' }}>
+                    CONTINUAR
+                  </Button>
+                </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
           </div>
 
           <div className="mt-4 text-center text-green-400 text-xs sm:text-sm" style={{ fontFamily: 'Press Start 2P, monospace' }}>
             <span className="hidden md:block">Usa las flechas para moverte • ESC para pausar</span>
             <span className="md:hidden">Desliza para moverte</span>
           </div>
-          </div>
+        </div>
         </Card>
       </div>
     </div>

@@ -24,8 +24,8 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::resource('users', UserController::class);
     Route::get('/users/report', [ReportController::class, 'usersReport'])->name('users.report');
 
-    Route::resource('games', AdminGameController::class);
     Route::get('/games/report', [ReportController::class, 'gamesReport'])->name('games.report');
+    Route::resource('games', AdminGameController::class);
 
     Route::get('/matches', [MatchController::class, 'index'])->name('matches');
 
@@ -74,7 +74,7 @@ Route::get('/categories', [GameController::class, 'getCategories'])->name('categ
 
 Route::get('/games/{category}', [GameController::class, 'gamesByCategory'])->name('games.byCategory');
 
-Route::get('/game/show/{game}', [GameController::class, 'show'])->middleware('game.visits')->name('games.show');
+Route::get('/game/show/{game:slug}', [GameController::class, 'show'])->middleware('game.visits')->name('games.show');
 
 Route::view('/help', 'help')->name('help');
 
@@ -102,7 +102,7 @@ Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkou
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
-Route::get('/game/launch/{game}', [GameController::class, 'launch'])->name('game.launch');
+Route::get('/play/{game:slug}', [GameController::class, 'launch'])->name('game.play');
 Route::get('/my-games', [GameController::class, 'myGames'])->middleware('auth')->name('my-games');
 
 Route::get('/play', function(){

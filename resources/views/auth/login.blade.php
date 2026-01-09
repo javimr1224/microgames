@@ -43,8 +43,8 @@
                     name="password" required autocomplete="current-password" />
 
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                    <img id="eyeOpened" src="{{ asset('images/eye-opened.png') }}" class="w-6 h-auto text-gray-700" alt="Show Password">
-                    <img id="eyeClosed" src="{{ asset('images/eye-closed.png') }}" class="w-6 h-auto text-gray-700 hidden" alt="Hide Password">
+                    <img id="eyeOpened" src="{{ asset('images/eye-closed.png') }}" class="w-6 h-auto text-gray-700" alt="Show Password">
+                    <img id="eyeClosed" src="{{ asset('images/eye-opened.png') }}" class="w-6 h-auto text-gray-700 hidden" alt="Hide Password">
                 </div>
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />

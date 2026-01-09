@@ -112,15 +112,14 @@
 
             <section class="flex justify-center items-center py-8 sm:py-12 lg:py-16">
                 <a href="{{ route('game-menu') }}"
-                    class="relative animatable-button w-64 sm:w-96 lg:w-[500px] h-[80px] px-4">
-                    <img src="{{ asset('images/button.png') }}" alt="Catalogo button" class="w-[120rem] h-[4.2rem]">
+                    class="relative animatable-button w-72 sm:w-96 lg:w-[500px] h-[80px] px-4">
+                    <img src="{{ asset('images/button.png') }}" alt="Catalogo button" class="w-full h-[4.2rem]">
                     <span
-                        class="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 sm:text-sm lg:text-base whitespace-nowrap"
+                        class="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 text-xs sm:text-sm lg:text-base whitespace-nowrap"
                         style="font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px 4px #000000;">
                         Explora los juegos
                     </span>
-                </a>
-            </section>
+                </a>            </section>
 
         </section>
         <section class="w-full bg-[#020617] py-8 sm:py-12 lg:py-16 px-4 flex justify-center overflow-hidden">
@@ -212,7 +211,7 @@
 
             <section class="bg-white min-h-[200px] relative z-10 flex flex-col items-center justify-center text-center py-16" id="desarrollador-section">
                     <div class="w-full max-w-4xl">
-                        <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Desarrollador</h2>
+                        <h2 style="font-family: 'Press Start 2P';" class="text-2xl sm:text-3xl md:text-4xl text-gray-900">Desarrollador</h2>
                         <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] mt-7">Nuestro equipo de
                             desarrolladores solo se compone del creador pero
                             con el potencial de está aplicación, pronto tendremos un equipo exitoso y con
@@ -227,7 +226,7 @@
                     <div class="w-full max-w-4xl mt-12">
                         <div
                             class="flex flex-col max-w-7xl mx-auto py-10 px-4 text-center items-center justify-center">
-                            <h2 style="font-family: 'Press Start 2P';" class="text-4xl text-gray-900">Experiencia de
+                            <h2 style="font-family: 'Press Start 2P';" class="text-2xl sm:text-3xl md:text-4xl text-gray-900">Experiencia de
                                 nuestros usuarios</h2>
                             <h2 style="font-family: 'Helvetica Neue';"
                                 class="text-[#020617] mt-10 text-left text-2xl">
@@ -235,13 +234,13 @@
                                 experiencia divertida y, al mismo tiempo, desestresante con sus minijuegos arcade”</h2>
                         </div>
                         <div class="flex justify-center items-center">
-                            <div class="flex items-center mr-[90px] mb-12">
-                                <img class="w-[64px] h-[64px]" src="{{ asset('images/albi.png') }}"
+                            <div class="flex flex-col sm:flex-row items-center mb-12">
+                                <img class="w-12 h-12 sm:w-16 sm:h-16" src="{{ asset('images/albi.png') }}"
                                     alt="imagen fundador">
-                                <div class="flex flex-col mx-[22px]">
-                                    <h3 style="font-family: 'Press Start 2P';" class="text-2xl text-gray-900">Alba
+                                <div class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:ml-[22px]">
+                                    <h3 style="font-family: 'Press Start 2P';" class="text-xl sm:text-2xl text-gray-900 text-center sm:text-left">Alba
                                         Espejo</h3>
-                                    <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617]">CEO de BioVolt
+                                    <h4 style="font-family: 'Helvetica Neue';" class="text-[#020617] text-center sm:text-left">CEO de BioVolt
                                         Systems
                                     </h4>
                                 </div>

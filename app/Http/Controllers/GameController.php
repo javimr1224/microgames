@@ -16,7 +16,7 @@ class GameController extends Controller
 
     public function index()
     {
-        $games = Game::all();
+        $games = Game::where('name', 'Skybound')->get();
         $games->each(function ($game) {
             if ($game->image && !str_starts_with($game->image, 'http')) {
                 $game->image = asset('images/' . $game->image);
@@ -119,7 +119,7 @@ class GameController extends Controller
             return redirect()->back()->with('error', 'Este juego no está disponible para jugar.');
         }
 
-        return Redirect::to(env('FRONTEND_URL', 'http://localhost:3000') . '/' . $game->file);
+        return Redirect::to(env('FRONTEND_URL', 'http://localhost:3000') . '/play/' . $game->file);
     }
 
     public function myGames()
@@ -142,6 +142,15 @@ class GameController extends Controller
         });
 
         return view('my-games', ['purchasedGames' => $purchasedGames]);
+    }
+
+    public function myGamesApi()
+    {
+        $user = Auth::user();
+        $purchasedGameIds = $user->purchased_game_ids ?? [];
+        $purchasedGames = Game::findMany($purchasedGameIds);
+
+        return response()->json($purchasedGames);
     }
 
     public function filterApi($filter)
@@ -176,5 +185,10 @@ class GameController extends Controller
         });
 
         return response()->json($games);
+    }
+
+    function showApi(Game $game)
+    {
+        return response()->json($game);
     }
 }

@@ -59,7 +59,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
   const [level, setLevel] = useState(1);
   const [linesCleared, setLinesCleared] = useState(0);
 
-  // Touch state
   const touchState = useRef({
     startPos: { x: 0, y: 0 },
     startTime: 0,
@@ -270,7 +269,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     return () => clearInterval(interval);
   }, [gameLoop, level, gameRunning]);
   
-  // Touch Handlers
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     if (!gameRunning || !currentPiece) return;
     const touch = e.touches[0];
@@ -289,7 +287,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     const deltaX = touch.clientX - startPos.x;
     const deltaY = touch.clientY - startPos.y;
 
-    // Horizontal Movement
     const newX = pieceStartPos.x + Math.round(deltaX / (CELL_SIZE * 1.5));
     if (newX !== currentPiece.x) {
       const newPiece = { ...currentPiece, x: newX };
@@ -298,10 +295,9 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
       }
     }
     
-    // Soft Drop
     if (deltaY > CELL_SIZE) {
       softDrop();
-      touchState.current.startPos.y = touch.clientY; // Reset for continuous drop
+      touchState.current.startPos.y = touch.clientY;
     }
   };
 
@@ -315,13 +311,11 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     const deltaY = endPos.clientY - startPos.y;
     const duration = endTime - startTime;
 
-    // Tap detection for rotation
     if (duration < 200 && Math.abs(deltaX) < 20 && Math.abs(deltaY) < 20) {
       rotate();
       return;
     }
 
-    // Hard drop detection (fast swipe down)
     const velocityY = deltaY / duration;
     if (deltaY > 100 && velocityY > 0.8) {
       hardDrop();
@@ -375,7 +369,6 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
       drawPiece(ctx, currentPiece);
     }
     
-    // Grid lines
     ctx.strokeStyle = '#333333';
     ctx.lineWidth = 1;
     for (let x = 0; x <= BOARD_WIDTH; x++) {

@@ -24,25 +24,32 @@
                 </div>
                 <div class="md:w-1/2 flex flex-col justify-between">
                     <div>
-                        <h1 class="text-4xl font-bold mb-4" style="font-family: 'Press Start 2P', cursive;">{{ $game->name }}</h1>
+                        <h1 class="text-4xl font-bold mb-4" style="font-family: 'Press Start 2P', cursive;">
+                            {{ $game->name }}</h1>
                         <p class="text-lg text-gray-300 mb-4">{{ $game->description }}</p>
                         <p class="text-xl font-semibold mb-4">Categoría: {{ $game->category }}</p>
-                        @if(Auth::check() && in_array((string)$game->id, $purchasedGameIds))
+                        @if (Auth::check() && in_array((string) $game->id, $purchasedGameIds))
                             <p class="text-2xl font-bold mb-6">¡Comprado!</p>
-                            <a href="{{ route('game.launch', $game) }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-xl" style="font-family: 'Press Start 2P', cursive;">
+                            <a href="{{ route('game.play', $game) }}"
+                                class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-xl"
+                                style="font-family: 'Press Start 2P', cursive;">
                                 JUGAR
                             </a>
                         @elseif($game->price)
                             <p class="text-2xl font-bold mb-6">Precio: {{ number_format($game->price, 2) }}€</p>
                             <form action="{{ route('cart.add', $game) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl" style="font-family: 'Press Start 2P', cursive;">
+                                <button type="submit"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl"
+                                    style="font-family: 'Press Start 2P', cursive;">
                                     Añadir al Carrito
                                 </button>
                             </form>
                         @else
                             <p class="text-2xl font-bold mb-6">Gratis</p>
-                            <a href="{{ route('game.launch', $game) }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-xl" style="font-family: 'Press Start 2P', cursive;">
+                            <a href="{{ route('game.play', $game) }}"
+                                class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-xl"
+                                style="font-family: 'Press Start 2P', cursive;">
                                 Jugar Ahora
                             </a>
                         @endif

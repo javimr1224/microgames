@@ -30,6 +30,12 @@ const BALL_SPEEDS = {
   hard: 450,
 };
 
+const DIFFICULTY_SCORES = {
+  easy: 1000,
+  normal: 2500,
+  hard: 5000,
+};
+
   export function PongGame({ onBack, onScore, fromMenu }: PongGameProps) {
     if (!fromMenu) {
       return (
@@ -55,7 +61,6 @@ const BALL_SPEEDS = {
   const [playerScore, setPlayerScore] = useState(0);
   const [aiScore, setAiScore] = useState(0);
   
-  // State for touch controls
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [paddleStartTouchY, setPaddleStartTouchY] = useState<number | null>(null);
 
@@ -208,7 +213,7 @@ const BALL_SPEEDS = {
         if (newScore >= WINNING_SCORE) {
           setGameOver(true);
           setGameRunning(false);
-          onScore(1);
+          onScore(DIFFICULTY_SCORES[difficulty]);
         }
         return newScore;
       });
@@ -286,12 +291,11 @@ const BALL_SPEEDS = {
     return () => canvas.removeEventListener('mousemove', handleMouseMove);
   }, [gameRunning]);
 
-  // Touch event handlers for swipe controls
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     if (!gameRunning) return;
     setTouchStartY(e.targetTouches[0].clientY);
     setPaddleStartTouchY(gameState.current.playerY);
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
   }, [gameRunning]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -303,7 +307,7 @@ const BALL_SPEEDS = {
       0,
       Math.min(newPaddleY, CANVAS_HEIGHT - PADDLE_HEIGHT)
     );
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
   }, [gameRunning, touchStartY, paddleStartTouchY]);
 
   const handleTouchEnd = useCallback(() => {

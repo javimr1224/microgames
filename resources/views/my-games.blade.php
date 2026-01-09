@@ -27,16 +27,18 @@
                 </p>
             </div>
 
-            <div id="games-container" class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+            <div id="games-container"
+                class="mt-16 max-w-7xl mx-auto grid gap-8 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
                 @forelse ($purchasedGames as $game)
                     <div
                         class="relative group game-card cursor-pointer transition-all duration-300 hover:scale-105 border-2 border-gray-600 bg-gray-900/80 backdrop-blur-sm hover:border-white rounded-lg overflow-hidden shadow-lg">
                         <div class="p-6">
                             <div class="relative z-10">
-                                <a href="{{ route('game.launch', $game) }}">
+                                <a href="{{ route('game.play', $game) }}">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
                                         src="{{ $game->image }}" alt="{{ $game->name }}">
-                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                                        alt="Game GIF"
                                         class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                 </a>
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
@@ -46,7 +48,7 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                <a href="{{ route('game.launch', $game) }}"
+                                <a href="{{ route('game.play', $game) }}"
                                     class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     JUGAR
@@ -57,7 +59,9 @@
                 @empty
                     <div class="lg:col-span-4 md:col-span-2 sm:col-span-1 text-center bg-gray-800 p-12 rounded-lg">
                         <p class="text-2xl text-gray-400 mb-6">Aún no has comprado ningún juego.</p>
-                        <a href="{{ route('storeGames') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg" style="font-family: 'Press Start 2P', cursive;">
+                        <a href="{{ route('storeGames') }}"
+                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                            style="font-family: 'Press Start 2P', cursive;">
                             Ir a la tienda
                         </a>
                     </div>

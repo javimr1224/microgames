@@ -5,7 +5,10 @@ import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
 import { GameType, User } from "../App";
 import homeImageUrl from "./home.svg";
 import gameImageUrl from "./game-controller.svg";
-import { PongGame } from "./PongGame";
+import snakeImg from "./snake.svg";
+import pongImg from "./pong.svg";
+import tetrisImg from "./tetris.svg";
+import breakoutImg from "./breakout.svg";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
@@ -25,13 +28,23 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       fetch(`${apiUrl}/api/users/${user.id}/scores`)
         .then((res) => res.json())
         .then((data) => {
-          const scoresByGame = data.reduce((acc: Record<string, number>, score: any) => {
-            if (!acc[score.game_id] || score.score > acc[score.game_id]) {
-              acc[score.game_id] = score.score;
-            }
-            return acc;
-          }, {});
-          setScores(scoresByGame);
+          const scoresArray = Array.isArray(data) ? data : (data && (Array.isArray(data.data) ? data.data : Array.isArray(data.scores) ? data.scores : null));
+
+          if (scoresArray) {
+            const scoresByGame = scoresArray.reduce((acc: Record<string, number>, score: any) => {
+              if (!acc[score.game_id] || score.score > acc[score.game_id]) {
+                acc[score.game_id] = score.score;
+              }
+              return acc;
+            }, {});
+            setScores(scoresByGame);
+          } else {
+            console.error("Scores data is not in a recognized format:", data);
+            setScores({});
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching or parsing scores:', error);
         });
     }
   }, [user]);
@@ -43,7 +56,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "snake" as const,
       name: "SNAKE",
       description: "Come todas las manzanas y evita chocar",
-      icon: <Zap className="w-8 h-8" />,
+      icon: <img src={snakeImg} className="w-12 h-12" />,
       color: "from-green-500 to-emerald-600",
       glowColor: "shadow-green-500/50",
     },
@@ -51,7 +64,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "pong" as const,
       name: "PONG",
       description: "Clásico juego de pong",
-      icon: <Target className="w-8 h-8" />,
+      icon: <img src={pongImg} className="w-12 h-12" />,
       color: "from-blue-500 to-cyan-600",
       glowColor: "shadow-blue-500/50",
     },
@@ -59,7 +72,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "tetris" as const,
       name: "TETRIS",
       description: "Encaja las piezas y completa líneas",
-      icon: <Gamepad2 className="w-8 h-8" />,
+      icon: <img src={tetrisImg} className="w-12 h-12" />,
       color: "from-purple-500 to-violet-600",
       glowColor: "shadow-purple-500/50",
     },
@@ -67,9 +80,17 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "breakout" as const,
       name: "BREAKOUT",
       description: "Rompe todos los bloques y alcanza un nuevo record",
-      icon: <Trophy className="w-8 h-8" />,
+      icon: <img src={breakoutImg} className="w-12 h-12" />,
       color: "from-orange-500 to-red-600",
       glowColor: "shadow-orange-500/50",
+    },
+    {
+      id: "skybound" as const,
+      name: "SKYBOUND",
+      description: "Alcanza el cielo y recoge las monedas",
+      icon: <p>BETA</p>,
+      color: "from-green-400 to-blue-500",
+      glowColor: "shadow-cyan-500/50",
     },
   ];
 
@@ -125,7 +146,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
 
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 rounded-lg bg-gradient-to-br ${game.color} text-white shadow-lg`}>
+                  <div className={`p-3 rounded-lg text-white`}>
                     {game.icon}
                   </div>
                   <div className="text-right">
