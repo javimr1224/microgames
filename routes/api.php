@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/scores', [ScoreController::class, 'store']);
-    Route::get('/my-games', [GameController::class, 'myGamesApi']);
+    Route::get('/my-games', [GameController::class, 'myGamesApi']); 
 });
