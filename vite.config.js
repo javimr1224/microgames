@@ -12,7 +12,7 @@ export default defineConfig({
     ],
     build: isProduction
         ? {
-              manifest: true,
+              manifest: 'manifest.json',
               outDir: 'public/build',
           }
         : undefined,

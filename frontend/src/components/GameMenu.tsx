@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Gamepad2, Trophy, Zap, Target } from "lucide-react";
 import { GameType, User } from "../App";
 import homeImageUrl from "./home.svg";
 import gameImageUrl from "./game-controller.svg";
@@ -19,9 +18,13 @@ interface GameMenuProps {
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }: GameMenuProps) {
+interface ScoreEntry {
+  game_id: string;
+  score: number;
+}
+
+export function GameMenu({ onSelectGame, scores: initialScores, user }: GameMenuProps) {
   const [scores, setScores] = useState(initialScores || {});
-  const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -31,7 +34,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
           const scoresArray = Array.isArray(data) ? data : (data && (Array.isArray(data.data) ? data.data : Array.isArray(data.scores) ? data.scores : null));
 
           if (scoresArray) {
-            const scoresByGame = scoresArray.reduce((acc: Record<string, number>, score: any) => {
+            const scoresByGame = (scoresArray as ScoreEntry[]).reduce((acc: Record<string, number>, score) => {
               if (!acc[score.game_id] || score.score > acc[score.game_id]) {
                 acc[score.game_id] = score.score;
               }
@@ -56,7 +59,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "snake" as const,
       name: "SNAKE",
       description: "Come todas las manzanas y evita chocar",
-      icon: <img src={snakeImg} className="w-12 h-12" />,
+      icon: <img src={snakeImg} alt="Snake" className="w-12 h-12" />,
       color: "from-green-500 to-emerald-600",
       glowColor: "shadow-green-500/50",
     },
@@ -64,7 +67,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "pong" as const,
       name: "PONG",
       description: "Clásico juego de pong",
-      icon: <img src={pongImg} className="w-12 h-12" />,
+      icon: <img src={pongImg} alt="Pong" className="w-12 h-12" />,
       color: "from-blue-500 to-cyan-600",
       glowColor: "shadow-blue-500/50",
     },
@@ -72,7 +75,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "tetris" as const,
       name: "TETRIS",
       description: "Encaja las piezas y completa líneas",
-      icon: <img src={tetrisImg} className="w-12 h-12" />,
+      icon: <img src={tetrisImg} alt="Tetris" className="w-12 h-12" />,
       color: "from-purple-500 to-violet-600",
       glowColor: "shadow-purple-500/50",
     },
@@ -80,7 +83,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, onLogin, user }:
       id: "breakout" as const,
       name: "BREAKOUT",
       description: "Rompe todos los bloques y alcanza un nuevo record",
-      icon: <img src={breakoutImg} className="w-12 h-12" />,
+      icon: <img src={breakoutImg} alt="Breakout" className="w-12 h-12" />,
       color: "from-orange-500 to-red-600",
       glowColor: "shadow-orange-500/50",
     },

@@ -3,13 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { User } from '../App';
 import axios from 'axios';
 
-interface GameRouteProps {
-  component: React.ComponentType<any>;
-  user: User | null;
-  [key: string]: any;
+interface RoutedGameProps {
+  onBack: () => void;
+  onScore: (score: number) => void;
+  fromMenu?: boolean;
+  user?: User | null;
 }
 
-export function GameRoute({ component: Component, user, ...rest }: GameRouteProps) {
+interface GameRouteProps {
+  component: React.ComponentType<RoutedGameProps>;
+  user: User | null;
+  onBack: () => void;
+  onScore: (score: number) => void;
+}
+
+export function GameRoute({ component: Component, user, onBack, onScore }: GameRouteProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
@@ -17,31 +25,30 @@ export function GameRoute({ component: Component, user, ...rest }: GameRouteProp
 
   const gameName = location.pathname.replace('/', '');
 
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
+  const requiresPurchase = gameName === 'skybound';
+  const [purchasedAccess, setPurchasedAccess] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (gameName === 'skybound') {
-      if (!user) {
-        setHasAccess(false);
-        return;
-      }
+    if (!requiresPurchase || !user) return;
 
-      axios.get('/api/my-games')
+    let cancelled = false;
+    axios.get('/api/my-games')
         .then(response => {
           const purchasedGames = response.data;
-          if (Array.isArray(purchasedGames) && purchasedGames.some(game => game.slug === 'skybound')) {
-            setHasAccess(true);
-          } else {
-            setHasAccess(false);
+          if (!cancelled) {
+            setPurchasedAccess(Array.isArray(purchasedGames) && purchasedGames.some(game => game.slug === 'skybound'));
           }
         })
         .catch(() => {
-          setHasAccess(false);
+          if (!cancelled) setPurchasedAccess(false);
         });
-    } else {
-      setHasAccess(true);
-    }
-  }, [gameName, user]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [requiresPurchase, user]);
+
+  const hasAccess = requiresPurchase ? (user ? purchasedAccess : false) : true;
 
   if (hasAccess === null) {
     return <div className="z-20 flex flex-col items-center justify-center h-screen text-white">Loading...</div>;
@@ -64,5 +71,5 @@ export function GameRoute({ component: Component, user, ...rest }: GameRouteProp
     );
   }
 
-  return <Component {...rest} fromMenu={fromMenu} user={user} />;
+  return <Component onBack={onBack} onScore={onScore} fromMenu={fromMenu} user={user} />;
 }

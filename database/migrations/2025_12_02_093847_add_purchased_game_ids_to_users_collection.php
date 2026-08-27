@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use MongoDB\Laravel\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $collection) {
-            $collection->array('purchased_game_ids')->default([]);
+            if (Schema::getConnection()->getDriverName() === 'mongodb') {
+                $collection->array('purchased_game_ids')->default([]);
+
+                return;
+            }
+
+            $collection->json('purchased_game_ids')->default('[]');
         });
     }
 

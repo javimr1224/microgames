@@ -94,13 +94,12 @@ class SkyboundScene extends Phaser.Scene {
   spawnCoin() {
     if (this.coins.countActive(true) > 0) return;
 
-    const platformsAbove = this.platforms
-      .getChildren()
-      .filter((p: any) => p.y < this.player.y);
+    const platforms = this.platforms.getChildren() as Phaser.Physics.Arcade.Image[];
+    const platformsAbove = platforms.filter((platform) => platform.y < this.player.y);
 
     const platform = Phaser.Math.RND.pick(
-      platformsAbove.length ? platformsAbove : this.platforms.getChildren()
-    ) as any;
+      platformsAbove.length ? platformsAbove : platforms
+    );
 
     const coin = this.coins.create(
       platform.x,

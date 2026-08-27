@@ -86,21 +86,6 @@ const checkCollision = (rect1: Rect, rect2: Rect) => {
 
 
 export function BreakoutGame({ onBack, onScore, fromMenu }: BreakoutGameProps) {
-  if (!fromMenu) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <h1 className="text-2xl mb-4">Acceso no permitido</h1>
-        <p>Debes entrar al juego desde el menú.</p>
-        <button
-          onClick={onBack}
-          className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-        >
-          Volver
-        </button>
-      </div>
-    );
-  }
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const [gameRunning, setGameRunning] = useState(false);
@@ -452,7 +437,10 @@ export function BreakoutGame({ onBack, onScore, fromMenu }: BreakoutGameProps) {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [gameRunning]);
-  
+
+  if (!fromMenu) {
+    return <AccessDenied onBack={onBack} />;
+  }
 
   return (
     <div className="min-h-screen p-4">
@@ -558,6 +546,18 @@ export function BreakoutGame({ onBack, onScore, fromMenu }: BreakoutGameProps) {
           </div>
         </Card>
       </div>
+    </div>
+  );
+}
+
+function AccessDenied({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+      <h1 className="text-2xl mb-4">Acceso no permitido</h1>
+      <p>Debes entrar al juego desde el menú.</p>
+      <button onClick={onBack} className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">
+        Volver
+      </button>
     </div>
   );
 }

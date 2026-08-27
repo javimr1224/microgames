@@ -36,21 +36,7 @@ const DIFFICULTY_SCORES = {
   hard: 5000,
 };
 
-  export function PongGame({ onBack, onScore, fromMenu }: PongGameProps) {
-    if (!fromMenu) {
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-          <h1 className="text-2xl mb-4">Acceso no permitido</h1>
-          <p>Debes entrar al juego desde el menú.</p>
-          <button
-            onClick={onBack}
-            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-          >
-            Volver
-          </button>
-        </div>
-      );
-    }
+export function PongGame({ onBack, onScore, fromMenu }: PongGameProps) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -77,13 +63,13 @@ const DIFFICULTY_SCORES = {
   const lastTime = useRef<number>(0);
   const animationFrameId = useRef<number | null>(null);
 
-  const resetBall = (direction: number) => {
+  const resetBall = useCallback((direction: number) => {
     const ballSpeed = BALL_SPEEDS[difficulty];
     gameState.current.ballX = CANVAS_WIDTH / 2;
     gameState.current.ballY = CANVAS_HEIGHT / 2;
     gameState.current.ballVelX = ballSpeed * direction;
     gameState.current.ballVelY = (Math.random() - 0.5) * ballSpeed;
-  };
+  }, [difficulty]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -223,7 +209,7 @@ const DIFFICULTY_SCORES = {
     draw();
     animationFrameId.current = requestAnimationFrame(gameLoop.current!);
   };
-}, [difficulty, gameRunning, onScore, draw]);
+}, [difficulty, gameRunning, onScore, draw, resetBall]);
 
 
   const resetGame = useCallback(() => {
@@ -301,7 +287,7 @@ const DIFFICULTY_SCORES = {
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     if (!gameRunning || touchStartY === null || paddleStartTouchY === null) return;
     const touchDeltaY = e.targetTouches[0].clientY - touchStartY;
-    let newPaddleY = paddleStartTouchY + touchDeltaY;
+    const newPaddleY = paddleStartTouchY + touchDeltaY;
     
     gameState.current.playerY = Math.max(
       0,
@@ -315,6 +301,9 @@ const DIFFICULTY_SCORES = {
     setPaddleStartTouchY(null);
   }, []);
 
+  if (!fromMenu) {
+    return <AccessDenied onBack={onBack} />;
+  }
 
   return (
     <div className="min-h-screen p-4 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
@@ -497,6 +486,18 @@ const DIFFICULTY_SCORES = {
           </div>
         </Card>
       </div>
+    </div>
+  );
+}
+
+function AccessDenied({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+      <h1 className="text-2xl mb-4">Acceso no permitido</h1>
+      <p>Debes entrar al juego desde el menú.</p>
+      <button onClick={onBack} className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">
+        Volver
+      </button>
     </div>
   );
 }

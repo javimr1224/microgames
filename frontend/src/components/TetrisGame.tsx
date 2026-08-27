@@ -33,16 +33,6 @@ interface Piece {
 }
 
 export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
-  if (!fromMenu) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <h1 className="text-2xl mb-4">Acceso no permitido</h1>
-        <p>Debes entrar al juego desde el menú.</p>
-        <button onClick={onBack} className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">Volver</button>
-      </div>
-    );
-  }
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nextPieceCanvasRef = useRef<HTMLCanvasElement>(null);
   const heldPieceCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,7 +159,7 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
       setCurrentPiece(newCurrent);
       setNextPiece(newNext);
     }
-  }, [board, clearLines, createRandomPiece, isValidPosition, level, nextPiece, onScore, placePiece, score]);
+  }, [board, clearLines, createRandomPiece, isValidPosition, level, nextPiece, placePiece]);
 
   const gameLoop = useCallback(() => {
     if (!gameRunning || gameOver || !currentPiece) return;
@@ -215,7 +205,7 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
 
   const hardDrop = useCallback(() => {
     if (!gameRunning || !currentPiece) return;
-    let dropPiece = { ...currentPiece };
+    const dropPiece = { ...currentPiece };
     while (isValidPosition({ ...dropPiece, y: dropPiece.y + 1 }, board)) {
       dropPiece.y += 1;
     }
@@ -411,7 +401,11 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
     if (gameOver) {
       onScore(score);
     }
-  }, [gameOver]);
+  }, [gameOver, onScore, score]);
+
+  if (!fromMenu) {
+    return <AccessDenied onBack={onBack} />;
+  }
 
   return (
     <div className="min-h-screen p-2 sm:p-4">
@@ -497,6 +491,18 @@ export function TetrisGame({ onBack, onScore, fromMenu }: TetrisGameProps) {
           </div>
         </Card>
       </div>
+    </div>
+  );
+}
+
+function AccessDenied({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+      <h1 className="text-2xl mb-4">Acceso no permitido</h1>
+      <p>Debes entrar al juego desde el menú.</p>
+      <button onClick={onBack} className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">
+        Volver
+      </button>
     </div>
   );
 }
