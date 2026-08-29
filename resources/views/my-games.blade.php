@@ -36,8 +36,8 @@
                             <div class="relative z-10">
                                 <a href="{{ route('game.play', $game) }}">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
-                                        src="{{ $game->image }}" alt="{{ $game->name }}">
-                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                                        src="{{ $game->image_url }}" alt="{{ $game->name }}">
+                                    <img src="{{ $game->video_url ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                                         alt="Game GIF"
                                         class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                 </a>

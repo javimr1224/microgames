@@ -38,7 +38,7 @@
                         <div class="p-6">
                             <div class="relative z-10">
                                 <img class="w-full h-40 object-cover mb-4 rounded-lg"
-                                    src="{{ asset($game->image) }}" alt="{{ $game->name }}">
+                                    src="{{ $game->image_url }}" alt="{{ $game->name }}">
                                 <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->name }}

@@ -38,10 +38,10 @@
                         <div class="p-6">
                             <div class="relative z-10">
                                 <a
-                                    href="{{ env('FRONTEND_URL', 'http://localhost:3000') }}/play/{{ $game->file }}?from=menu">
+                                    href="{{ rtrim(config('app.frontend_url'), '/') }}/play/{{ $game->file }}?from=menu">
                                     <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
-                                        src="{{ $game->image }}" alt="{{ $game->name }}">
-                                    <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
+                                        src="{{ $game->image_url }}" alt="{{ $game->name }}">
+                                    <img src="{{ $game->video_url ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}"
                                         alt="Game GIF"
                                         class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                 </a>
@@ -52,7 +52,7 @@
                                 <p class="text-gray-300 text-sm mb-4" style="font-family: 'Press Start 2P', monospace;">
                                     {{ $game->description }}
                                 </p>
-                                <a href="{{ env('FRONTEND_URL', 'http://localhost:3000') }}/play/{{ $game->file }}?from=menu"
+                                <a href="{{ rtrim(config('app.frontend_url'), '/') }}/play/{{ $game->file }}?from=menu"
                                     class="w-full inline-block text-center tracking-wider bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-current/50 transition-all duration-300 border-0 py-2 px-4 rounded-md"
                                     style="font-family: 'Press Start 2P', monospace;">
                                     JUGAR

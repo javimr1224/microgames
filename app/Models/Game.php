@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use App\Support\MediaStorage;
 use Illuminate\Support\Str;
 use MongoDB\Laravel\Eloquent\Model;
 
 class Game extends Model
 {
+    protected $appends = [
+        'image_url',
+        'video_url',
+    ];
+
     protected $connection = 'mongodb';
+
     protected $collection = 'games';
 
     protected $fillable = [
@@ -27,6 +34,16 @@ class Game extends Model
     public function getVisitsAttribute($value)
     {
         return $value ?? 0;
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return MediaStorage::url($this->image, 'images');
+    }
+
+    public function getVideoUrlAttribute(): ?string
+    {
+        return MediaStorage::url($this->video, 'videos');
     }
 
     public function getRouteKeyName()

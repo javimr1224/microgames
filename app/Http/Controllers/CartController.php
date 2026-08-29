@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -16,7 +15,7 @@ class CartController extends Controller
         if ($cart) {
             $game_ids = array_keys($cart);
             $games = Game::findMany($game_ids);
-            foreach($games as $game) {
+            foreach ($games as $game) {
                 $total += $game->price * $cart[$game->id]['quantity'];
             }
         }
@@ -28,12 +27,9 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if(!isset($cart[$game->id])) {
+        if (! isset($cart[$game->id])) {
             $cart[$game->id] = [
-                "name" => $game->name,
-                "quantity" => 1,
-                "price" => $game->price,
-                "image" => $game->image
+                'quantity' => 1,
             ];
         } else {
             // Optionally, you could increase the quantity here if you allow multiple copies
@@ -41,13 +37,14 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
+
         return redirect()->route('cart')->with('success', 'Juego añadido al carrito!');
     }
 
     public function remove($id)
     {
         $cart = session()->get('cart');
-        if(isset($cart[$id])) {
+        if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
         }

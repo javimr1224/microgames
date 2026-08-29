@@ -20,7 +20,7 @@
         <main class="max-w-7xl mx-auto mt-12 py-12 px-4">
             <div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
                 <div class="md:w-1/2">
-                    <img src="{{ asset($game->image) }}" alt="{{ $game->name }}" class="rounded-lg shadow-lg w-full">
+                    <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="rounded-lg shadow-lg w-full">
                 </div>
                 <div class="md:w-1/2 flex flex-col justify-between">
                     <div>

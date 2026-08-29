@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Support\MediaStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -58,32 +58,18 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            // Delete old avatar if it exists
-            if ($user->avatar) {
-                if (file_exists(public_path($user->avatar))) {
-                    unlink(public_path($user->avatar));
-                }
-            }
-            $avatarFile = $request->file('avatar');
-            $avatarName = 'avatars/' . time() . '.' . $avatarFile->getClientOriginalExtension();
-            $avatarFile->move(public_path('avatars'), $avatarName);
-            $updateData['avatar'] = $avatarName;
+            $avatar = MediaStorage::store($request->file('avatar'), 'avatars');
+            MediaStorage::delete($user->avatar);
+            $updateData['avatar'] = $avatar;
         }
 
         if ($request->hasFile('banner')) {
-            // Delete old banner if it exists
-            if ($user->banner) {
-                if (file_exists(public_path($user->banner))) {
-                    unlink(public_path($user->banner));
-                }
-            }
-            $bannerFile = $request->file('banner');
-            $bannerName = 'banners/' . time() . '.' . $bannerFile->getClientOriginalExtension();
-            $bannerFile->move(public_path('banners'), $bannerName);
-            $updateData['banner'] = $bannerName;
+            $banner = MediaStorage::store($request->file('banner'), 'banners');
+            MediaStorage::delete($user->banner);
+            $updateData['banner'] = $banner;
         }
-        
-        if (!empty($updateData)) {
+
+        if (! empty($updateData)) {
             $user->update($updateData);
         }
 
@@ -103,6 +89,8 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        MediaStorage::delete($user->avatar);
+        MediaStorage::delete($user->banner);
         $user->delete();
 
         $request->session()->invalidate();

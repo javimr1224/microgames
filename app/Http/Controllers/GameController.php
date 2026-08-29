@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,15 +16,8 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::where('name', 'Skybound')->get();
-        $games->each(function ($game) {
-            if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset('images/' . $game->image);
-            }
-            if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset('videos/' . $game->video);
-            }
-        });
         $purchasedGameIds = $this->getPurchasedGameIds();
+
         return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
@@ -45,27 +37,12 @@ class GameController extends Controller
                 break;
             default:
                 $games = Game::all();
-                $games->each(function ($game) {
-                    if ($game->image && !str_starts_with($game->image, 'http')) {
-                        $game->image = asset('images/' . $game->image);
-                    }
-                    if ($game->video && !str_starts_with($game->video, 'http')) {
-                        $game->video = asset('videos/' . $game->video);
-                    }
-                });
                 $purchasedGameIds = $this->getPurchasedGameIds();
+
                 return view('storeGames', ['games' => $games, 'purchasedGameIds' => $purchasedGameIds]);
         }
 
         $games = $gamesQuery->get();
-        $games->each(function ($game) {
-            if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset('images/' . $game->image);
-            }
-            if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset('videos/' . $game->video);
-            }
-        });
         $purchasedGameIds = $this->getPurchasedGameIds();
 
         return view('storeGames', ['games' => $games, 'filter' => $filter, 'purchasedGameIds' => $purchasedGameIds]);
@@ -74,72 +51,52 @@ class GameController extends Controller
     public function getCategories()
     {
         $categories = Game::distinct('category')->get();
+
         return response()->json($categories);
     }
 
     public function gamesByCategory($category)
     {
-        $games = Game::where('category', 'LIKE', '%' . $category . '%')->get();
-        $games->each(function ($game) {
-            if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset('images/' . $game->image);
-            }
-            if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset('videos/' . $game->video);
-            }
-        });
+        $games = Game::where('category', 'LIKE', '%'.$category.'%')->get();
         $purchasedGameIds = $this->getPurchasedGameIds();
+
         return view('gamesByCategory', ['games' => $games, 'category' => $category, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function show(Game $game)
     {
-        if ($game->image && !str_starts_with($game->image, 'http')) {
-            $game->image = asset('images/' . $game->image);
-        }
-        if ($game->video && !str_starts_with($game->video, 'http')) {
-            $game->video = asset('videos/' . $game->video);
-        }
         $purchasedGameIds = $this->getPurchasedGameIds();
+
         return view('showGame', ['game' => $game, 'purchasedGameIds' => $purchasedGameIds]);
     }
 
     public function launch(Game $game)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para jugar a este juego.');
         }
 
         $user = Auth::user();
-        if (!in_array((string)$game->id, $user->purchased_game_ids ?? [])) {
+        if (! in_array((string) $game->id, $user->purchased_game_ids ?? [])) {
             return redirect()->route('games.show', $game)->with('error', 'No has comprado este juego.');
         }
 
-        if (!$game->file) {
+        if (! $game->file) {
             return redirect()->back()->with('error', 'Este juego no está disponible para jugar.');
         }
 
-        return Redirect::to(env('FRONTEND_URL', 'http://localhost:3000') . '/play/' . $game->file);
+        return Redirect::to(rtrim(config('app.frontend_url'), '/').'/play/'.$game->file);
     }
 
     public function myGames()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para ver tus juegos.');
         }
 
         $user = Auth::user();
         $purchasedGameIds = $user->purchased_game_ids ?? [];
         $purchasedGames = Game::findMany($purchasedGameIds);
-
-        $purchasedGames->each(function ($game) {
-            if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset('images/' . $game->image);
-            }
-            if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset('videos/' . $game->video);
-            }
-        });
 
         return view('my-games', ['purchasedGames' => $purchasedGames]);
     }
@@ -175,19 +132,10 @@ class GameController extends Controller
 
         $games = $gamesQuery->get();
 
-        $games->each(function ($game) {
-            if ($game->image && !str_starts_with($game->image, 'http')) {
-                $game->image = asset('images/' . $game->image);
-            }
-            if ($game->video && !str_starts_with($game->video, 'http')) {
-                $game->video = asset('videos/' . $game->video);
-            }
-        });
-
         return response()->json($games);
     }
 
-    function showApi(Game $game)
+    public function showApi(Game $game)
     {
         return response()->json($game);
     }

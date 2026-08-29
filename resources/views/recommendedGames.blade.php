@@ -7,7 +7,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($games as $game)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="{{ asset($game->image) }}" alt="{{ $game->name }}" class="w-full h-48 object-cover">
+                    <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <h2 class="text-xl font-bold mb-2">{{ $game->name }}</h2>
                         <p class="text-gray-700 text-sm mb-4">{{ Str::limit($game->description, 100) }}</p>

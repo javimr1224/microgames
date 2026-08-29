@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label for="image">Imagen Actual</label>
                     @if($game->image)
-                        <img src="{{ asset($game->image) }}" alt="{{ $game->name }}" width="150" class="mb-2">
+                        <img src="{{ $game->image_url }}" alt="{{ $game->name }}" width="150" class="mb-2">
                     @else
                         <p>No hay imagen actual.</p>
                     @endif
@@ -41,11 +41,11 @@
                 <div class="form-group">
                     <label for="video">Video Actual (GIF/MP4/WebM)</label>
                     @if($game->video)
-                        @if(Str::endsWith($game->video, '.gif'))
-                            <img src="{{ asset($game->video) }}" alt="Game GIF" width="150" class="mb-2">
+                        @if(Str::endsWith($game->video_url, '.gif'))
+                            <img src="{{ $game->video_url }}" alt="Game GIF" width="150" class="mb-2">
                         @else
                             <video width="150" controls class="mb-2">
-                                <source src="{{ asset($game->video) }}" type="video/mp4">
+                                <source src="{{ $game->video_url }}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         @endif

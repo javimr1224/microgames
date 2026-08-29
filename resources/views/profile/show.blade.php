@@ -24,14 +24,14 @@
             @endif
             <!-- Profile Header -->
             <div class="bg-gray-800 shadow-md rounded-lg overflow-hidden">
-                <div class="h-48 bg-gray-700 bg-cover bg-center" style="background-image: url('{{ $user->banner ? asset($user->banner) : 'https://via.placeholder.com/1500x500' }}');">
+                <div class="h-48 bg-gray-700 bg-cover bg-center" style="background-image: url('{{ $user->banner_url ?: 'https://via.placeholder.com/1500x500' }}');">
                 </div>
 
                 <div class="p-6">
                     <div class="flex items-end -mt-24">
                         <div class="relative w-32 h-32 rounded-full border-4 border-gray-900 overflow-hidden bg-gray-700 flex items-center justify-center">
                             @if($user->avatar)
-                                <img src="{{ asset($user->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                <img src="{{ $user->avatar_url }}" alt="Avatar" class="w-full h-full object-cover">
                             @else
                                 <span class="text-gray-400 text-xl font-bold">Avatar</span>
                             @endif
@@ -70,8 +70,8 @@
                                     <div class="relative z-10">
                                         <a href="{{ route('games.show', $game) }}">
                                             <img class="w-full h-40 object-cover mb-4 rounded-lg game-card-image"
-                                                src="{{ $game->image }}" alt="{{ $game->name }}">
-                                            <img src="{{ $game->video ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
+                                                src="{{ $game->image_url }}" alt="{{ $game->name }}">
+                                            <img src="{{ $game->video_url ?: asset('videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif') }}" alt="Game GIF"
                                                 class="w-full h-40 object-cover mb-4 rounded-lg game-card-video hidden">
                                         </a>
                                         <h3 class="text-2xl tracking-wider text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"

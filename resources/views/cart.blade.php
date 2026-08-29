@@ -29,7 +29,7 @@
                     @foreach($games as $game)
                         <div class="flex items-center justify-between py-4 border-b border-gray-700">
                             <div class="flex items-center">
-                                <img src="{{ asset($game->image) }}" alt="{{ $game->name }}" class="w-24 h-24 object-cover rounded-md mr-6">
+                                <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="w-24 h-24 object-cover rounded-md mr-6">
                                 <div>
                                     <h2 class="text-xl font-bold" style="font-family: 'Press Start 2P', cursive;">{{ $game->name }}</h2>
                                     <p class="text-gray-400">{{ number_format($game->price, 2) }}€</p>

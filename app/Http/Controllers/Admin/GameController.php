@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Game;
+use App\Support\MediaStorage;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -11,6 +12,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::all();
+
         return view('admin.games.index', compact('games'));
     }
 
@@ -36,19 +38,13 @@ class GameController extends Controller
         $data = $request->except(['image', 'video']);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $data['image'] = MediaStorage::store($request->file('image'), 'images');
         }
 
         if ($request->hasFile('video')) {
-            $video = $request->file('video');
-            $videoName = time().'.'.$video->getClientOriginalExtension();
-            $video->move(public_path('videos'), $videoName);
-            $data['video'] = $videoName;
+            $data['video'] = MediaStorage::store($request->file('video'), 'videos');
         }
-        
+
         $data['recommended'] = $request->has('recommended');
 
         Game::create($data);
@@ -83,19 +79,17 @@ class GameController extends Controller
         $data = $request->except(['image', 'video']);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $image = MediaStorage::store($request->file('image'), 'images');
+            MediaStorage::delete($game->image);
+            $data['image'] = $image;
         }
 
         if ($request->hasFile('video')) {
-            $video = $request->file('video');
-            $videoName = time().'.'.$video->getClientOriginalExtension();
-            $video->move(public_path('videos'), $videoName);
-            $data['video'] = $videoName;
+            $video = MediaStorage::store($request->file('video'), 'videos');
+            MediaStorage::delete($game->video);
+            $data['video'] = $video;
         }
-        
+
         $data['recommended'] = $request->has('recommended');
 
         $game->update($data);
@@ -105,6 +99,8 @@ class GameController extends Controller
 
     public function destroy(Game $game)
     {
+        MediaStorage::delete($game->image);
+        MediaStorage::delete($game->video);
         $game->delete();
 
         return redirect()->route('admin.games.index')->with('success', 'Juego eliminado con éxito.');

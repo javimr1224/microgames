@@ -1,21 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Admin\IncomeController;
 use App\Http\Controllers\Admin\MatchController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileViewController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Admin\ReportController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -33,6 +33,7 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 
     Route::get('/settings', function () {
         $user = Auth::user();
+
         return view('admin.settings', compact('user'));
     })->name('settings');
 
@@ -45,9 +46,9 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/login', [App\Http\Controllers\AdminLoginController::class, 'create'])->name('admin.login');
+Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');
 
-Route::post('/admin/login', [App\Http\Controllers\AdminLoginController::class, 'store']);
+Route::post('/admin/login', [AdminLoginController::class, 'store']);
 
 Route::get('/', function () {
     return view('welcome');
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/game-menu', function () {
-    return redirect(env('FRONTEND_URL', 'http://localhost:3000'));
+    return redirect(config('app.frontend_url'));
 })->name('game-menu');
 
 Route::get('/store', [GameController::class, 'index'])->name('storeGames');
@@ -106,8 +107,8 @@ Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('che
 Route::get('/play/{game:slug}', [GameController::class, 'launch'])->name('game.play');
 Route::get('/my-games', [GameController::class, 'myGames'])->middleware('auth')->name('my-games');
 
-Route::get('/play', function(){
-    return null;    
+Route::get('/play', function () {
+    return null;
 });
 
 Route::middleware(['auth'])->group(function () {

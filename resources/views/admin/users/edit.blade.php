@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label for="avatar">Avatar Actual</label>
                     @if($user->avatar)
-                        <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}" width="100" class="mb-2 img-circle">
+                        <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" width="100" class="mb-2 img-circle">
                     @else
                         <p>No hay avatar actual.</p>
                     @endif
@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label for="banner">Banner Actual</label>
                     @if($user->banner)
-                        <img src="{{ asset($user->banner) }}" alt="{{ $user->name }} banner" width="200" class="mb-2">
+                        <img src="{{ $user->banner_url }}" alt="{{ $user->name }} banner" width="200" class="mb-2">
                     @else
                         <p>No hay banner actual.</p>
                     @endif

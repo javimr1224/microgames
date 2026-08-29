@@ -1,6 +1,17 @@
 node_modules
 vendor
+.git
+.github
+.vercel
+.env
+.env.*
+!.env.example
+!.env.vercel.example
 docker/mongo_data
 docker/mongo__data
 frontend/.env.local
 .env.local
+frontend/build
+public/build
+storage/logs/*.log
+Microgames_TFG_Documentacion.pdf

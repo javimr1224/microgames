@@ -5,6 +5,9 @@
 El proyecto integra un **backend en Laravel**, un **frontend con React + Phaser**, y una **base de datos MongoDB** que gestiona usuarios, roles, permisos y juegos adquiridos.  
 Todo el sistema está preparado para **desplegarse mediante Docker** y entornos virtualizados como **Proxmox** .
 
+> Para desplegar la aplicación completa en Vercel, consulta
+> [docs/VERCEL.md](docs/VERCEL.md) y usa `.env.vercel.example` como referencia.
+
 ---
 
 ## 🚀 Stack Tecnológico
@@ -116,4 +119,3 @@ El proyecto será accesible desde:
 **Javier Martínez Rodríguez**  
 Grado Superior en Desarrollo de Aplicaciones Web (DAW)  
 [GitHub](https://github.com/javimr1224) · [Email](mailto:jmarrod276@g.educaand.es)
-

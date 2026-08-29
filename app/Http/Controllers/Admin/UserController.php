@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\MediaStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -38,17 +40,11 @@ class UserController extends Controller
         $data['password'] = Hash::make($request->password);
 
         if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarName = time().'.'.$avatar->getClientOriginalExtension();
-            $avatar->move(public_path('avatars'), $avatarName);
-            $data['avatar'] = 'avatars/'.$avatarName;
+            $data['avatar'] = MediaStorage::store($request->file('avatar'), 'avatars');
         }
 
         if ($request->hasFile('banner')) {
-            $banner = $request->file('banner');
-            $bannerName = time().'.'.$banner->getClientOriginalExtension();
-            $banner->move(public_path('banners'), $bannerName);
-            $data['banner'] = 'banners/'.$bannerName;
+            $data['banner'] = MediaStorage::store($request->file('banner'), 'banners');
         }
 
         User::create($data);
@@ -80,17 +76,15 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarName = time().'.'.$avatar->getClientOriginalExtension();
-            $avatar->move(public_path('avatars'), $avatarName);
-            $data['avatar'] = 'avatars/'.$avatarName;
+            $avatar = MediaStorage::store($request->file('avatar'), 'avatars');
+            MediaStorage::delete($user->avatar);
+            $data['avatar'] = $avatar;
         }
 
         if ($request->hasFile('banner')) {
-            $banner = $request->file('banner');
-            $bannerName = time().'.'.$banner->getClientOriginalExtension();
-            $banner->move(public_path('banners'), $bannerName);
-            $data['banner'] = 'banners/'.$bannerName;
+            $banner = MediaStorage::store($request->file('banner'), 'banners');
+            MediaStorage::delete($user->banner);
+            $data['banner'] = $banner;
         }
 
         $user->update($data);
@@ -104,6 +98,8 @@ class UserController extends Controller
             return redirect()->route('admin.users.index')->with('error', 'No puedes eliminar tu propia cuenta.');
         }
 
+        MediaStorage::delete($user->avatar);
+        MediaStorage::delete($user->banner);
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado con éxito.');

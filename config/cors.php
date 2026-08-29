@@ -1,5 +1,13 @@
 <?php
 
+$defaultOrigins = array_filter([
+    'http://localhost:3000',
+    'http://localhost:8000',
+    env('APP_URL'),
+    env('VERCEL_URL') ? 'https://'.env('VERCEL_URL') : null,
+    env('VERCEL_PROJECT_PRODUCTION_URL') ? 'https://'.env('VERCEL_PROJECT_PRODUCTION_URL') : null,
+]);
+
 return [
 
     /*
@@ -19,10 +27,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:3000',
-        'https://microgames-production.up.railway.app',
-    ],
+    'allowed_origins' => array_values(array_unique(array_filter(array_map(
+        'trim',
+        explode(',', env('CORS_ALLOWED_ORIGINS', implode(',', $defaultOrigins)))
+    )))),
 
     'allowed_origins_patterns' => [],
 

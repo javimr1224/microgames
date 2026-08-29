@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Support\MediaStorage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use MongoDB\Laravel\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasFactory, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
+
+    protected $appends = [
+        'avatar_url',
+        'banner_url',
+    ];
 
     protected $connection = 'mongodb';
+
     protected $collection = 'users';
 
     protected $fillable = [
@@ -42,5 +49,15 @@ class User extends Authenticatable
     public function adminlte_profile_url()
     {
         return route('admin.profile.edit');
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return MediaStorage::url($this->avatar);
+    }
+
+    public function getBannerUrlAttribute(): ?string
+    {
+        return MediaStorage::url($this->banner);
     }
 }

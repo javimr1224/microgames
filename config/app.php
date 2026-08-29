@@ -1,5 +1,8 @@
 <?php
 
+$vercelHost = env('VERCEL_URL') ?: env('VERCEL_PROJECT_PRODUCTION_URL');
+$defaultAppUrl = $vercelHost ? 'https://'.$vercelHost : 'http://localhost';
+
 return [
 
     /*
@@ -52,7 +55,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', $defaultAppUrl),
+
+    'frontend_url' => env('FRONTEND_URL', env('APP_URL', $defaultAppUrl)),
 
     /*
     |--------------------------------------------------------------------------
