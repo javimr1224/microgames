@@ -54,9 +54,11 @@ COPY --from=laravel-assets-builder /app/public/build ./public/build
 COPY --from=frontend-builder /app/build ./public/games
 
 COPY docker/nginx/vercel.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx/start-vercel.sh /usr/local/bin/start-nginx-after-php
 COPY docker/php/production.ini /usr/local/etc/php/conf.d/production.ini
 COPY docker/supervisor/vercel.conf /etc/supervisor/conf.d/supervisord.conf
 RUN rm -f /etc/nginx/sites-enabled/default \
+    && chmod +x /usr/local/bin/start-nginx-after-php \
     && mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache \

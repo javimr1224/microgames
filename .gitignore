@@ -33,3 +33,6 @@ Homestead.json
 .phpactor.json
 auth.json
 docker/mongo_data/
+
+.vercel
+.env*

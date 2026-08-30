@@ -80,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (response.data.results && response.data.results.length > 0) {
                             response.data.results.forEach(game => {
                                 const resultItem = document.createElement('a');
-                                resultItem.href = `http://localhost:3000/play/${game.name.toLowerCase()}?from=menu`;
+                                const gameSlug = game.slug || game.name.toLowerCase();
+                                resultItem.href = `/play/${encodeURIComponent(gameSlug)}?from=menu`;
                                 resultItem.className = 'block p-2 text-left text-white hover:bg-gray-700 rounded-md';
                                 resultItem.textContent = game.name;
                                 searchResults.appendChild(resultItem);
@@ -154,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const placeholderGifUrl = "/videos/may-sitting-near-waterfall-pokemon-emerald-pixel-wallpaperwaifu-com-ezgif.com-video-to-gif-converter.gif";
 
     function createGameCard(game) {
-        const imageUrl = game.image;
-        const videoUrl = game.video || placeholderGifUrl;
+        const imageUrl = game.image_url || game.image;
+        const videoUrl = game.video_url || game.video || placeholderGifUrl;
 
         return `
             <div class="bg-neutral-primary-soft border-[3px] border-default rounded-xl shadow-xs game-card transition-transform duration-200 hover:scale-105">
@@ -165,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         class="rounded-t-xl hidden w-full h-48 object-cover game-card-video" />
                 </a>
                 <div class="p-4 sm:p-6 text-start">
-                    <a href="http://localhost:3000/play/${game.slug}?from=menu">
+                    <a href="/play/${encodeURIComponent(game.slug)}?from=menu">
                         <h5 style="font-family: 'Press Start 2P';" class="mt-1 mb-4 sm:mb-6 text-sm sm:text-base">
                             ${game.name}</h5>
                         <p style="font-family: 'Helvetica Neue';" class="mt-2 text-sm">${game.description}</p>

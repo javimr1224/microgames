@@ -50,7 +50,10 @@ class GameController extends Controller
 
     public function getCategories()
     {
-        $categories = Game::distinct('category')->get();
+        $categories = Game::pluck('category')
+            ->filter()
+            ->unique()
+            ->values();
 
         return response()->json($categories);
     }

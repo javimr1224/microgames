@@ -8,6 +8,7 @@ import snakeImg from "./snake.svg";
 import pongImg from "./pong.svg";
 import tetrisImg from "./tetris.svg";
 import breakoutImg from "./breakout.svg";
+import { apiUrl } from "../config/api";
 
 interface GameMenuProps {
   onSelectGame: (game: GameType) => void;
@@ -15,8 +16,6 @@ interface GameMenuProps {
   onLogin: (email: string, password: string) => Promise<void>;
   user: User | null;
 }
-
-const apiUrl = import.meta.env.VITE_API_URL;
 
 interface ScoreEntry {
   game_id: string;
@@ -104,7 +103,7 @@ export function GameMenu({ onSelectGame, scores: initialScores, user }: GameMenu
           MicroGames
         </h1>
         <p className="text-white text-2xl mb-8">No has iniciado sesion!!</p>
-        <a href="http://localhost:8000" className="flex flex-col items-center">
+        <a href="/" className="flex flex-col items-center">
             <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs">Inicio</p>
         </a>
@@ -122,11 +121,11 @@ export function GameMenu({ onSelectGame, scores: initialScores, user }: GameMenu
           ARCADE
         </h2>
         <div className="flex flex-row items-start justify-center relative gap-6 mb-4">
-          <a href="http://localhost:8000" className="flex flex-col items-center">
+          <a href="/" className="flex flex-col items-center">
             <img style={{ width: "40px" }}  src={homeImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs">Inicio</p>
           </a>
-          <a href="http://localhost:8000/store" className="flex flex-col items-center">
+          <a href="/store" className="flex flex-col items-center">
             <img style={{ width: "40px" }} src={gameImageUrl} alt="inicio" className="block"/>
             <p className="text-white text-xs ">Tienda</p>
           </a>

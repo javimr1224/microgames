@@ -12,6 +12,10 @@ class MediaStorage
 
     public static function store(UploadedFile $file, string $directory): string
     {
+        if (config('filesystems.disks.uploads.driver') === 'vercel-blob') {
+            return VercelBlobStorage::store($file, $directory);
+        }
+
         $visibility = config('filesystems.disks.uploads.visibility', 'public');
         $path = Storage::disk('uploads')->putFile($directory, $file, $visibility);
 
@@ -24,6 +28,12 @@ class MediaStorage
 
     public static function delete(?string $value): void
     {
+        if ($value && VercelBlobStorage::isBlobUrl($value)) {
+            VercelBlobStorage::delete($value);
+
+            return;
+        }
+
         if (! $value || ! Str::startsWith($value, self::PREFIX)) {
             return;
         }

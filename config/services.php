@@ -28,6 +28,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'vercel_blob' => [
+        'access' => env('BLOB_ACCESS', 'public'),
+        'api_url' => env('VERCEL_BLOB_API_URL', 'https://vercel.com/api/blob'),
+        'oidc_token' => env('VERCEL_OIDC_TOKEN'),
+        'read_write_token' => env('BLOB_READ_WRITE_TOKEN'),
+        'store_id' => env('BLOB_STORE_ID'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

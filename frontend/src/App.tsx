@@ -7,6 +7,7 @@ import { PongGame } from './components/PongGame';
 import { TetrisGame } from './components/TetrisGame';
 import { BreakoutGame } from './components/BreakoutGame';
 import SkyboundGame from './components/SkyboundGame';
+import { apiUrl } from './config/api';
 import axios from 'axios';
 
 export type GameType = 'menu' | 'snake' | 'pong' | 'tetris' | 'breakout' | 'skybound';
@@ -18,7 +19,7 @@ export interface User {
   purchased_game_ids: string[];
 }
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+axios.defaults.baseURL = apiUrl;
 axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = 'XSRF-TOKEN';
 axios.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
@@ -97,8 +98,6 @@ export default function App() {
     checkUser();
 
 
-
-    const apiUrl = import.meta.env.VITE_API_URL || '';
 
       fetch(`${apiUrl}/api/test`)
 
@@ -226,4 +225,3 @@ export default function App() {
   );
 
 }
-

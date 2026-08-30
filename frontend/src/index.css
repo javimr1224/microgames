@@ -1852,10 +1852,6 @@ a:hover {
   cursor: url('/images/cursor_hover.png'), auto;
 }
 
-/* div:hover {
-  cursor: url('http://localhost:8000/images/cursor_hover.png'), auto;
-} */
-
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
