@@ -37,7 +37,9 @@ export function safeFile(base, p) {
   let current = base;
   for (const part of p.split('/')) {
     current = path.join(current, part);
-    if (fs.existsSync(current) && fs.lstatSync(current).isSymbolicLink()) throw new Error('Symlink rejected');
+    let stat;
+    try { stat = fs.lstatSync(current); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (stat?.isSymbolicLink()) throw new Error('Symlink rejected');
   }
   return current;
 }
@@ -104,7 +106,7 @@ async function authorize(number) {
   return issue;
 }
 
-async function gate() {
+export async function gate() {
   if (process.env.AGENT_FREE_TIER_CONFIRMED !== 'true') throw new Error('Set AGENT_FREE_TIER_CONFIRMED=true only after checking the free-tier instructions in docs/AGENT.md');
   const event = readJSON(process.env.GITHUB_EVENT_PATH);
   if (event.repository.private) throw new Error('This zero-cost configuration requires a public repository');
@@ -159,12 +161,13 @@ function checks() {
       '--memory', '3g', '--cpus', '2', '--pids-limit', '256',
       '--mount', `type=bind,src=${candidate},dst=/candidate,readonly`,
       '--mount', `type=bind,src=${path.join(here, 'checks.mjs')},dst=/checks.mjs,readonly`,
-      image, 'sh', '-c', 'cp -a /candidate/. /app/ && node /checks.mjs'], 300_000);
+      image, 'sh', '-c', 'cp -R --no-preserve=ownership,timestamps /candidate/. /app/ && node /checks.mjs'], 300_000);
     // Output from tests is untrusted. It is feedback, not instructions or shell input.
     let results;
     try { results = JSON.parse(result.stdout); } catch { results = null; }
     if (!Array.isArray(results) || result.error || ![0, 1].includes(result.status)) {
-      return [{ command: 'isolated validation', status: 'failed', output: 'Validation timed out or failed before returning its report.' }];
+      return [{ command: 'isolated validation', status: 'failed',
+        output: `Validation exited ${result.status ?? 'without status'} (${result.error?.code || 'no controller error'}).\n${result.stderr || ''}\n${result.stdout || ''}`.slice(-10000) }];
     }
     return results;
   } catch {
@@ -266,7 +269,7 @@ async function solve() {
   summary(`Issue #${task.number}: ${files.length} changed files; ${calls} model calls; ${result.rounds} validation rounds.\nReason: ${result.stop}`);
 }
 
-async function publish() {
+export async function publish() {
   const proposalFile = path.join(scratch, 'proposal.json');
   if (fs.statSync(proposalFile).size > MAX_TOTAL + 50_000) throw new Error('Oversized artifact');
   const p = readJSON(proposalFile);

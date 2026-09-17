@@ -40,6 +40,11 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
           AGENT_FREE_TIER_CONFIRMED: ${{ vars.AGENT_FREE_TIER_CONFIRMED }}
         run: node .github/agent/control.mjs gate
+      - name: Check Gemini secret is configured
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node -e "if (!process.env.GEMINI_API_KEY) throw new Error('Create repository secret GEMINI_API_KEY first')"
       - name: Prepare isolated test environment
         if: steps.gate.outputs.ready == 'true'
         timeout-minutes: 15

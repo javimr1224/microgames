@@ -31,6 +31,8 @@ test('filesystem symlinks are rejected', { skip: process.platform === 'win32' },
   try {
     fs.symlinkSync(os.tmpdir(), path.join(dir, 'app'));
     assert.throws(() => safeFile(dir, 'app/secret.php'));
+    fs.symlinkSync(path.join(dir, 'missing'), path.join(dir, 'docs'));
+    assert.throws(() => safeFile(dir, 'docs/secret.md'));
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 const passed = [{ command: 'php artisan test', status: 'passed' }];
@@ -71,4 +73,64 @@ test('failed checks are returned for repair and final report reflects repaired c
     return actions.shift();
   }, read() {}, write() {}, check() { return ++checks === 1 ? [{ command: 'build', status: 'failed' }] : passed; } });
   assert.equal(checks, 2); assert.equal(r.report, passed);
+});
+
+test('publishing rechecks authorization, freezes Issue and never publishes protected paths', async () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'agent-api-test-'));
+  const originalEnv = { ...process.env }, originalFetch = globalThis.fetch;
+  const calls = [];
+  const issue = { number: 12, title: 'Fix Snake', body: 'Task', state: 'open',
+    updated_at: '2026-09-17T00:00:00Z', labels: [{ name: 'agent' }] };
+  let permission = 'read';
+  try {
+    Object.assign(process.env, { RUNNER_TEMP: temp, GH_TOKEN: 'fake-test-token',
+      GITHUB_REPOSITORY: 'test/microgames', GITHUB_ACTOR: 'maintainer', GITHUB_TRIGGERING_ACTOR: 'maintainer',
+      ISSUE_NUMBER: '12', EXPECTED_BASE_SHA: 'a'.repeat(40), GITHUB_EVENT_PATH: path.join(temp, 'event.json'),
+      GITHUB_STEP_SUMMARY: path.join(temp, 'summary.md'), GITHUB_SERVER_URL: 'https://github.com', GITHUB_RUN_ID: '1' });
+    fs.writeFileSync(process.env.GITHUB_EVENT_PATH, JSON.stringify({ repository: { default_branch: 'main' } }));
+    const dir = path.join(temp, 'microgames-agent'); fs.mkdirSync(dir);
+    const proposal = { number: 12, title: issue.title, updated_at: issue.updated_at,
+      repository: 'test/microgames', base: 'a'.repeat(40), baseBranch: 'main',
+      branch: 'agent/issue-12-fix-snake', files: [{ path: 'app/AgentExample.php', content: '<?php // example' }], results: passed };
+    const save = () => fs.writeFileSync(path.join(dir, 'proposal.json'), JSON.stringify(proposal));
+    save();
+    globalThis.fetch = async (url, options) => {
+      const endpoint = new URL(url).pathname.replace('/repos/test/microgames', '');
+      const body = options.body ? JSON.parse(options.body) : undefined;
+      calls.push({ endpoint, method: options.method, body });
+      let data;
+      if (endpoint.includes('/collaborators/')) data = { permission };
+      else if (endpoint === '/issues/12') data = issue;
+      else if (endpoint.includes('/git/matching-refs/')) data = [];
+      else if (endpoint === `/git/commits/${'a'.repeat(40)}`) data = { tree: { sha: 'base-tree' } };
+      else if (endpoint === '/git/trees') data = { sha: 'tree' };
+      else if (endpoint === '/git/commits') data = { sha: 'commit' };
+      else if (endpoint === '/git/refs') data = {};
+      else if (endpoint === '/pulls') data = { html_url: 'https://github.com/test/microgames/pull/1' };
+      else throw new Error(`Unexpected API ${endpoint}`);
+      return { ok: true, status: 200, json: async () => data };
+    };
+    const { publish } = await import(`./control.mjs?integration=${Date.now()}`);
+    await assert.rejects(publish(), /Only maintainers/);
+    assert.equal(calls.filter(c => c.method === 'POST').length, 0);
+    permission = 'write';
+    proposal.files[0].path = '.env'; save();
+    await assert.rejects(publish(), /Invalid or duplicate path/);
+    assert.equal(calls.filter(c => c.method === 'POST').length, 0);
+    proposal.files[0].path = 'app/AgentExample.php'; proposal.updated_at = 'old'; save();
+    await assert.rejects(publish(), /Issue or proposal changed/);
+    proposal.updated_at = issue.updated_at; save();
+    await publish();
+    assert.deepEqual(calls.filter(c => c.method === 'POST').map(c => c.endpoint),
+      ['/git/trees', '/git/commits', '/git/refs', '/pulls']);
+    assert.equal(calls.find(c => c.endpoint === '/git/refs').body.ref, 'refs/heads/agent/issue-12-fix-snake');
+    assert.equal(calls.find(c => c.endpoint === '/pulls').body.draft, true);
+    assert.equal(calls.find(c => c.endpoint === '/pulls').body.base, 'main');
+    assert.equal(calls.some(c => c.endpoint.includes('merge')), false);
+  } finally {
+    globalThis.fetch = originalFetch;
+    for (const key of Object.keys(process.env)) if (!(key in originalEnv)) delete process.env[key];
+    Object.assign(process.env, originalEnv);
+    fs.rmSync(temp, { recursive: true, force: true });
+  }
 });
