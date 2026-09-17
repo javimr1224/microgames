@@ -58,7 +58,7 @@ El contenedor instala las dependencias bloqueadas de Composer y de los dos proye
 | Ambos proyectos npm | `npm run test -- --run` si existe (actualmente no existe) |
 | Raíz | `php artisan test` |
 
-Los comandos disponibles se intentan aunque falle uno anterior, salvo que se agote el tiempo total. Si en el futuro se añade un test runner npm que no acepte `--run`, un mantenedor debe adaptar `checks.mjs`. Cada ronda tiene un MongoDB nuevo, base `microgames_testing` y clave Laravel pública exclusiva de pruebas. No se crea ni modifica ningún `.env`, incluido `frontend/.env.local`, que se excluye de la copia de pruebas.
+Los comandos disponibles se intentan aunque falle uno anterior, salvo que se agote el tiempo total. Se distinguen `passed`, `passed_with_warnings`, `failed` y `unavailable`; un código de salida cero con avisos no se presenta como una ejecución sin advertencias. Si en el futuro se añade un test runner npm que no acepte `--run`, un mantenedor debe adaptar `checks.mjs`. Cada ronda tiene un MongoDB nuevo, base `microgames_testing` y clave Laravel pública exclusiva de pruebas. No se crea ni modifica ningún `.env`, incluido `frontend/.env.local`, que se excluye de la copia de pruebas. En la verificación inicial, Laravel ejecutó 70 aserciones y terminó con código cero, con 27 avisos por la ausencia de `.env`; no se crea ese archivo para ocultarlos.
 
 ## Seguridad y alcance
 

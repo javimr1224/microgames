@@ -292,7 +292,7 @@ export async function publish() {
   // Git Data API publishes exactly the validated files, without hooks, shell or force-push.
   await github('/git/refs', 'POST', { ref: `refs/heads/${p.branch}`, sha: commit.sha });
   const statuses = Array.isArray(p.results) ? p.results : [];
-  const table = statuses.map(r => `- ${String(r.cwd).replace(/[^a-zA-Z0-9_/-]/g, '')}: ${String(r.command).replace(/[^a-zA-Z0-9_ /:-]/g, '')} — ${['passed', 'failed', 'unavailable'].includes(r.status) ? r.status : 'unknown'}`).join('\n');
+  const table = statuses.map(r => `- ${String(r.cwd).replace(/[^a-zA-Z0-9_/-]/g, '')}: ${String(r.command).replace(/[^a-zA-Z0-9_ /:-]/g, '')} — ${['passed', 'passed_with_warnings', 'failed', 'unavailable'].includes(r.status) ? r.status : 'unknown'}`).join('\n');
   const runURL = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
   const pr = await github('/pulls', 'POST', {
     title: `[agent] Issue #${issue.number}: ${issue.title}`.slice(0, 240),

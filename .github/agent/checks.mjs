@@ -8,9 +8,11 @@ function run(command, args, cwd = '/app') {
     cwd, encoding: 'utf8', timeout: 180_000, maxBuffer: 2 * 1024 * 1024,
     env: { ...process.env, CI: 'true' },
   });
+  const output = `${p.stdout ?? ''}\n${p.stderr ?? ''}\n${p.error?.code ?? ''}`.slice(-10000);
   const result = { command: [command, ...args].join(' '), cwd,
-    status: p.status === 0 && !p.error ? 'passed' : 'failed',
-    output: `${p.stdout ?? ''}\n${p.stderr ?? ''}\n${p.error?.code ?? ''}`.slice(-10000) };
+    status: p.status === 0 && !p.error
+      ? (/\bWARN(?:ING)?\b|\b\d+ warnings?\b/i.test(output) ? 'passed_with_warnings' : 'passed') : 'failed',
+    output };
   results.push(result);
 }
 if (existsSync('/app/artisan')) {
