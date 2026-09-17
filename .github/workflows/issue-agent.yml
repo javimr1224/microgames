@@ -1,0 +1,88 @@
+name: Microgames issue agent
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Open Issue with the agent label
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: microgames-agent-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
+
+jobs:
+  agent:
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'agent') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      issues: read
+    outputs:
+      ready: ${{ steps.gate.outputs.ready }}
+      base_sha: ${{ steps.gate.outputs.base_sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Authorize maintainer and freeze Issue
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+          AGENT_FREE_TIER_CONFIRMED: ${{ vars.AGENT_FREE_TIER_CONFIRMED }}
+        run: node .github/agent/control.mjs gate
+      - name: Prepare isolated test environment
+        if: steps.gate.outputs.ready == 'true'
+        timeout-minutes: 15
+        run: node .github/agent/control.mjs prepare
+      - name: Solve Issue with Gemini Free
+        if: steps.gate.outputs.ready == 'true'
+        timeout-minutes: 22
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node .github/agent/control.mjs solve
+      - name: Save proposal only (no dependencies or secrets)
+        if: steps.gate.outputs.ready == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: agent-proposal
+          path: ${{ runner.temp }}/microgames-agent/proposal.json
+          if-no-files-found: error
+          retention-days: 1
+      - name: Remove isolated containers
+        if: always()
+        run: node .github/agent/control.mjs cleanup
+
+  publish:
+    needs: agent
+    if: needs.agent.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.agent.outputs.base_sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: agent-proposal
+          path: ${{ runner.temp }}/microgames-agent
+      - name: Validate proposal and create branch, commit and draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+          EXPECTED_BASE_SHA: ${{ needs.agent.outputs.base_sha }}
+        run: node .github/agent/control.mjs publish
