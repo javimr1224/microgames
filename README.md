@@ -26,8 +26,6 @@ Todo el sistema está preparado para **desplegarse mediante Docker** y entornos 
 
 🌍 Demo en Producción
 
-La aplicación Microgames se encuentra actualmente en mantenimiento y no es posible acceder de momento al soguiente enlace:
-
 👉 https://microgames-eight.vercel.app
 
 Este entorno corresponde a la versión en producción del proyecto y permite probar la aplicación sin necesidad de instalación local
